@@ -9,5 +9,7 @@ void main() {
   Fabric fabric = new Fabric(800,800);
    //fabric.debug();
    fabric.renderToParent(output,controls);
+   print(fabric.exportWarpPattern());
+   print(fabric.exportWeftPattern());
 
 }

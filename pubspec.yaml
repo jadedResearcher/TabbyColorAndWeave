@@ -18,3 +18,7 @@ dev_dependencies:
     git:
       url: git://github.com/FarragoFiction/CommonLib.git
       ref: Dart-2.2.0
+  ImageLib:
+    git:
+      url: git://github.com/FarragoFiction/ImageLib.git
+      ref: Dart-2.2.0

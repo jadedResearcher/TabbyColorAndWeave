@@ -1,16 +1,29 @@
 import 'dart:html';
 
 import 'package:CommonLib/Colours.dart';
+import 'package:LoaderLib/Loader.dart';
 
 import 'WarpObject.dart';
 import 'WeftObject.dart';
+import "package:ImageLib/Encoding.dart";
 
 class Fabric {
     int height;
     int width;
+    Element control;
+    TextAreaElement warpText;
+    TextAreaElement weftText;
+    Element output;
+    DivElement archiveUploaderHolder;
+    Element archiveSaveButton;
+    List<InputElement> colorPickers = <InputElement>[];
+    static String fileKeyWarp = "COLORANDWEAVE/warp.txt";
+    static String fileKeyWeft = "COLORANDWEAVE/weft.txt";
+    static String fileKeyColors = "COLORANDWEAVE/colors.txt";
+
     CanvasElement canvas;
-    String warpPatternStart = "1,1,0,0";
-    String weftPatternStart = "1,1,0,0";
+    String warpPatternStart = "1,0,1,0,1,0,0,1,0,1,0";
+    String weftPatternStart = "1,0,1,0,1,0,0,1,0,1,0";
     Element parent;
     List<WarpObject> warp = new List<WarpObject>();
     List<WeftObject> weft = new List<WeftObject>();
@@ -37,6 +50,8 @@ class Fabric {
 
     //TODO maybe buffer this
     void renderToParent(Element parent, Element controls) {
+        output = parent;
+        control = controls;
         parent.append(canvas);
         initColors();
         for(int i = WarpObject.WIDTH*4; i< width-WarpObject.WIDTH*4; i+= WarpObject.WIDTH) {
@@ -57,6 +72,9 @@ class Fabric {
     void _renderFabric() {
         warp.forEach((WarpObject w) => w.renderSelf(canvas));
         weft.forEach((WeftObject w) => w.renderSelf(canvas));
+        makeDownloadImage(control);
+
+
 
     }
 
@@ -67,6 +85,7 @@ class Fabric {
             LabelElement label = new LabelElement()..text = "Color ${colors.indexOf(color)}"..classes.add("color-label");
             div.append(label);
             InputElement input = new InputElement()..type = "color";
+            colorPickers.add(input);
             input.value = color.toStyleString();
             div.append(input);
             input.onInput.listen((Event e) {
@@ -83,11 +102,11 @@ class Fabric {
         //TODO find a way to compress it to the smallest unrepeatable area
         LabelElement label = new LabelElement()..text = "Warp Pattern";
         element.append(label);
-        TextAreaElement area = new TextAreaElement()..text = warpPatternStart;
-        area.onInput.listen((Event e) {
-            syncPatternToWarp(area.value);
+        warpText = new TextAreaElement()..text = warpPatternStart;
+        warpText.onInput.listen((Event e) {
+            syncPatternToWarp(warpText.value);
         });
-        element.append(area);
+        element.append(warpText);
     }
 
     void renderWeftTextArea(Element parent) {
@@ -95,21 +114,96 @@ class Fabric {
         parent.append(element);
         LabelElement label = new LabelElement()..text = "Weft Pattern";
         element.append(label);
-        TextAreaElement area = new TextAreaElement()..text = weftPatternStart;
-        area.onInput.listen((Event e) {
-            syncPatternToWeft(area.value);
+        weftText = new TextAreaElement()..text = weftPatternStart;
+        weftText.onInput.listen((Event e) {
+            syncPatternToWeft(weftText.value);
         });
-        element.append(area);
+        element.append(weftText);
 
     }
 
+    void handleLoadingFromImage() {
+        if(archiveUploaderHolder == null) {
+            archiveUploaderHolder = new DivElement();
+            control.append(archiveUploaderHolder);
+            DivElement instructions = new DivElement()..setInnerHtml("You can save your pattern to a thumbnail file you can download, then upload it here to edit." )..style.marginBottom="30px";;
+            archiveUploaderHolder.append(instructions);
+            Element uploadElement = FileFormat.loadButton(ArchivePng.format, syncFabricToImage,caption: "Load Colour and Weave From Image");
+            control.append(uploadElement);
+        }
+
+    }
+
+    void syncFabricToImage(ArchivePng png, String fileName) async {
+        print("JR here, trying to sync from $fileName");
+        String warpPattern = await png.getFile(fileKeyWeft);
+        String weftPattern = await png.getFile(fileKeyWarp);
+        String colorPattern = await png.getFile(fileKeyColors);
+        print("I got three patterns: $warpPattern, $weftPattern, $colorPattern");
+        warpText.value =warpPattern;
+        weftText.value =weftPattern;
+        syncPatternToWarp(warpPattern);
+        syncPatternToWeft(weftPattern);
+        syncPatternToColors(colorPattern);
+
+
+    }
+
+    void makeDownloadImage(Element parent) async{
+        if(archiveSaveButton != null) {
+            archiveSaveButton.remove();
+            archiveSaveButton = null;
+        }
+        int thumbnail_width = 200;
+
+        CanvasElement thumbnail = new CanvasElement(width: thumbnail_width, height: thumbnail_width);
+        thumbnail.context2D.drawImageScaled(canvas,0,0,thumbnail_width,thumbnail_width);
+        ArchivePng png = new ArchivePng.fromCanvas(thumbnail);
+        await png.archive.setFile(fileKeyWarp, exportWarpPattern());
+        await png.archive.setFile(fileKeyWeft, exportWeftPattern());
+        await png.archive.setFile(fileKeyColors, exportColorPattern());
+
+        if(archiveSaveButton != null) {
+            archiveSaveButton.remove();
+            archiveSaveButton = null;
+        }
+        archiveSaveButton = FileFormat.saveButton(ArchivePng.format, ()=> png, filename: ()=>"JRColorWeaveMaker.png", caption: "Download Pattern");
+
+        parent.append(archiveSaveButton);
+        handleLoadingFromImage();
+
+    }
+
+    //TODO truncate to smallest repetition
+    String exportWarpPattern() {
+        List<int> pattern = <int>[];
+        for(WarpObject w in warp) {
+            pattern.add(colors.indexOf(w.color));
+        }
+        return pattern.join(",");
+    }
+
+    String exportWeftPattern() {
+        List<int> pattern = <int>[];
+        for(WeftObject w in weft) {
+            pattern.add(colors.indexOf(w.color));
+        }
+        return pattern.join(",");
+    }
+
+    String exportColorPattern() {
+        List<String> pattern = <String>[];
+        for(Colour color in colors) {
+            pattern.add(color.toStyleString());
+        }
+        return pattern.join(",");
+    }
+
     void syncPatternToWarp(String pattern) {
-        print("trying to sync pattern to warp");
         List<int> parsedPattern = new List.from(pattern.split(",").map((String s) => int.parse(s)));
-        print("pattern is $pattern");
+        print("parsed pattern is $parsedPattern");
         int index = 0;
         for(WarpObject w in warp) {
-            print("index is $index, which means i wanna grab parsed pattern ${index % parsedPattern.length}");
             //mod makes it so that it'll just repeat the pattern over and over
             w.color = colors[parsedPattern[index % parsedPattern.length]];
             index++;
@@ -118,13 +212,25 @@ class Fabric {
 
     }
 
+    void syncPatternToColors(String pattern) {
+        List<String> parsedPattern = pattern.split(",");
+        print("parsed pattern is $parsedPattern");
+        int index = 0;
+        for(String c in parsedPattern) {
+            Colour color = new Colour.fromStyleString(c);
+            colors[index].setFrom(color);
+            colorPickers[index].value = c;
+
+            index ++;
+        }
+        _renderFabric();
+    }
+
     void syncPatternToWeft(String pattern) {
-        print("trying to sync pattern to weft");
         List<int> parsedPattern = new List.from(pattern.split(",").map((String s) => int.parse(s)));
-        print("pattern is $pattern");
+        print("parsed pattern is $parsedPattern");
         int index = 0;
         for(WeftObject w in weft) {
-            print("index is $index, which means i wanna grab parsed pattern ${index % parsedPattern.length}");
             //mod makes it so that it'll just repeat the pattern over and over
             w.color = colors[parsedPattern[index % parsedPattern.length]];
             index++;
