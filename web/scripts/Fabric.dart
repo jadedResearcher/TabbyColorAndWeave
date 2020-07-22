@@ -154,7 +154,7 @@ class Fabric {
             archiveSaveButton.remove();
             archiveSaveButton = null;
         }
-        int thumbnail_width = 1000;
+        int thumbnail_width = 500;
 
         CanvasElement thumbnail = new CanvasElement(width: thumbnail_width, height: thumbnail_width);
         thumbnail.context2D.drawImageScaled(canvas,0,0,thumbnail_width,thumbnail_width);
