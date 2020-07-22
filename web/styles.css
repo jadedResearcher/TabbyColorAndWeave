@@ -1,0 +1,40 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.fabric{
+    border: 3px solid black;
+}
+table{
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+}
+
+.color-label{
+    margin-right: 10px;
+    width: 60px;
+    display: inline-block;
+}
+
+.color-parent{
+    padding-top: 15px;
+}
+
+#controls{
+    width: 300px;
+    vertical-align: top;
+    padding-top: 18px;
+}
+
+#output {
+  padding: 20px;
+  text-align: center;
+  vertical-align: top;
+}
