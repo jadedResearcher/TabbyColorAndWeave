@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:CommonLib/Colours.dart';
 import 'package:LoaderLib/Loader.dart';
 
+import 'Util.dart';
 import 'WarpObject.dart';
 import 'WeftObject.dart';
 import "package:ImageLib/Encoding.dart";
@@ -11,6 +12,8 @@ class Fabric {
     int height;
     int width;
     Element control;
+    Element warpLengthDiv;
+    Element weftLengthDiv;
     TextAreaElement warpText;
     TextAreaElement weftText;
     Element output;
@@ -22,8 +25,11 @@ class Fabric {
     static String fileKeyColors = "COLORANDWEAVE/colors.txt";
 
     CanvasElement canvas;
-    String warpPatternStart = "1,0,1,0,1,0,0,1,0,1,0";
-    String weftPatternStart = "1,0,1,0,1,0,0,1,0,1,0";
+    //String warpPatternStart = "1,0,1,0,1,0,0,1,0,1,0";
+   // String weftPatternStart = "1,0,1,0,1,0,0,1,0,1,0";
+    String warpPatternStart = "1,1,0,0";
+    String weftPatternStart = "1,1,0,0";
+
     Element parent;
     List<WarpObject> warp = new List<WarpObject>();
     List<WeftObject> weft = new List<WeftObject>();
@@ -63,13 +69,23 @@ class Fabric {
         }
         syncPatternToWarp(warpPatternStart);
         syncPatternToWeft(weftPatternStart);
+        warpLengthDiv = new DivElement()..text = "Warp Pattern Length ${exportWarpPattern().split(",").length}";
+        output.append(warpLengthDiv);
+        weftLengthDiv = new DivElement()..text = "Weft Pattern Length ${exportWeftPattern().split(",").length}";
+        output.append(weftLengthDiv);
         renderWarpTextArea(controls);
         renderWeftTextArea(controls);
         renderColorPickers(controls);
         _renderFabric();
     }
 
+    void syncPatternCount() {
+        if(warpLengthDiv != null) warpLengthDiv.text = "Warp Pattern Length ${exportWarpPattern().split(",").length}";
+        if(weftLengthDiv != null) weftLengthDiv.text = "Weft Pattern Length ${exportWeftPattern().split(",").length}";
+    }
+
     void _renderFabric() {
+        syncPatternCount();
         warp.forEach((WarpObject w) => w.renderSelf(canvas));
         weft.forEach((WeftObject w) => w.renderSelf(canvas));
         makeDownloadImage(control);
@@ -106,6 +122,7 @@ class Fabric {
         warpText.onInput.listen((Event e) {
             syncPatternToWarp(warpText.value);
         });
+
         element.append(warpText);
     }
 
@@ -174,8 +191,15 @@ class Fabric {
 
     }
 
-    //TODO truncate to smallest repetition
     String exportWarpPattern() {
+        return Util.getTiniestWeavingPattern(exportWarpPatternFull());
+    }
+
+    String exportWeftPattern() {
+        return Util.getTiniestWeavingPattern(exportWeftPatternFull());
+    }
+
+    String exportWarpPatternFull() {
         List<int> pattern = <int>[];
         for(WarpObject w in warp) {
             pattern.add(colors.indexOf(w.color));
@@ -183,7 +207,7 @@ class Fabric {
         return pattern.join(",");
     }
 
-    String exportWeftPattern() {
+    String exportWeftPatternFull() {
         List<int> pattern = <int>[];
         for(WeftObject w in weft) {
             pattern.add(colors.indexOf(w.color));
