@@ -1,6 +1,7 @@
 import 'dart:html';
 
 import 'scripts/Fabric.dart';
+import 'scripts/Util.dart';
 
 void main() {
   Element output = querySelector('#output');
@@ -9,7 +10,6 @@ void main() {
   Fabric fabric = new Fabric(800,800);
    //fabric.debug();
    fabric.renderToParent(output,controls);
-   print(fabric.exportWarpPattern());
-   print(fabric.exportWeftPattern());
+   Util.test();
 
 }
