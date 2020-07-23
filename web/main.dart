@@ -1,5 +1,7 @@
 import 'dart:html';
 
+import 'package:CommonLib/Random.dart';
+
 import 'scripts/Fabric.dart';
 import 'scripts/Util.dart';
 
@@ -23,8 +25,8 @@ void patternLinks() {
         AnchorElement anchor = new AnchorElement()..text = p.name..classes.add("navbar-item");
         navbar.append(anchor);
         anchor.onClick.listen((Event e) {
-            fabric.syncPatternToWeft(p.weftPattern);
             fabric.syncPatternToWarp(p.warpPattern);
+            fabric.syncPatternToWeft(p.weftPattern);
 
         });
     }
@@ -32,6 +34,8 @@ void patternLinks() {
 }
 
 void initPatterns() {
+    patterns.add(new RandomPattern());
+
     patterns.add(new Pattern("Houndstooth", "1,1,0,0", "1,1,0,0"));
     patterns.add(new Pattern("Log Cabin", "1,0,1,0,1,0,0,1,0,1,0", "1,0,1,0,1,0,0,1,0,1,0"));
     patterns.add(new Pattern("Horizontal Stripes", "1,0,1,0", "1,0,1,0"));
@@ -53,4 +57,39 @@ class Pattern {
     String warpPattern;
     String weftPattern;
     Pattern(this.name, this.warpPattern, this.weftPattern);
+}
+
+//every time you ask for warp/weft its different
+class RandomPattern extends Pattern {
+    Random rand = new Random();
+
+    RandomPattern():super("Random", null,null);
+    String savedWarpPattern;
+
+    @override
+    String get warpPattern {
+        String ret = "";
+        int patternSize = rand.nextIntRange(1,20);
+        for(int i = 0; i< patternSize; i++) {
+            ret = "${rand.nextBool()?"0":"1"},$ret";
+        }
+        savedWarpPattern = ret.substring(0,ret.length-1);
+        return savedWarpPattern;
+    }
+
+    @override
+    String get weftPattern {
+        if(rand.nextDouble() < .5 && savedWarpPattern != null) {
+            return savedWarpPattern;
+        }
+        savedWarpPattern = null;
+        String ret = "";
+        int patternSize = rand.nextIntRange(1,20);
+        for(int i = 0; i< patternSize; i++) {
+            ret = "${rand.nextBool()?"0":"1"},$ret";
+        }
+        return ret.substring(0,ret.length-1);
+    }
+
+
 }
