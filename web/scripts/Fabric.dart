@@ -136,8 +136,8 @@ class Fabric {
 
     void syncFabricToImage(ArchivePng png, String fileName) async {
         print("JR here, trying to sync from $fileName");
-        String warpPattern = await png.getFile(fileKeyWeft);
-        String weftPattern = await png.getFile(fileKeyWarp);
+        String warpPattern = await png.getFile(fileKeyWarp);
+        String weftPattern = await png.getFile(fileKeyWeft);
         String colorPattern = await png.getFile(fileKeyColors);
         print("I got three patterns: $warpPattern, $weftPattern, $colorPattern");
         warpText.value =warpPattern;
