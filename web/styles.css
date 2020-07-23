@@ -17,6 +17,20 @@ table{
     width: 1200px;
 }
 
+.navbar-item{
+    cursor: pointer;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    background-color: #cc1111;
+}
+
+#navbar{
+    margin-left: auto;
+    margin-right: auto;
+    width: 1000px;
+}
+
 .color-label{
     margin-right: 10px;
     width: 60px;

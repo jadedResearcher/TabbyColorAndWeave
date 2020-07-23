@@ -12,8 +12,8 @@ class Fabric {
     int height;
     int width;
     Element control;
-    Element warpLengthDiv;
-    Element weftLengthDiv;
+    //Element warpLengthDiv;
+    //Element weftLengthDiv;
     TextAreaElement warpText;
     TextAreaElement weftText;
     Element output;
@@ -64,28 +64,30 @@ class Fabric {
             warp.add(new WarpObject(colors[0], i));
         }
 
-        for(int i = WeftObject.WIDTH*4; i< width-WeftObject.WIDTH*4; i+= WeftObject.WIDTH) {
+        for(int i = WeftObject.WIDTH*4; i< height-WeftObject.WIDTH*4; i+= WeftObject.WIDTH) {
             weft.add(new WeftObject(colors[0], i, i%2==0));
         }
         syncPatternToWarp(warpPatternStart);
         syncPatternToWeft(weftPatternStart);
+        /* not actually possible
         warpLengthDiv = new DivElement()..text = "Warp Pattern Length ${exportWarpPattern().split(",").length}";
         output.append(warpLengthDiv);
         weftLengthDiv = new DivElement()..text = "Weft Pattern Length ${exportWeftPattern().split(",").length}";
         output.append(weftLengthDiv);
+        */
         renderWarpTextArea(controls);
         renderWeftTextArea(controls);
         renderColorPickers(controls);
         _renderFabric();
     }
 
-    void syncPatternCount() {
+    /*void syncPatternCount() {
         if(warpLengthDiv != null) warpLengthDiv.text = "Warp Pattern Length ${exportWarpPattern().split(",").length}";
         if(weftLengthDiv != null) weftLengthDiv.text = "Weft Pattern Length ${exportWeftPattern().split(",").length}";
-    }
+    }*/
 
     void _renderFabric() {
-        syncPatternCount();
+        //syncPatternCount();
         warp.forEach((WarpObject w) => w.renderSelf(canvas));
         weft.forEach((WeftObject w) => w.renderSelf(canvas));
         makeDownloadImage(control);
@@ -224,6 +226,7 @@ class Fabric {
     }
 
     void syncPatternToWarp(String pattern) {
+        if(warpText != null) warpText.value = pattern;
         List<int> parsedPattern = new List.from(pattern.split(",").map((String s) => int.parse(s)));
         print("parsed pattern is $parsedPattern");
         int index = 0;
@@ -251,6 +254,7 @@ class Fabric {
     }
 
     void syncPatternToWeft(String pattern) {
+        if(weftText != null) weftText.value = pattern;
         List<int> parsedPattern = new List.from(pattern.split(",").map((String s) => int.parse(s)));
         print("parsed pattern is $parsedPattern");
         int index = 0;
