@@ -236,15 +236,8 @@ class Fabric {
 
     }
 
+
     String exportWarpPattern() {
-        return Util.getTiniestWeavingPattern(exportWarpPatternFull());
-    }
-
-    String exportWeftPattern() {
-        return Util.getTiniestWeavingPattern(exportWeftPatternFull());
-    }
-
-    String exportWarpPatternFull() {
         List<int> pattern = <int>[];
         for(WarpObject w in warp) {
             pattern.add(colors.indexOf(w.color));
@@ -252,7 +245,7 @@ class Fabric {
         return pattern.join(",");
     }
 
-    String exportWeftPatternFull() {
+    String exportWeftPattern() {
         List<int> pattern = <int>[];
         for(WeftObject w in weft) {
             pattern.add(colors.indexOf(w.color));
