@@ -27,12 +27,23 @@ abstract class Util {
         }
     }
 
+    static int numTimesIntIsInPattern(String pattern, int goal) {
+        return intListFromPattern(pattern).where((int i) => i == goal).length;
+    }
+
     //it will have commas we'll need to remove, but then add back in at the end.
     static String getTiniestWeavingPattern(String input) {
-        List<int> int_pattern = new List.from(input.split(",").map((String s) => int.parse(s)));
+        List<int> int_pattern = intListFromPattern(input);
         int interval = find_interval(int_pattern);
         return int_pattern.sublist(0,interval).join(",");
+    }
 
+    static List<int> intListFromPattern(String input) => new List.from(input.split(",").map((String s) => int.parse(s)));
+
+    static int getTiniestWeavingPatternLength(String input) {
+        List<int> int_pattern = intListFromPattern(input);
+        int interval = find_interval(int_pattern);
+        return interval;
     }
 
 

@@ -12,6 +12,10 @@ class Fabric {
     int height;
     int width;
     Element control;
+    Element stats;
+    Element warpPatternLength;
+    Element weftPatternLength;
+    Element colorStats;
     //Element warpLengthDiv;
     //Element weftLengthDiv;
     TextAreaElement warpText;
@@ -55,9 +59,10 @@ class Fabric {
     }
 
     //TODO maybe buffer this
-    void renderToParent(Element parent, Element controls) {
+    void renderToParent(Element parent, Element controls, Element stats) {
         output = parent;
         control = controls;
+        this.stats = stats;
         parent.append(canvas);
         initColors();
         for(int i = WarpObject.WIDTH*4; i< width-WarpObject.WIDTH*4; i+= WarpObject.WIDTH) {
@@ -81,13 +86,51 @@ class Fabric {
         _renderFabric();
     }
 
-    /*void syncPatternCount() {
-        if(warpLengthDiv != null) warpLengthDiv.text = "Warp Pattern Length ${exportWarpPattern().split(",").length}";
-        if(weftLengthDiv != null) weftLengthDiv.text = "Weft Pattern Length ${exportWeftPattern().split(",").length}";
-    }*/
+    void handleStats() {
+        initStatHolders();
+        String warpPatternFull = exportWarpPattern();
+        String weftPatternFull = exportWeftPattern();
+
+        String warpPatternNoRep = Util.getTiniestWeavingPattern(warpPatternFull);
+        String weftPatternNoRep = Util.getTiniestWeavingPattern(weftPatternFull);
+
+        warpPatternLength.text = "Warp Pattern Length: ${Util.getTiniestWeavingPatternLength(warpPatternFull)}";
+        weftPatternLength.text = "Weft Pattern Length: ${Util.getTiniestWeavingPatternLength(weftPatternFull)}";
+        colorStats.setInnerHtml("<h2>Colors used per Repetition:</h2>");
+        for(Colour c in colors) {
+            DivElement container = new DivElement()..classes.add("colorStatContainer");
+            colorStats.append(container);
+            DivElement colorBox = new DivElement()..classes.add("colorBox")..style.backgroundColor=c.toStyleString();
+            container.append(colorBox);
+            DivElement stat = new DivElement()..text = ": ${Util.numTimesIntIsInPattern(warpPatternFull, colors.indexOf(c))} warp ends, ${Util.numTimesIntIsInPattern(weftPatternFull, colors.indexOf(c))} weft ends"..classes.add("colorStat");
+            container.append(stat);
+        }
+    }
+
+
+    void initStatHolders() {
+        print("hello world???");
+       if(warpPatternLength == null) {
+           stats.setInnerHtml("<h1>Stats:</h1>");
+          warpPatternLength = new DivElement()..classes.add("patternLength");
+          stats.append(warpPatternLength);
+      }
+
+      if(weftPatternLength == null) {
+          weftPatternLength = new DivElement()..classes.add("patternLength");
+          stats.append(weftPatternLength);
+      }
+
+      if(colorStats == null) {
+          colorStats = new DivElement()..classes.add("colorStats");
+          stats.append(colorStats);
+      }
+    }
+
+
 
     void _renderFabric() {
-        //syncPatternCount();
+        handleStats();
         warp.forEach((WarpObject w) => w.renderSelf(canvas));
         weft.forEach((WeftObject w) => w.renderSelf(canvas));
         makeDownloadImage(control);

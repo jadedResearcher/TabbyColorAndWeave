@@ -17,6 +17,21 @@ table{
     width: 1200px;
 }
 
+.colorBox{
+    width: 50px;
+    height: 50px;
+    border: 2px solid black;
+    display: inline-block;
+}
+
+.colorStat{
+    display: inline-block;
+}
+
+.colorStatContainer{
+    padding: 5px;
+}
+
 .navbar-item{
     cursor: pointer;
     padding: 5px;

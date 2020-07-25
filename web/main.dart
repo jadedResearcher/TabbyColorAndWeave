@@ -10,11 +10,13 @@ Fabric fabric;
 void main() {
   Element output = querySelector('#output');
   Element controls = querySelector('#controls');
+  Element stats = querySelector('#stats');
+
   initPatterns();
   patternLinks();
   fabric = new Fabric(1000,800);
    //fabric.debug();
-   fabric.renderToParent(output,controls);
+   fabric.renderToParent(output,controls,stats);
    //Util.test();
 
 }
