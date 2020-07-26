@@ -7,7 +7,7 @@ import 'Util.dart';
 import 'WarpObject.dart';
 import 'WeftObject.dart';
 import "package:ImageLib/Encoding.dart";
-
+//todo toggles for balanced wrave, slightly warp facing snd slightly weft facinh
 class Fabric {
     int height;
     int width;
@@ -94,15 +94,15 @@ class Fabric {
         String warpPatternNoRep = Util.getTiniestWeavingPattern(warpPatternFull);
         String weftPatternNoRep = Util.getTiniestWeavingPattern(weftPatternFull);
 
-        warpPatternLength.text = "Warp Pattern Length: ${Util.getTiniestWeavingPatternLength(warpPatternFull)}";
-        weftPatternLength.text = "Weft Pattern Length: ${Util.getTiniestWeavingPatternLength(weftPatternFull)}";
+        warpPatternLength.text = "Warp Pattern Length: ${Util.getTiniestWeavingPatternLength(warpPatternFull)} (${warpPatternNoRep})";
+        weftPatternLength.text = "Weft Pattern Length: ${Util.getTiniestWeavingPatternLength(weftPatternFull)} (${weftPatternNoRep}";
         colorStats.setInnerHtml("<h2>Colors used per Repetition:</h2>");
         for(Colour c in colors) {
             DivElement container = new DivElement()..classes.add("colorStatContainer");
             colorStats.append(container);
             DivElement colorBox = new DivElement()..classes.add("colorBox")..style.backgroundColor=c.toStyleString();
             container.append(colorBox);
-            DivElement stat = new DivElement()..text = ": ${Util.numTimesIntIsInPattern(warpPatternFull, colors.indexOf(c))} warp ends, ${Util.numTimesIntIsInPattern(weftPatternFull, colors.indexOf(c))} weft ends"..classes.add("colorStat");
+            DivElement stat = new DivElement()..text = ": ${Util.numTimesIntIsInPattern(warpPatternNoRep, colors.indexOf(c))} warp ends, ${Util.numTimesIntIsInPattern(weftPatternNoRep, colors.indexOf(c))} weft ends"..classes.add("colorStat");
             container.append(stat);
         }
     }
