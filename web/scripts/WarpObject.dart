@@ -23,6 +23,7 @@ class WarpObject {
             canvas.context2D.fillRect(x+1,10,WIDTH-2,WIDTH-1);
 
         }
-
     }
+
+
 }

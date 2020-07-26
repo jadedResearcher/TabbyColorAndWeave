@@ -11,12 +11,13 @@ void main() {
   Element output = querySelector('#output');
   Element controls = querySelector('#controls');
   Element stats = querySelector('#stats');
+  Element warpingGuide = querySelector("#warpingGuide");
 
   initPatterns();
   patternLinks();
   fabric = new Fabric(1000,800);
    //fabric.debug();
-   fabric.renderToParent(output,controls,stats);
+   fabric.renderToParent(output,controls,stats, warpingGuide);
    //Util.test();
 
 }

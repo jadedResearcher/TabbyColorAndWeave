@@ -29,6 +29,7 @@ class Fabric {
     static String fileKeyColors = "COLORANDWEAVE/colors.txt";
 
     CanvasElement canvas;
+    CanvasElement warpingGuideCanvas;
     //String warpPatternStart = "1,0,1,0,1,0,0,1,0,1,0";
    // String weftPatternStart = "1,0,1,0,1,0,0,1,0,1,0";
     String warpPatternStart = "1,1,0,0";
@@ -41,6 +42,8 @@ class Fabric {
 
     Fabric(this.height, this.width) {
         canvas = new CanvasElement(width: width, height: height)..classes.add("fabric");
+        warpingGuideCanvas = new CanvasElement(width: width, height: 200)..classes.add("fabric");
+
     }
 
     void initColors() {
@@ -59,11 +62,12 @@ class Fabric {
     }
 
     //TODO maybe buffer this
-    void renderToParent(Element parent, Element controls, Element stats) {
+    void renderToParent(Element parent, Element controls, Element stats, Element warpingGuide) {
         output = parent;
         control = controls;
         this.stats = stats;
         parent.append(canvas);
+        warpingGuide.append(warpingGuideCanvas);
         initColors();
         for(int i = WarpObject.WIDTH*4; i< width-WarpObject.WIDTH*4; i+= WarpObject.WIDTH) {
             warp.add(new WarpObject(colors[0], i, i%2==0));
@@ -133,9 +137,20 @@ class Fabric {
         handleStats();
         warp.forEach((WarpObject w) => w.renderSelf(canvas));
         weft.forEach((WeftObject w) => w.renderSelf(canvas));
+        renderWarpingGuide();
         makeDownloadImage(control);
 
+    }
 
+    void renderWarpingGuide() {
+        int length = Util.getTiniestWeavingPatternLength(exportWarpPattern());
+        CanvasElement buffer = new CanvasElement(width: width, height: 200);
+        for(int i = 0; i<length; i++) {
+            warp[i].renderSelf(buffer);
+        }
+
+        warpingGuideCanvas.context2D.clearRect(0,0,warpingGuideCanvas.width, warpingGuideCanvas.height);
+        warpingGuideCanvas.context2D.drawImageScaled(buffer, -100,0,warpingGuideCanvas.width*5, warpingGuideCanvas.height*5);
 
     }
 
