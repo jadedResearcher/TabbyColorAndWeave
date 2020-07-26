@@ -66,10 +66,10 @@ class Fabric {
         parent.append(canvas);
         initColors();
         for(int i = WarpObject.WIDTH*4; i< width-WarpObject.WIDTH*4; i+= WarpObject.WIDTH) {
-            warp.add(new WarpObject(colors[0], i));
+            warp.add(new WarpObject(colors[0], i, i%2==0));
         }
 
-        for(int i = WeftObject.WIDTH*4; i< height-WeftObject.WIDTH*4; i+= WeftObject.WIDTH) {
+        for(int i = WeftObject.WIDTH*6; i< height-WeftObject.WIDTH*4; i+= WeftObject.WIDTH) {
             weft.add(new WeftObject(colors[0], i, i%2==0));
         }
         syncPatternToWarp(warpPatternStart);
