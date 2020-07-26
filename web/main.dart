@@ -15,7 +15,7 @@ void main() {
 
   initPatterns();
   patternLinks();
-  fabric = new Fabric(1000,800);
+  fabric = new Fabric(1200,1000);
    //fabric.debug();
    fabric.renderToParent(output,controls,stats, warpingGuide);
    //Util.test();

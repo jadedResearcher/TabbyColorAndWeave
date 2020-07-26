@@ -17,6 +17,10 @@ table{
     width: 1200px;
 }
 
+#warpingGuide{
+    vertical-align: top;
+}
+
 .patternLength{
     overflow-wrap: anywhere;
 }

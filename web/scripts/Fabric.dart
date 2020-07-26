@@ -11,8 +11,14 @@ import "package:ImageLib/Encoding.dart";
 class Fabric {
     int height;
     int width;
+    int warpBuffer = WarpObject.WIDTH*4 ;
+    int weftBuffer = WeftObject.WIDTH*6;
+
+    int numEndsToRender = (12.5*16).floor();
     Element control;
     Element stats;
+    InputElement warpLength;
+
     Element warpPatternLength;
     Element weftPatternLength;
     Element colorStats;
@@ -29,6 +35,8 @@ class Fabric {
     static String fileKeyColors = "COLORANDWEAVE/colors.txt";
 
     CanvasElement canvas;
+    CanvasElement bufferCanvas;
+
     CanvasElement warpingGuideCanvas;
     //String warpPatternStart = "1,0,1,0,1,0,0,1,0,1,0";
    // String weftPatternStart = "1,0,1,0,1,0,0,1,0,1,0";
@@ -42,6 +50,7 @@ class Fabric {
 
     Fabric(this.height, this.width) {
         canvas = new CanvasElement(width: width, height: height)..classes.add("fabric");
+        bufferCanvas = new CanvasElement(width: width, height: height);
         warpingGuideCanvas = new CanvasElement(width: width, height: 200)..classes.add("fabric");
 
     }
@@ -67,13 +76,15 @@ class Fabric {
         control = controls;
         this.stats = stats;
         parent.append(canvas);
+        HeadingElement h1 = new HeadingElement.h1()..text = "Warping Guide";
+        warpingGuide.append(h1);
         warpingGuide.append(warpingGuideCanvas);
         initColors();
-        for(int i = WarpObject.WIDTH*4; i< width-WarpObject.WIDTH*4; i+= WarpObject.WIDTH) {
+        for(int i = warpBuffer; i< width-WarpObject.WIDTH*4; i+= WarpObject.WIDTH) {
             warp.add(new WarpObject(colors[0], i, i%2==0));
         }
 
-        for(int i = WeftObject.WIDTH*6; i< height-WeftObject.WIDTH*4; i+= WeftObject.WIDTH) {
+        for(int i = weftBuffer; i< height-WeftObject.WIDTH*4; i+= WeftObject.WIDTH) {
             weft.add(new WeftObject(colors[0], i, i%2==0));
         }
         syncPatternToWarp(warpPatternStart);
@@ -84,11 +95,28 @@ class Fabric {
         weftLengthDiv = new DivElement()..text = "Weft Pattern Length ${exportWeftPattern().split(",").length}";
         output.append(weftLengthDiv);
         */
+        renderWarpConfig();
         renderWarpTextArea(controls);
         renderWeftTextArea(controls);
         renderColorPickers(controls);
         _renderFabric();
     }
+
+    void renderWarpConfig() {
+        DivElement div = new DivElement();
+        control.append(div);
+        LabelElement label = new LabelElement()..text = "# Ends in Warp:";
+        div.append(label);
+        warpLength = new InputElement()..type = "number";
+        warpLength.value = "${warp.length}";
+        div.append(warpLength);
+        warpLength.onChange.listen((Event e) {
+            numEndsToRender = int.parse(warpLength.value);
+            _renderFabric();
+        });
+    }
+
+
 
     void handleStats() {
         initStatHolders();
@@ -135,8 +163,13 @@ class Fabric {
 
     void _renderFabric() {
         handleStats();
-        warp.forEach((WarpObject w) => w.renderSelf(canvas));
-        weft.forEach((WeftObject w) => w.renderSelf(canvas));
+        bufferCanvas.context2D.clearRect(0,0,canvas.width, canvas.height);
+        bufferCanvas.width = numEndsToRender*WarpObject.WIDTH+warpBuffer;
+        warp.forEach((WarpObject w) => w.renderSelf(bufferCanvas));
+        weft.forEach((WeftObject w) => w.renderSelf(bufferCanvas));
+        //render only the number of ends we want.
+        canvas.context2D.clearRect(0,0,canvas.width, canvas.height);
+        canvas.context2D.drawImage(bufferCanvas, 0,0);
         renderWarpingGuide();
         makeDownloadImage(control);
 
@@ -145,7 +178,7 @@ class Fabric {
     void renderWarpingGuide() {
         int length = Util.getTiniestWeavingPatternLength(exportWarpPattern());
         CanvasElement buffer = new CanvasElement(width: width, height: 200);
-        length = Math.min(length*4, warp.length);
+        length = Math.min(length*10, warp.length);
         for(int i = 0; i<length; i++) {
             warp[i].renderSelf(buffer);
         }
