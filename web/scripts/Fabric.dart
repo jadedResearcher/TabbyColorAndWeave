@@ -145,7 +145,7 @@ class Fabric {
     void renderWarpingGuide() {
         int length = Util.getTiniestWeavingPatternLength(exportWarpPattern());
         CanvasElement buffer = new CanvasElement(width: width, height: 200);
-        for(int i = 0; i<length; i++) {
+        for(int i = 0; i<length*4; i++) {
             warp[i].renderSelf(buffer);
         }
 
