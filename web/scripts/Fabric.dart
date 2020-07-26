@@ -2,7 +2,7 @@ import 'dart:html';
 
 import 'package:CommonLib/Colours.dart';
 import 'package:LoaderLib/Loader.dart';
-
+import "dart:math" as Math;
 import 'Util.dart';
 import 'WarpObject.dart';
 import 'WeftObject.dart';
@@ -145,7 +145,8 @@ class Fabric {
     void renderWarpingGuide() {
         int length = Util.getTiniestWeavingPatternLength(exportWarpPattern());
         CanvasElement buffer = new CanvasElement(width: width, height: 200);
-        for(int i = 0; i<length*4; i++) {
+        length = Math.min(length*4, warp.length);
+        for(int i = 0; i<length; i++) {
             warp[i].renderSelf(buffer);
         }
 
