@@ -41,6 +41,7 @@ void patternLinks() {
         anchor.onClick.listen((Event e) {
             fabric.syncPatternToWarp(p.warpPattern);
             fabric.syncPatternToWeft(p.weftPattern);
+            if(p.pickupPattern != null) fabric.syncPickupToWeft(p.pickupPattern);
 
         });
     }
@@ -58,8 +59,7 @@ void initPatterns() {
     patterns.add(new Pattern("Bars", "1,0", "1,1,0"));
     patterns.add(new Pattern("Vines", "0,1,0", "1"));
     patterns.add(new Pattern("Foxes", "1,1,9,9,9,1", "1,9,9,1"));
-    patterns.add(new Pattern("Stars", "10,10,1,1,1,10", "10,1,1,10"));
-    patterns.add(new Pattern("Neat", "0,1,1,0,0,1,0", "0,1,1,0,0,1,0"));
+    patterns.add(new Pattern("Warp and Weft Float", "6", "0,0,7,0,0,7","0,1\n1,0\n1,1,0\n1,0\n0,1\n0,0,1"));
     patterns.add(new Pattern("T-Bar", "1,0,0,1,0,1,0", "1,1,0,0,1,1,0,0"));
     patterns.add(new Pattern("Boxes", "1,1,2,2,3,3,4,4,5,5", "1,1,2,2,3,3,4,4,5,5"));
     patterns.add(new Pattern("Plaid","0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,0,0,0,0,0,0,2,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,2,0,0,0,0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1","0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,0,0,0,0,0,0,2,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,2,0,0,0,0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1"));
@@ -70,7 +70,9 @@ class Pattern {
     String name;
     String warpPattern;
     String weftPattern;
-    Pattern(this.name, this.warpPattern, this.weftPattern);
+    String pickupPattern;
+
+    Pattern(this.name, this.warpPattern, this.weftPattern, [this.pickupPattern]);
 }
 
 //every time you ask for warp/weft its different
