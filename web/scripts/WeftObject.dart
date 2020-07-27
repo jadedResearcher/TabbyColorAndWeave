@@ -6,7 +6,7 @@ import "package:CommonLib/Colours.dart";
 class WeftObject {
     static final WIDTH = 5;
     Colour color;
-    List<int> shaftPattern = TWOSHAFTdown;
+    List<int> pickupPattern = TWOSHAFTdown;
     //zero means weft is not showing, 1 means it is. so 1,1,0 is a two weft float
     static List<int> TWOSHAFTUP = [0,1];
     static List<int> TWOSHAFTdown = [1,0];
@@ -14,14 +14,14 @@ class WeftObject {
     static List<int>  UPSLIDEPICKUP= [0,0,1];
     int y;
 
-    WeftObject(Colour this.color, int this.y, this.shaftPattern);
+    WeftObject(Colour this.color, int this.y, this.pickupPattern);
 
     bool patternStartsWith0() {
         return !pickIs1(0);
     }
 
     bool pickIs1(int pickIndex) {
-        return shaftPattern[pickIndex % (shaftPattern.length)] == 1;
+        return pickupPattern[pickIndex % (pickupPattern.length)] == 1;
 
     }
 

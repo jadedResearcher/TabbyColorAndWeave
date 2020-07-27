@@ -27,7 +27,7 @@ void main() {
 
 void testWeftObject() {
     WeftObject first = WeftObject(new Colour(), 0, [0,0,1]);
-    print(first.shaftPattern);
+    print(first.pickupPattern);
     for(int i = 0; i <10; i++) {
         print("is pick $i 1? ${first.pickIs1(i)}");
     }

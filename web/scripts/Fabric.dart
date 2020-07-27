@@ -26,6 +26,7 @@ class Fabric {
     //Element weftLengthDiv;
     TextAreaElement warpText;
     TextAreaElement weftText;
+    TextAreaElement pickupText;
     Element output;
     DivElement archiveUploaderHolder;
     Element archiveSaveButton;
@@ -33,6 +34,8 @@ class Fabric {
     static String fileKeyWarp = "COLORANDWEAVE/warp.txt";
     static String fileKeyWeft = "COLORANDWEAVE/weft.txt";
     static String fileKeyColors = "COLORANDWEAVE/colors.txt";
+    static String fileKeyWidth = "COLORANDWEAVE/width.txt";
+    static String fileKeyPickup = "COLORANDWEAVE/pickup.txt";
 
     CanvasElement canvas;
     CanvasElement bufferCanvas;
@@ -42,6 +45,7 @@ class Fabric {
    // String weftPatternStart = "1,0,1,0,1,0,0,1,0,1,0";
     String warpPatternStart = "1,1,0,0";
     String weftPatternStart = "1,1,0,0";
+    String pickupPatternStart = "0,1\n1,0";
 
     Element parent;
     List<WarpObject> warp = new List<WarpObject>();
@@ -99,6 +103,8 @@ class Fabric {
         renderWarpConfig();
         renderWarpTextArea(controls);
         renderWeftTextArea(controls);
+        renderPickupTextArea(controls);
+
         renderColorPickers(controls);
         _renderFabric();
     }
@@ -207,10 +213,22 @@ class Fabric {
         }
     }
 
+    void renderPickupTextArea(Element parent) {
+    DivElement element = new DivElement();
+    parent.append(element);
+    LabelElement label = new LabelElement()..text = "Pickup Pattern";
+    element.append(label);
+    pickupText = new TextAreaElement()..text = pickupPatternStart;
+    pickupText.onInput.listen((Event e) {
+    syncPickupToWeft(pickupText.value);
+    });
+
+    element.append(pickupText);
+    }
+
     void renderWarpTextArea(Element parent) {
         DivElement element = new DivElement();
         parent.append(element);
-        //TODO find a way to compress it to the smallest unrepeatable area
         LabelElement label = new LabelElement()..text = "Warp Pattern";
         element.append(label);
         warpText = new TextAreaElement()..text = warpPatternStart;
@@ -251,14 +269,17 @@ class Fabric {
         String warpPattern = await png.getFile(fileKeyWarp);
         String weftPattern = await png.getFile(fileKeyWeft);
         String colorPattern = await png.getFile(fileKeyColors);
+        numEndsToRender = int.parse(await png.getFile(fileKeyWidth));
+        pickupText.value  = await png.getFile(fileKeyPickup);
+
+
         print("I got three patterns: $warpPattern, $weftPattern, $colorPattern");
         warpText.value =warpPattern;
         weftText.value =weftPattern;
         syncPatternToWarp(warpPattern);
         syncPatternToWeft(weftPattern);
+        syncPickupToWeft(pickupText.value);
         syncPatternToColors(colorPattern);
-
-
     }
 
     void makeDownloadImage(Element parent) async{
@@ -274,6 +295,8 @@ class Fabric {
         await png.archive.setFile(fileKeyWarp, exportWarpPattern());
         await png.archive.setFile(fileKeyWeft, exportWeftPattern());
         await png.archive.setFile(fileKeyColors, exportColorPattern());
+        await png.archive.setFile(fileKeyWidth, "$numEndsToRender");
+        await png.archive.setFile(fileKeyPickup, "${pickupText.value}");
 
         if(archiveSaveButton != null) {
             archiveSaveButton.remove();
@@ -335,6 +358,18 @@ class Fabric {
             colorPickers[index].value = c;
 
             index ++;
+        }
+        _renderFabric();
+    }
+
+    void syncPickupToWeft(String pattern) {
+        if(pickupText != null) pickupText.value = pattern;
+        List<String> line = pattern.split("\n");
+        int lineNum = 0;
+        for(WeftObject w in weft) {
+            String pattern = line[lineNum % line.length];
+            w.pickupPattern = new List<int>.from(pattern.split(",").map((String s) => int.parse(s)));
+            lineNum ++;
         }
         _renderFabric();
     }
