@@ -6,23 +6,40 @@ import "package:CommonLib/Colours.dart";
 class WeftObject {
     static final WIDTH = 5;
     Colour color;
+    List<int> shaftPattern = TWOSHAFTdown;
+    //zero means weft is not showing, 1 means it is. so 1,1,0 is a two weft float
+    static List<int> TWOSHAFTUP = [0,1];
+    static List<int> TWOSHAFTdown = [1,0];
+    static List<int> NEUTRALTURNPICKUP =  [1,1,0];
+    static List<int>  UPSLIDEPICKUP= [0,0,1];
     int y;
-    //up shed vs down shed is offset
-    bool up = false;
 
-    WeftObject(Colour this.color, int this.y, bool this.up);
+    WeftObject(Colour this.color, int this.y, this.shaftPattern);
+
+    bool patternStartsWith0() {
+        return !pickIs1(0);
+    }
+
+    bool pickIs1(int pickIndex) {
+        return shaftPattern[pickIndex % (shaftPattern.length)] == 1;
+
+    }
 
     //assume the canvas you're given is the one on screen, thus any changes you make reflect there
     //if i need to buffer i'll give it the fabric instance instead
     void renderSelf(CanvasElement canvas) {
         canvas.context2D.fillStyle = color.toStyleString();
-        int startX = 0;
-        if(up) {
-            startX += WIDTH;
-        }
-        for(int i = startX; i< canvas.width-WeftObject.WIDTH; i+= (WeftObject.WIDTH*2)) {
+        int currentX = 0;
+        /*for(int i = startX; i< canvas.width-WeftObject.WIDTH; i+= (WeftObject.WIDTH*2)) {
             canvas.context2D.fillRect(i, y, WIDTH, WIDTH);
+        }*/
+        int pickNum = 0;
+        while(currentX < canvas.width) {
+            if(pickIs1(pickNum)) { //only render visible picks
+                canvas.context2D.fillRect(currentX, y, WIDTH, WIDTH);
+            }
+            pickNum ++;
+            currentX += WIDTH;
         }
-
     }
 }

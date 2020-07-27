@@ -1,9 +1,11 @@
 import 'dart:html';
 
+import 'package:CommonLib/Colours.dart';
 import 'package:CommonLib/Random.dart';
 
 import 'scripts/Fabric.dart';
 import 'scripts/Util.dart';
+import 'scripts/WeftObject.dart';
 
 List<Pattern> patterns = [];
 Fabric fabric;
@@ -19,7 +21,16 @@ void main() {
    //fabric.debug();
    fabric.renderToParent(output,controls,stats, warpingGuide);
    //Util.test();
+  //testWeftObject();
 
+}
+
+void testWeftObject() {
+    WeftObject first = WeftObject(new Colour(), 0, [0,0,1]);
+    print(first.shaftPattern);
+    for(int i = 0; i <10; i++) {
+        print("is pick $i 1? ${first.pickIs1(i)}");
+    }
 }
 
 void patternLinks() {

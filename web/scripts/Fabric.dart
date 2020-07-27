@@ -85,7 +85,8 @@ class Fabric {
         }
 
         for(int i = weftBuffer; i< height-WeftObject.WIDTH*4; i+= WeftObject.WIDTH) {
-            weft.add(new WeftObject(colors[0], i, i%2==0));
+            //todo actually read shaft pattern
+            weft.add(new WeftObject(colors[0], i, i%2==0 ? WeftObject.TWOSHAFTdown: WeftObject.TWOSHAFTUP));
         }
         syncPatternToWarp(warpPatternStart);
         syncPatternToWeft(weftPatternStart);
