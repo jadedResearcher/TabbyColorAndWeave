@@ -216,7 +216,7 @@ class Fabric {
     void renderPickupTextArea(Element parent) {
     DivElement element = new DivElement();
     parent.append(element);
-    LabelElement label = new LabelElement()..text = "Pickup Pattern";
+    LabelElement label = new LabelElement()..text = "Weaving Pattern (default is plain weave)";
     element.append(label);
     pickupText = new TextAreaElement()..text = pickupPatternStart;
     pickupText.onInput.listen((Event e) {
