@@ -271,8 +271,12 @@ class Fabric {
         String colorPattern = await png.getFile(fileKeyColors);
         String number = await png.getFile(fileKeyWidth);
         if(number != null) numEndsToRender = int.parse(number);
-        pickupText.value  = await png.getFile(fileKeyPickup);
-        if(pickupText.value.isEmpty) pickupText.value = pickupPatternStart;
+        String val   = await png.getFile(fileKeyPickup);
+        if(val != null && val.isNotEmpty) {
+            pickupText.value = val;
+        }else {
+            pickupText.value = pickupPatternStart;
+        }
 
 
         print("I got three patterns: $warpPattern, $weftPattern, $colorPattern");
