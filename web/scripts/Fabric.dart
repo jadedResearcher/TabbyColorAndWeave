@@ -216,9 +216,10 @@ class Fabric {
     void renderPickupTextArea(Element parent) {
     DivElement element = new DivElement();
     parent.append(element);
-    LabelElement label = new LabelElement()..text = "Weaving Pattern (default is plain weave)";
+    LabelElement label = new LabelElement()..text = "Weaving Pattern 0 is 'weft goes under warp', 1 is 'weft goes over warp' (default value is plain weave)";
     element.append(label);
     pickupText = new TextAreaElement()..text = pickupPatternStart;
+    pickupText.rows = 10;
     pickupText.onInput.listen((Event e) {
     syncPickupToWeft(pickupText.value);
     });
