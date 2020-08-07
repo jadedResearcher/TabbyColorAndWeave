@@ -56,12 +56,11 @@ void initPatterns() {
     patterns.add(new Pattern("Horizontal Stripes", "1,0,1,0", "1,0,1,0"));
     patterns.add(new Pattern("Vertical Stripes", "1,0,1,0", "0,1,0,1"));
     patterns.add(new Pattern("Interleave", "1,1,0", "1,1,0"));
-    patterns.add(new Pattern("Bars", "1,0", "1,1,0"));
-    patterns.add(new Pattern("Vines", "0,1,0", "1"));
+    patterns.add(new Pattern("2/1 Twill", "0", "1","0,0,1\n1,0,0\n0,1,0"));
+    patterns.add(new Pattern("2/1 Twill 2", "0", "1","0,0,1\n1,0,0\n0,1,0\n0,0,1\n1,0,0\n0,1,0\n0,0,1\n1,0,0\n0,1,0\n0,0,1\n1,0,0\n0,1,0\n1,1,0\n0,1,1\n1,0,1\n1,1,0\n0,1,1\n1,0,1\n1,1,0\n0,1,1\n1,0,1\n1,1,0\n0,1,1\n1,0,1"));
     patterns.add(new Pattern("Foxes", "1,1,9,9,9,1", "1,9,9,1"));
-    patterns.add(new Pattern("Warp and Weft Float", "6,6,6,7", "0,0,7,0,0,7","0,1\n1,0\n0,1,0,0\n1,0\n0,1\n1,1,1,0"));
+    patterns.add(new Pattern("WindowBox Pickup", "6,6,6,7", "0,0,7,0,0,7","0,1\n1,0\n0,1,0,0\n1,0\n0,1\n1,1,1,0"));
     patterns.add(new Pattern("T-Bar", "1,0,0,1,0,1,0", "1,1,0,0,1,1,0,0"));
-    patterns.add(new Pattern("Boxes", "1,1,2,2,3,3,4,4,5,5", "1,1,2,2,3,3,4,4,5,5"));
     patterns.add(new Pattern("Plaid","0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,0,0,0,0,0,0,2,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,2,0,0,0,0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1","0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,0,0,0,0,0,0,2,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,2,0,0,0,0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1"));
 
 }
@@ -70,9 +69,9 @@ class Pattern {
     String name;
     String warpPattern;
     String weftPattern;
-    String pickupPattern;
+    String pickupPattern = "0,1\n1,0";
 
-    Pattern(this.name, this.warpPattern, this.weftPattern, [this.pickupPattern]);
+    Pattern(this.name, this.warpPattern, this.weftPattern, [this.pickupPattern = "0,1\n1,0"]);
 }
 
 //every time you ask for warp/weft its different
