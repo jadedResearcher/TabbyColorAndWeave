@@ -10,18 +10,18 @@ import 'scripts/WeftObject.dart';
 List<Pattern> patterns = [];
 Fabric fabric;
 void main() {
-  Element output = querySelector('#output');
-  Element controls = querySelector('#controls');
-  Element stats = querySelector('#stats');
-  Element warpingGuide = querySelector("#warpingGuide");
+    Element output = querySelector('#output');
+    Element controls = querySelector('#controls');
+    Element stats = querySelector('#stats');
+    Element warpingGuide = querySelector("#warpingGuide");
 
-  initPatterns();
-  patternLinks();
-  fabric = new Fabric(1200,1000);
-   //fabric.debug();
-   fabric.renderToParent(output,controls,stats, warpingGuide);
-   //Util.test();
-  //testWeftObject();
+    initPatterns();
+    patternLinks();
+    fabric = new Fabric(1200,1000);
+    //fabric.debug();
+    fabric.renderToParent(output,controls,stats, warpingGuide);
+    //Util.test();
+    //testWeftObject();
 
 }
 
@@ -53,11 +53,12 @@ void initPatterns() {
 
     patterns.add(new Pattern("Houndstooth", "1,1,0,0", "1,1,0,0"));
     patterns.add(new Pattern("Log Cabin", "1,0,1,0,1,0,0,1,0,1,0", "1,0,1,0,1,0,0,1,0,1,0"));
-    patterns.add(new Pattern("Horizontal Stripes", "1,0,1,0", "1,0,1,0"));
-    patterns.add(new Pattern("Vertical Stripes", "1,0,1,0", "0,1,0,1"));
+    patterns.add(new Pattern("H Stripes", "1,0,1,0", "1,0,1,0"));
+    patterns.add(new Pattern("V Stripes", "1,0,1,0", "0,1,0,1"));
     patterns.add(new Pattern("2/1 Twill", "0", "1","0,0,1\n1,0,0\n0,1,0"));
     patterns.add(new Pattern("2/1 Twill 2", "0", "1","0,0,1\n1,0,0\n0,1,0\n0,0,1\n1,0,0\n0,1,0\n0,0,1\n1,0,0\n0,1,0\n0,0,1\n1,0,0\n0,1,0\n1,1,0\n0,1,1\n1,0,1\n1,1,0\n0,1,1\n1,0,1\n1,1,0\n0,1,1\n1,0,1\n1,1,0\n0,1,1\n1,0,1"));
     patterns.add(new Pattern("2/1 Point Twill", "2", "1","1,1,0,0,1,1\n0,1,1,1,1,0\n1,0,1,1,0,1\n0,1,1,1,1,0\n1,1,0,0,1,1\n1,0,1,1,0,1"));
+    patterns.add(new Pattern("2/1 Birdseye Twill", "0", "1","0,0,1,0,0,1,0,0,1,1,0,0,1,0,0,1,0,0\n1,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,1\n0,1,0\n0,0,1,0,0,1,0,0,1,1,0,0,1,0,0,1,0,0\n1,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,1\n0,1,0\n0,0,1,0,0,1,0,0,1,1,0,0,1,0,0,1,0,0\n1,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,1\n0,1,0\n0,0,1,0,0,1,0,0,1,1,0,0,1,0,0,1,0,0\n1,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,1\n0,1,0\n1,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,1\n0,0,1,0,0,1,0,0,1,1,0,0,1,0,0,1,0,0\n0,1,0\n1,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,1\n0,0,1,0,0,1,0,0,1,1,0,0,1,0,0,1,0,0\n0,1,0\n1,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,1\n0,0,1,0,0,1,0,0,1,1,0,0,1,0,0,1,0,0\n0,1,0"));
     patterns.add(new Pattern("Foxes", "1,1,9,9,9,1", "1,9,9,1"));
     patterns.add(new Pattern("WindowBox Pickup", "6,6,6,7", "0,0,7,0,0,7","0,1\n1,0\n0,1,0,0\n1,0\n0,1\n1,1,1,0"));
     patterns.add(new Pattern("Plaid","0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,0,0,0,0,0,0,2,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,2,0,0,0,0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1","0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,0,0,0,0,0,0,2,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,2,0,0,0,0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1"));
