@@ -26,6 +26,8 @@ class Fabric {
     //Element weftLengthDiv;
     TextAreaElement warpText;
     TextAreaElement weftText;
+    RangeInputElement weftSizeElement;
+    LabelElement weftSizeLabel;
     TextAreaElement pickupText;
     Element output;
     DivElement archiveUploaderHolder;
@@ -246,11 +248,28 @@ class Fabric {
         LabelElement label = new LabelElement()..text = "Weft Pattern";
         element.append(label);
         weftText = new TextAreaElement()..text = weftPatternStart;
+
         weftText.onInput.listen((Event e) {
             syncPatternToWeft(weftText.value);
         });
         element.append(weftText);
+        weftSizeLabel = new LabelElement()..text = "Weft Size Compared To Warp: 100%";
+        weftSizeElement = new InputElement()..type="range"..min="20"..max="300"..value="${100*WeftObject.WIDTH/WarpObject.WIDTH}";
+        weftSizeElement.step="20";
+        element.append(weftSizeLabel);
+        element.append(weftSizeElement);
+        syncWeftSizeLabel();
+        weftSizeElement.onChange.listen((Event e) {
+            print("JR NOTE:WarpObject.WIDTH is ${WarpObject.WIDTH} and value is ${double.parse(weftSizeElement.value)/100} so weft should become ${(WarpObject.WIDTH * double.parse(weftSizeElement.value)).round()}  ");
+            WeftObject.WIDTH = (WarpObject.WIDTH * double.parse(weftSizeElement.value)/100).round();
+            syncWeftSizeLabel();
+            syncPatternToWeft(weftText.value);
+        });
 
+    }
+
+    void syncWeftSizeLabel() {
+        weftSizeLabel.text = "Weft Size Compared To Warp: ${(WeftObject.WIDTH/WarpObject.WIDTH)*100}%";
     }
 
     void handleLoadingFromImage() {

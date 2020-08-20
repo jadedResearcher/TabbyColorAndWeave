@@ -4,7 +4,7 @@ import 'dart:html';
 import "package:CommonLib/Colours.dart";
 
 class WeftObject {
-    static final WIDTH = 5;
+    static int WIDTH = 5;
     Colour color;
     List<int> pickupPattern = TWOSHAFTdown;
     //zero means weft is not showing, 1 means it is. so 1,1,0 is a two weft float
