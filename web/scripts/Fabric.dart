@@ -38,6 +38,7 @@ class Fabric {
     static String fileKeyColors = "COLORANDWEAVE/colors.txt";
     static String fileKeyWidth = "COLORANDWEAVE/width.txt";
     static String fileKeyPickup = "COLORANDWEAVE/pickup.txt";
+    static String fileKeyWeftWidth = "COLORANDWEAVE/weftWidth.txt";
 
     CanvasElement canvas;
     CanvasElement bufferCanvas;
@@ -298,6 +299,14 @@ class Fabric {
             pickupText.value = pickupPatternStart;
         }
 
+        String weftWidth   = await png.getFile(fileKeyWeftWidth);
+        if(weftWidth != null && weftWidth.isNotEmpty) {
+            WeftObject.WIDTH = int.parse(weftWidth);
+        }else {
+            WeftObject.WIDTH = WarpObject.WIDTH;
+        }
+
+
 
         print("I got three patterns: $warpPattern, $weftPattern, $colorPattern");
         warpText.value =warpPattern;
@@ -306,6 +315,7 @@ class Fabric {
         syncPatternToWeft(weftPattern);
         syncPickupToWeft(pickupText.value);
         syncPatternToColors(colorPattern);
+        syncWeftSizeLabel();
     }
 
     void makeDownloadImage(Element parent) async{
@@ -323,6 +333,7 @@ class Fabric {
         await png.archive.setFile(fileKeyColors, exportColorPattern());
         await png.archive.setFile(fileKeyWidth, "$numEndsToRender");
         await png.archive.setFile(fileKeyPickup, "${pickupText.value}");
+        await png.archive.setFile(fileKeyWeftWidth, "${WeftObject.WIDTH}");
 
         if(archiveSaveButton != null) {
             archiveSaveButton.remove();
