@@ -15,12 +15,15 @@ import '../Model/Heddle.dart';
         element.text = "TODO: heddle of length ${heddle.holesAndSlots.length}";
         parent.append(element);
         int x = 10;
+        int holewidth = 10;
+        int slotwidth = 5;
         for(Section section in heddle.holesAndSlots) {
-            x+= 7;
             if(section is Hole) {
-                new HoleView(section, element,x,y)..render();
+                new HoleView(section, element,x,y, holewidth)..render();
+                x+= holewidth;
             }else {
-                new SlotView(section, element,x,y)..render();
+                new SlotView(section, element,x,y, slotwidth)..render();
+                x+= slotwidth;
             }
         }
     }
@@ -32,11 +35,12 @@ class HoleView {
      Element parent;
      int x;
      int y;
-     HoleView(this.hole, this.parent, this.x, this.y);
+     int width;
+     HoleView(this.hole, this.parent, this.x, this.y, this.width);
 
      void render() {
+         print("rendering hole");
          int height = 50;
-         int width = 10;
          RectElement rectContainer = new RectElement();
          rectContainer.attributes["width"] = "$width";
          rectContainer.attributes["height"] = "$height";
@@ -63,17 +67,20 @@ class SlotView {
      Element parent;
      int x;
      int y;
+     int width;
 
-     SlotView(this.slot, this.parent, this.x, this.y);
+     SlotView(this.slot, this.parent, this.x, this.y, this.width);
 
      void render() {
+         print("rendering slot");
          int height = 50;
          RectElement rectContainer = new RectElement();
-         rectContainer.attributes["width"] = "7";
+         rectContainer.attributes["width"] = "$width";
          rectContainer.attributes["height"] = "$height";
          rectContainer.attributes["x"] = "$x";
          rectContainer.attributes["y"] = "$y";
          rectContainer.attributes["fill"] = "#fff";
          rectContainer.attributes["stroke"] = "#000000";
+         parent.append(rectContainer);
      }
 }
