@@ -35,3 +35,8 @@ alright so what i wanna do right now is programmatically get a default threading
 and THEN Worry about rendering threads.
 
 this'll be the meat of this. does thread veer left or right? i don't fucking know and i hope svg paths can help me.
+
+
+when return: use svg path to draw a thing line between the thread, and each heddle_index/section_index pair it has.
+(should i destroy and recreate if it changes, or should i transform?)
+(test if drag around heddle if threads move with, at least at end)

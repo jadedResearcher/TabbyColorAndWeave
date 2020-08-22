@@ -1,6 +1,10 @@
 import 'package:CommonLib/Colours.dart';
 
+import '../View/WarpChainView.dart';
+import 'Heddle.dart';
+
 class WarpChain {
+    WarpChainView view;
     Colour color;
     //in order.
     List<WarpThread> threads = new List<WarpThread>();
@@ -17,9 +21,9 @@ class WarpChain {
 }
 
 class WarpThread {
+    ThreadView view;
     Colour color;
-    //position 0 is which hole/slot you're going into in the first heddle, position 1 is the same for the second and so on.
-    List<int> heddle_indices = new List<int>();
+    List<Section> heddleSections = new List<Section>();
 
     WarpThread(Colour this.color);
 }

@@ -15,7 +15,9 @@ import '../Model/WarpChain.dart';
      Element parent;
      int startX;
      int y;
-     WarpChainView(WarpChain this.chain, Element this.parent, int this.startX, this.y);
+     WarpChainView(WarpChain this.chain, Element this.parent, int this.startX, this.y) {
+        chain.view = this;
+     }
 
      //returns the last position rendered, since warp chains are in a row
      int renderChain(callThread) {
@@ -40,9 +42,11 @@ class ThreadView {
      int y;
      //if i am selected, call this function to let whoever cares know
      Lambda<WarpThread> callThread;
-     ThreadView(this.thread, this.parent, int this.x, this.y, this.callThread);
+     ThreadView(this.thread, this.parent, int this.x, this.y, this.callThread) {
+        thread.view = this;
+     }
 
-     void renderThread() {
+     void renderThreadSource() {
          RectElement rect = new RectElement();
          rect.attributes["width"] = "8";
          rect.attributes["height"] = "20";
@@ -51,5 +55,18 @@ class ThreadView {
          rect.attributes["fill"] = thread.color.toStyleString();
          rect.attributes["stroke"] = "#000000";
          parent.append(rect);
+     }
+
+     //todo how to make sure the lines stay synced to what they are touching?
+     void renderThreadPath() {
+         PathElement path = PathElement();
+         path.attributes["d"] = "M$x,$y";
+         parent.append(path);
+
+     }
+
+     void renderThread() {
+         renderThreadSource();
+         renderThreadPath();
      }
 }

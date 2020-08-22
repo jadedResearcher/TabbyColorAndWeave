@@ -38,8 +38,12 @@ class RigidHeddleLoom{
     //i prefer doing it by color
     List<WarpChain> warpChains = new List<WarpChain>();
 
+    //each thread knows which section it is in for each heddle. so the loom knows what sheds exist by knowing what threads are in it and what heddles it has
     List<WarpThread> get allThreads{
         List<WarpThread> ret = new List<WarpThread>();
+        for(WarpChain chain in warpChains) {
+            ret.addAll(chain.threads);
+        }
         return ret;
     }
 
@@ -50,13 +54,18 @@ class RigidHeddleLoom{
         ret.heddles.add(new Heddle(1, numberThreads));
         ret.warpChains.add(new WarpChain(numberThreads, new Colour(255,0,0)));
         ret.warpChains.add(new WarpChain(numberThreads, new Colour(0,255,0)));
-        ret.twillDoubleThreading();
+        ret.uselessThreading();
         return ret;
     }
 
-    //basic twill
-    void twillDoubleThreading() {
-
+    //its just single heddle, theres only two sheds
+    void uselessThreading() {
+        List<WarpThread> threads = allThreads;
+        int i = 0;
+        for(WarpThread thread in threads) {
+            thread.heddleSections.add(heddles[0].holesAndSlots[i]);
+            i++;
+        }
     }
 
 
