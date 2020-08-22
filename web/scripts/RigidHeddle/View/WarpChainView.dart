@@ -3,6 +3,7 @@ import 'dart:svg';
 
 import 'package:CommonLib/Utility.dart';
 
+import '../Model/Heddle.dart';
 import '../Model/WarpChain.dart';
 
 /*
@@ -60,7 +61,14 @@ class ThreadView {
      //todo how to make sure the lines stay synced to what they are touching?
      void renderThreadPath() {
          PathElement path = PathElement();
-         path.attributes["d"] = "M$x,$y";
+         String pathString = "M$x,$y";
+         path.attributes["stroke"] = thread.color.toStyleString();
+         path.attributes["width"] = "2";
+
+         for(Section section in thread.heddleSections) {
+             pathString = "${pathString} L${section.view.x},${section.view.y}";
+         }
+         path.attributes["d"] = pathString;
          parent.append(path);
 
      }
