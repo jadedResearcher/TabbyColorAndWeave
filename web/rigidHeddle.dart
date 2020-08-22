@@ -13,7 +13,7 @@ List<Pattern> patterns = [];
 Fabric fabric;
 void main() {
     Element output = querySelector('#output');
-    RigidHeddleLoomView view = new RigidHeddleLoomView(RigidHeddleLoom.testLoom(), output);
+    RigidHeddleLoomView view = new RigidHeddleLoomView(RigidHeddleLoom.testDoubleLoom(), output);
     view.renderLoom();
 
 }

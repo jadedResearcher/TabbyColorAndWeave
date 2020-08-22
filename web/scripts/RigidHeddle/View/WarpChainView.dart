@@ -66,7 +66,6 @@ class ThreadView {
          path.attributes["stroke"] = thread.color.toStyleString();
          path.attributes["stroke-width"] = "1";
          int wiggle = -1*((x % 40) /10).ceil()+1 ;
-         print("x is $x so wiggle is $wiggle color is ${thread.color.toStyleString()}");
          for(Section section in thread.heddleSections) {
              pathString = "${pathString} L${section.view.threadX + wiggle},${section.view.threadY} M${section.view.threadX + wiggle},${section.view.threadY}";
          }

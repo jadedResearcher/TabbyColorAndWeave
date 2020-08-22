@@ -20,7 +20,7 @@ class Heddle {
     }
 
     Section getNextSlotToRight(int index) {
-        if(index < 1 +1 || index > holesAndSlots.length) return null;
+        if(index < 1 +1 || index > holesAndSlots.length -1) return null;
         String debug = "Checked: ";
 
         for(int i = index; i< holesAndSlots.length; i++) {
@@ -35,7 +35,7 @@ class Heddle {
     }
 
     Section getNextSlotToLeft(int index) {
-        if(index < 1 || index > holesAndSlots.length) return null;
+        if(index < 1 || index > holesAndSlots.length-1) return null;
         String debug = "Checked: ";
         for(int i = index; i>= 0; i--) {
             Section section = holesAndSlots[i];
@@ -49,7 +49,7 @@ class Heddle {
     }
 
     Section getNextHoleToRight(int index) {
-        if(index < 1 || index > holesAndSlots.length) return null;
+        if(index < 1 || index > holesAndSlots.length -1) return null;
         String debug = "Checked: ";
         for(int i = index; i< holesAndSlots.length; i++) {
             Section section = holesAndSlots[i];
@@ -63,7 +63,7 @@ class Heddle {
     }
 
     Section getNextHoleToLeft(int index) {
-        if(index < 1 || index > holesAndSlots.length) return null;
+        if(index < 1 || index > holesAndSlots.length -1) return null;
         String debug = "Checked: ";
         for(int i = index; i>= 0; i+= -1) {
             Section section = holesAndSlots[i];

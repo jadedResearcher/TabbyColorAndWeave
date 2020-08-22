@@ -47,12 +47,12 @@ class RigidHeddleLoom{
         return ret;
     }
 
-    static RigidHeddleLoom testLoom() {
+    static RigidHeddleLoom testDoubleLoom() {
         RigidHeddleLoom ret = new RigidHeddleLoom();
         int numberThreads = 50;
         ret.heddles.add(new Heddle(0, numberThreads));
         ret.heddles.add(new Heddle(1, numberThreads));
-        for(int i = 0; i< 5; i++) {
+        for(int i = 0; i< 40; i++) {
             ret.warpChains.add(new WarpChain(1, new Colour(255, 0, 0)));
             ret.warpChains.add(new WarpChain(1, new Colour(0, 255, 0)));
             ret.warpChains.add(new WarpChain(1, new Colour(0, 0, 255)));
