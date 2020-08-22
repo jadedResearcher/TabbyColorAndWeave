@@ -40,3 +40,16 @@ this'll be the meat of this. does thread veer left or right? i don't fucking kno
 when return: use svg path to draw a thing line between the thread, and each heddle_index/section_index pair it has.
 (should i destroy and recreate if it changes, or should i transform?)
 (test if drag around heddle if threads move with, at least at end)
+
+
+~~~~~~~~~~~~~~~~
+
+its rendering!!!!
+
+the only problem is that its rendering relative to the color group and not like, global coordinates?
+   but you can see how, albeit offset, its attempting to thread itself into a single heddle
+
+
+   gonna grab lunch and then see like...how do i get or specify global coordinates?
+
+   gotcha! it wasn't global vs local coordinates, it was that i was moving the heddle with a transform

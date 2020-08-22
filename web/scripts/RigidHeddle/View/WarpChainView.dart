@@ -63,10 +63,10 @@ class ThreadView {
          PathElement path = PathElement();
          String pathString = "M$x,$y";
          path.attributes["stroke"] = thread.color.toStyleString();
-         path.attributes["width"] = "2";
+         path.attributes["stroke-width"] = "1";
 
          for(Section section in thread.heddleSections) {
-             pathString = "${pathString} L${section.view.x},${section.view.y}";
+             pathString = "${pathString} L${section.view.threadX},${section.view.threadY}";
          }
          path.attributes["d"] = pathString;
          parent.append(path);

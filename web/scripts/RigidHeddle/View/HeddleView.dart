@@ -34,8 +34,12 @@ abstract class SectionView {
      Section section;
     Element parent;
     int x;
-    int y;
-    int width;
+    int get threadX => x + (width/2).round();
+    int holeY;
+     int y;
+     int get threadY => holeY;
+
+     int width;
      SectionView(this.section, this.parent, this.x, this.y, this.width) {
         section.view = this;
      }
@@ -61,6 +65,7 @@ class HoleView extends SectionView {
          rectHole.attributes["width"] = "5";
          rectHole.attributes["height"] = "10";
          rectHole.attributes["x"] = "${x+width/4}";
+         holeY = y +(height/3).round();
          rectHole.attributes["y"] = "${y+height/3}";
          rectHole.attributes["fill"] = "#fff";
          rectHole.attributes["stroke"] = "#000000";
@@ -79,6 +84,8 @@ class SlotView extends SectionView{
          rectContainer.attributes["width"] = "$width";
          rectContainer.attributes["height"] = "$height";
          rectContainer.attributes["x"] = "$x";
+         holeY = y +(50/3).round();
+
          rectContainer.attributes["y"] = "$y";
          rectContainer.attributes["fill"] = "#fff";
          rectContainer.attributes["stroke"] = "#000000";

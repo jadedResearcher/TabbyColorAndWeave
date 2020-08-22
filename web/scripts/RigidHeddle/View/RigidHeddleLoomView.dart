@@ -39,7 +39,6 @@ import 'WarpChainView.dart';
         }
 
         setupControls();
-        handleMove(150, 0);
 
 
     }

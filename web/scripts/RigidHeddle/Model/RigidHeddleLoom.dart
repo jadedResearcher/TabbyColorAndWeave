@@ -52,7 +52,7 @@ class RigidHeddleLoom{
         int numberThreads = 50;
         ret.heddles.add(new Heddle(0, numberThreads));
         ret.heddles.add(new Heddle(1, numberThreads));
-        ret.warpChains.add(new WarpChain(numberThreads, new Colour(255,0,0)));
+        ret.warpChains.add(new WarpChain(10, new Colour(255,0,0)));
         ret.warpChains.add(new WarpChain(numberThreads, new Colour(0,255,0)));
         ret.uselessThreading();
         return ret;
@@ -63,7 +63,11 @@ class RigidHeddleLoom{
         List<WarpThread> threads = allThreads;
         int i = 0;
         for(WarpThread thread in threads) {
-            thread.heddleSections.add(heddles[0].holesAndSlots[i]);
+            if(i < heddles[0].holesAndSlots.length) {
+                thread.heddleSections.add(heddles[0].holesAndSlots[i]);
+            }else {
+                break;
+            }
             i++;
         }
     }
