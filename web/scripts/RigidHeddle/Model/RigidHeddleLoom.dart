@@ -52,14 +52,18 @@ class RigidHeddleLoom{
         int numberThreads = 50;
         ret.heddles.add(new Heddle(0, numberThreads));
         ret.heddles.add(new Heddle(1, numberThreads));
-        ret.warpChains.add(new WarpChain(10, new Colour(255,0,0)));
-        ret.warpChains.add(new WarpChain(numberThreads, new Colour(0,255,0)));
-        ret.uselessThreading();
+        for(int i = 0; i< 5; i++) {
+            ret.warpChains.add(new WarpChain(1, new Colour(255, 0, 0)));
+            ret.warpChains.add(new WarpChain(1, new Colour(0, 255, 0)));
+            ret.warpChains.add(new WarpChain(1, new Colour(0, 0, 255)));
+            ret.warpChains.add(new WarpChain(1, new Colour(0, 255, 255)));
+        }
+        ret.basicDoubleThreading();
         return ret;
     }
 
     //its just single heddle, theres only two sheds
-    void uselessThreading() {
+    void singleHeddleThreading() {
         List<WarpThread> threads = allThreads;
         int i = 0;
         for(WarpThread thread in threads) {
@@ -70,6 +74,91 @@ class RigidHeddleLoom{
             }
             i++;
         }
+    }
+
+    // slot hole, slot hole but for different heddles, and it matters if it leans left or right.
+    void basicDoubleThreading() {
+        if(heddles.length < 2) return singleHeddleThreading();
+        List<WarpThread> threads = allThreads;
+        int totalIndex = 0;
+        int singleHeddleIndex = 0;
+        for(WarpThread thread in threads) {
+                Section firstHeddle = null;
+                Section secondHeddle = null;
+                print("JR NOTE: looking for singleHeddleIndex of $singleHeddleIndex and ttotalIndex of $totalIndex");
+                if(singleHeddleIndex % 4 == 0) {
+                    print("JR NOTE: looking for right slot");
+                    threadThroughBothSlotsLeft(thread, (totalIndex/4).floor());
+                    singleHeddleIndex ++;
+                }else if(singleHeddleIndex %4 ==1) {
+                    print("JR NOTE: looking for front hole then left slot");
+                    frontHoleToLeftSlot(thread, (totalIndex/4).floor());
+                    singleHeddleIndex ++;
+                }else if(singleHeddleIndex %4 ==2) {
+                    print("JR NOTE: looking for another right slot");
+                    threadThroughBothSlotsLeft(thread, (totalIndex/4).floor());
+                    singleHeddleIndex ++;
+                }
+                else if(singleHeddleIndex %4 ==3) {
+                    print("JR NOTE: looking front slot that veers left to back hole");
+                    frontSlotToLeftHole(thread, (totalIndex/4).floor());
+                    singleHeddleIndex ++;
+                }
+
+                if(firstHeddle != null && secondHeddle != null) {
+                    thread.heddleSections.add(firstHeddle);
+                    thread.heddleSections.add(secondHeddle);
+                }
+                totalIndex+=2;
+        }
+    }
+
+    bool threadSections(WarpThread thread, List<Section> sections) {
+        //if ANY of the steps this thread must take are null, do nothing
+        for(Section section in sections) {
+            if(section == null) return false;
+        }
+
+        for(Section section in sections) {
+            thread.heddleSections.add(section);
+        }
+        return true;
+    }
+
+    bool threadThroughBothSlotsLeft(WarpThread thread, int index) {
+        Section firstHeddle =(heddles[0].getNextSlotToLeft(index));
+        Section secondHeddle = (heddles[1].getNextSlotToLeft(index));
+        return threadSections(thread, [firstHeddle, secondHeddle]);
+    }
+
+    bool threadThroughBothSlotsRight(WarpThread thread, int index) {
+        Section firstHeddle =(heddles[0].getNextSlotToRight(index));
+        Section secondHeddle = (heddles[1].getNextSlotToRight(index));
+        return threadSections(thread, [firstHeddle, secondHeddle]);
+    }
+
+    bool frontHoleToRightSlot(WarpThread thread, int index) {
+        Section firstHeddle = heddles[0].getNextHoleToRight(index);
+        Section secondHeddle = (heddles[1].getNextSlotToRight(index));
+        return threadSections(thread, [firstHeddle, secondHeddle]);
+    }
+
+    bool frontHoleToLeftSlot(WarpThread thread, int index) {
+        Section firstHeddle =(heddles[0].getNextHoleToLeft(index));
+        Section secondHeddle = (heddles[1].getNextSlotToLeft(index));
+        return threadSections(thread, [firstHeddle, secondHeddle]);
+    }
+
+    bool frontSlotToRightHole(WarpThread thread, int index) {
+        Section firstHeddle =(heddles[0].getNextSlotToRight(index));
+        Section secondHeddle = (heddles[1].getNextHoleToRight(index));
+        return threadSections(thread, [firstHeddle, secondHeddle]);
+    }
+
+    bool frontSlotToLeftHole(WarpThread thread, int index) {
+        Section firstHeddle =(heddles[0].getNextSlotToLeft(index));
+        Section secondHeddle = (heddles[1].getNextHoleToLeft(index));
+        return threadSections(thread, [firstHeddle, secondHeddle]);
     }
 
 

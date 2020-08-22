@@ -18,6 +18,64 @@ class Heddle {
             }
         }
     }
+
+    Section getNextSlotToRight(int index) {
+        if(index < 1 +1 || index > holesAndSlots.length) return null;
+        String debug = "Checked: ";
+
+        for(int i = index; i< holesAndSlots.length; i++) {
+            Section section = holesAndSlots[i];
+            debug = "$debug  $section, ";
+            if(section is Slot) {
+                print("JR NOTE: right slot found at index $i, when initial was $index");
+                return section;
+            }
+        }
+        print("JR NOTE: NO slot found right of $index, length was ${holesAndSlots.length} $debug");
+    }
+
+    Section getNextSlotToLeft(int index) {
+        if(index < 1 || index > holesAndSlots.length) return null;
+        String debug = "Checked: ";
+        for(int i = index; i>= 0; i--) {
+            Section section = holesAndSlots[i];
+            debug = "$debug  $section, ";
+            if(section is Slot) {
+                print("JR NOTE: left slot found at index $i, when initial was $index");
+                return section;
+            }
+        }
+        print("JR NOTE: NO slot found left of $index, length was ${holesAndSlots.length} $debug");
+    }
+
+    Section getNextHoleToRight(int index) {
+        if(index < 1 || index > holesAndSlots.length) return null;
+        String debug = "Checked: ";
+        for(int i = index; i< holesAndSlots.length; i++) {
+            Section section = holesAndSlots[i];
+            debug = "$debug  $section, ";
+            if(section is Hole) {
+                print("JR NOTE: right hole found at index $i, when initial was $index");
+                return section;
+            }
+        }
+        print("JR NOTE: NO hole found right of $index, length was ${holesAndSlots.length} $debug");
+    }
+
+    Section getNextHoleToLeft(int index) {
+        if(index < 1 || index > holesAndSlots.length) return null;
+        String debug = "Checked: ";
+        for(int i = index; i>= 0; i+= -1) {
+            Section section = holesAndSlots[i];
+            debug = "$debug  $section, ";
+            if(section is Hole) {
+                print("JR NOTE: left hole found at index $i, when initial was $index");
+                return section;
+            }
+        }
+        print("JR NOTE: NO hole found left of $index, length was ${holesAndSlots.length} $debug");
+
+    }
 }
 
 //sections know what their unique identifier is, like heddle 1, section 5
@@ -31,8 +89,18 @@ abstract class Section {
 class Hole extends Section {
   Hole(int index, Heddle heddle) : super(index, heddle);
 
+  @override
+    String toString() {
+        return "Hole$index";
+  }
+
 }
 
 class Slot extends Section {
   Slot(int index,  Heddle heddle) : super(index, heddle);
+
+  @override
+  String toString() {
+      return "Slot$index";
+  }
 }

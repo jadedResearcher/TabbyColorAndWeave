@@ -50,7 +50,6 @@ abstract class SectionView {
 class HoleView extends SectionView {
   HoleView(Section section, Element parent, int x, int y, int width) : super(section, parent, x, y, width);
      void render() {
-         print("rendering hole at $x, $y");
          int height = 50;
          RectElement rectContainer = new RectElement();
          rectContainer.attributes["width"] = "$width";
@@ -78,7 +77,6 @@ class SlotView extends SectionView{
   SlotView(Section section, Element parent, int x, int y, int width) : super(section, parent, x, y, width);
 
      void render() {
-         print("rendering slot at $x, $y");
          int height = 50;
          RectElement rectContainer = new RectElement();
          rectContainer.attributes["width"] = "$width";

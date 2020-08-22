@@ -1,6 +1,7 @@
 import 'dart:html';
 import 'dart:svg';
 
+import 'package:CommonLib/Random.dart';
 import 'package:CommonLib/Utility.dart';
 
 import '../Model/Heddle.dart';
@@ -61,13 +62,15 @@ class ThreadView {
      //todo how to make sure the lines stay synced to what they are touching?
      void renderThreadPath() {
          PathElement path = PathElement();
-         String pathString = "M$x,$y";
+         String pathString = "M${x+4},$y";
          path.attributes["stroke"] = thread.color.toStyleString();
          path.attributes["stroke-width"] = "1";
-
+         int wiggle = -1*((x % 40) /10).ceil()+1 ;
+         print("x is $x so wiggle is $wiggle color is ${thread.color.toStyleString()}");
          for(Section section in thread.heddleSections) {
-             pathString = "${pathString} L${section.view.threadX},${section.view.threadY}";
+             pathString = "${pathString} L${section.view.threadX + wiggle},${section.view.threadY} M${section.view.threadX + wiggle},${section.view.threadY}";
          }
+         pathString = "$pathString Z";
          path.attributes["d"] = pathString;
          parent.append(path);
 

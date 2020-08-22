@@ -53,3 +53,50 @@ the only problem is that its rendering relative to the color group and not like,
    gonna grab lunch and then see like...how do i get or specify global coordinates?
 
    gotcha! it wasn't global vs local coordinates, it was that i was moving the heddle with a transform
+
+
+   ~~~
+
+i notice i am confused
+
+if(totalIndex%2==0) {
+                    thread.heddleSections.add(heddles[0].holesAndSlots[heddle1Index]);
+                    heddle1Index+= 1;
+                }else {
+                    thread.heddleSections.add(heddles[1].holesAndSlots[heddle2Index]);
+                    heddle2Index+= 1;
+                }
+that's not right because it implies it never goes through the second heddle...
+
+i need a way to ask a heddle "get me next slot to right of i", or left....
+
+
+
+i think i need a break to clear my head.
+
+my current confusion is:
+
+JR NOTE: looking front slot that veers left to back hole
+dart_sdk.js:18676 JR NOTE: left slot found at index 1, when initial was 3
+
+but i SEE that the thing going through the slot is veering right, looks like index ................
+
+oh.
+
+I've been doing this all wrong.
+
+I'm a FOOL.
+
+index isn't just "total /2" or even "how many threads have gone into a single heddle"  BECAUSE MULTIPLE THREADS GO INTO THE SAME SECTION.
+
+i'm a fool .  index should just be (for these start up algs) how many threads are already done. no no, thats not right its...
+
+
+hrm.
+
+Okay let's go through the use case.
+
+I have a slot going through both heddles. The next thread is "same slot as before, but veer left after".
+
+i'm not looking for an index so much as a spot? how do i know when to move right?  when all four threads are placed....
+
