@@ -1,0 +1,30 @@
+I notice I am confused.
+
+If I have both heddle and warp chain groups rendered to the svg (still no graphics) the individual warp chains render to the heddle group.
+
+if i remove the heddle group they don't show up anywhere in the dom.
+
+do svg groups work differnet than i think?
+
+ah i see, the heddle view is still using divs, not groups. whoops. also i made its class WarpChain like a dunkass
+
+so REALLY the problem is NO group really works
+
+
+alright new confusion actually.
+
+heddle group has two heddle subgroups in it.
+
+but warpChain group has nothing in it STILL.
+
+still don't know why but if i coyp heddle's code to warp chain it works so *shrug*
+
+hrm...
+
+        /*int x = 0;
+        for(WarpThread thread in chain.threads) {
+            x+= 10;
+            new ThreadView(thread, element,x)..renderThread();
+        }*/
+
+that seems to break it. why?
