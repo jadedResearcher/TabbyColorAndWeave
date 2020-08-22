@@ -19,8 +19,10 @@ import 'WarpChainView.dart';
         parent.append(loomElement);
         final SvgElement heddleContainer = SvgElement.tag("g")..classes.add("heddles");
         loomElement.append(heddleContainer);
+        int y = 200;
         for(Heddle heddle in loom.heddles) {
-            new HeddleView(heddle, heddleContainer).renderHeddle();
+            new HeddleView(heddle, heddleContainer, y ).renderHeddle();
+            y+= -100;
         }
 
         final SvgElement warpContainer = SvgElement.tag("g")..classes.add("warpChains");

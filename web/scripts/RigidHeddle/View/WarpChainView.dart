@@ -34,7 +34,6 @@ class ThreadView {
      ThreadView(this.thread, this.parent, int this.x, this.y);
 
      void renderThread() {
-         print("Rendering thread");
          RectElement rect = new RectElement();
          rect.attributes["width"] = "5";
          rect.attributes["height"] = "10";
