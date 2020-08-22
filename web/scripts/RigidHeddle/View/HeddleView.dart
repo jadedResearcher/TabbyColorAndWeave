@@ -7,7 +7,6 @@ import '../Model/Heddle.dart';
      Heddle heddle;
      Element parent;
      int y;
-
      HeddleView(Heddle this.heddle, Element this.parent, this.y);
 
      void renderHeddle() {
@@ -16,7 +15,7 @@ import '../Model/Heddle.dart';
         parent.append(element);
         int x = 10;
         int holewidth = 10;
-        int slotwidth = 5;
+        int slotwidth = 7;
         for(Section section in heddle.holesAndSlots) {
             if(section is Hole) {
                 new HoleView(section, element,x,y, holewidth)..render();
@@ -29,6 +28,8 @@ import '../Model/Heddle.dart';
     }
 }
 
+
+
 //should be two rectangles, one big and  grey, one small and in the middle and white.
 class HoleView {
      Hole hole;
@@ -39,7 +40,7 @@ class HoleView {
      HoleView(this.hole, this.parent, this.x, this.y, this.width);
 
      void render() {
-         print("rendering hole");
+         print("rendering hole at $x, $y");
          int height = 50;
          RectElement rectContainer = new RectElement();
          rectContainer.attributes["width"] = "$width";
@@ -54,7 +55,7 @@ class HoleView {
          rectHole.attributes["width"] = "5";
          rectHole.attributes["height"] = "10";
          rectHole.attributes["x"] = "${x+width/4}";
-         rectHole.attributes["y"] = "${y+height/2}";
+         rectHole.attributes["y"] = "${y+height/3}";
          rectHole.attributes["fill"] = "#fff";
          rectHole.attributes["stroke"] = "#000000";
          parent.append(rectHole);
@@ -72,7 +73,7 @@ class SlotView {
      SlotView(this.slot, this.parent, this.x, this.y, this.width);
 
      void render() {
-         print("rendering slot");
+         print("rendering slot at $x, $y");
          int height = 50;
          RectElement rectContainer = new RectElement();
          rectContainer.attributes["width"] = "$width";

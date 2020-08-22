@@ -28,3 +28,10 @@ hrm...
         }*/
 
 that seems to break it. why?
+
+~~~
+
+alright so what i wanna do right now is programmatically get a default threading go, then take a break for maybe an hour, clear my head
+and THEN Worry about rendering threads.
+
+this'll be the meat of this. does thread veer left or right? i don't fucking know and i hope svg paths can help me.

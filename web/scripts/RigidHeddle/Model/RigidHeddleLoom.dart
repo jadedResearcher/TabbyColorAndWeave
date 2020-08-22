@@ -38,15 +38,25 @@ class RigidHeddleLoom{
     //i prefer doing it by color
     List<WarpChain> warpChains = new List<WarpChain>();
 
+    List<WarpThread> get allThreads{
+        List<WarpThread> ret = new List<WarpThread>();
+        return ret;
+    }
+
     static RigidHeddleLoom testLoom() {
         RigidHeddleLoom ret = new RigidHeddleLoom();
         int numberThreads = 50;
-        ret.heddles.add(new Heddle(numberThreads));
-        ret.heddles.add(new Heddle(numberThreads));
+        ret.heddles.add(new Heddle(0, numberThreads));
+        ret.heddles.add(new Heddle(1, numberThreads));
         ret.warpChains.add(new WarpChain(numberThreads, new Colour(255,0,0)));
         ret.warpChains.add(new WarpChain(numberThreads, new Colour(0,255,0)));
-
+        ret.twillDoubleThreading();
         return ret;
+    }
+
+    //basic twill
+    void twillDoubleThreading() {
+
     }
 
 
