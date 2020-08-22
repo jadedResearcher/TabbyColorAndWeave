@@ -18,12 +18,12 @@ import 'WarpChainView.dart';
 
      void renderLoom() {
         final SvgElement loomElement = SvgElement.tag("svg")..classes.add("loom");
-        loomElement.attributes["width"] = "1000";
-        loomElement.attributes["height"] = "500";
+        loomElement.attributes["width"] = "1200";
+        loomElement.attributes["height"] = "300";
         parent.append(loomElement);
         heddleContainer = SvgElement.tag("g")..classes.add("heddles");
         loomElement.append(heddleContainer);
-        int y = 200;
+        int y = 125;
         for(Heddle heddle in loom.heddles) {
             new HeddleView(heddle, heddleContainer, y ).renderHeddle();
             y+= -100;
@@ -33,7 +33,7 @@ import 'WarpChainView.dart';
         loomElement.append(warpContainer);
         int x = 0;
         for(WarpChain chain in loom.warpChains) {
-            x = new WarpChainView(chain, warpContainer,x, 450).renderChain();
+            x = new WarpChainView(chain, warpContainer,x, 275).renderChain();
         }
 
         setupControls();

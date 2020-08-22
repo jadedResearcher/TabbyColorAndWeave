@@ -17,7 +17,7 @@ import '../Model/WarpChain.dart';
         parent.append(element);
         int x = startX;
         for(WarpThread thread in chain.threads) {
-            x+= 7;
+            x+= 10;
             new ThreadView(thread, element,x,y)..renderThread();
         }
         return x;
@@ -35,8 +35,8 @@ class ThreadView {
 
      void renderThread() {
          RectElement rect = new RectElement();
-         rect.attributes["width"] = "5";
-         rect.attributes["height"] = "10";
+         rect.attributes["width"] = "8";
+         rect.attributes["height"] = "20";
          rect.attributes["x"] = "$x";
          rect.attributes["y"] = "$y";
          rect.attributes["fill"] = thread.color.toStyleString();
