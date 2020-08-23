@@ -90,10 +90,10 @@ class ThreadView {
          }
          String pathString = "M${x+4},$y";
          path.attributes["stroke"] = thread.color.toStyleString();
-         path.attributes["stroke-width"] = "1";
-         int wiggle = -1*((x % 40) /10).ceil()+1 ;
+         path.attributes["stroke-width"] = "2";
+         int wiggle = -1*((x % 40) /10).ceil()+3 ;
          for(Section section in thread.heddleSections) {
-             pathString = "${pathString} L${section.view.threadX + wiggle},${section.view.threadY} M${section.view.threadX + wiggle},${section.view.threadY}";
+             pathString = "${pathString} L${section.view.threadX - wiggle},${section.view.threadY+3} M${section.view.threadX - wiggle},${section.view.threadY+3}";
          }
          pathString = "$pathString Z";
          path.attributes["d"] = pathString;
