@@ -120,9 +120,10 @@ i wanna focus nearly entirely on rigid heddle to fabric tomorrow, which means ma
  ANYWAYS got an hour before game night and i wanna get my thoughts straight:
 
 UI:
-*  I want to be able to click a thread box to select it. At which point it should be highlighted, have its heddle list cleared, AND instructions should display on screen
-    TODO: selecting one thread should visually deselect the previous
+
+x  I want to be able to click a thread box to select it. At which point it should be highlighted, have its heddle list cleared, AND instructions should display on screen
 * I want to click a slot or hole while a thread box is selected to add that slot or hole to its heddle list
+x ability to rerender thread.
 * I want to either click that thread again or click a different thread to go out of select mode
 
 Picks:

@@ -44,6 +44,7 @@ class ThreadView {
      int x;
      bool selected = false;
      RectElement rect;
+     PathElement path;
      int y;
      //if i am selected, call this function to let whoever cares know
      Lambda<WarpThread> callThread;
@@ -81,9 +82,12 @@ class ThreadView {
 
      }
 
+
      //todo how to make sure the lines stay synced to what they are touching?
      void renderThreadPath() {
-         PathElement path = PathElement();
+         if(path == null) {
+             path = new PathElement();
+         }
          String pathString = "M${x+4},$y";
          path.attributes["stroke"] = thread.color.toStyleString();
          path.attributes["stroke-width"] = "1";

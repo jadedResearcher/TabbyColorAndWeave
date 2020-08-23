@@ -31,8 +31,8 @@ import 'WarpChainView.dart';
         loomElement.append(heddleContainer);
         int y = 125;
         for(Heddle heddle in loom.heddles) {
-            new HeddleView(heddle, heddleContainer, y).renderHeddle();
-            y+= -100;
+            new HeddleView(heddle, heddleContainer, y,pickHeddleSection).renderHeddle();
+            y+= -125;
         }
 
         final SvgElement warpContainer = SvgElement.tag("g")..classes.add("warpChains");
@@ -42,7 +42,7 @@ import 'WarpChainView.dart';
             x = new WarpChainView(chain, warpContainer,x, height-25).renderChain(pickThread);
         }
 
-        setupControls();
+        //setupControls();
 
 
     }
@@ -62,7 +62,7 @@ import 'WarpChainView.dart';
              if(selectedThread != null) selectedThread.view.unselect();
              selectedThread = thread;
              thread.heddleSections.clear();
-             //TODO rerender the thread views.
+             thread.view.renderThreadPath();
          }
          setInstructions();
      }
@@ -73,7 +73,10 @@ import 'WarpChainView.dart';
      }
 
      void pickHeddleSection(Section section) {
-         if(selectedThread != null) window.alert("TODO: add this section to the selected thread's heddle indices (insert index at heddle index) ");
+         if(selectedThread != null) {
+            selectedThread.heddleSections.add(section);
+            selectedThread.view.renderThreadPath();
+         }
      }
 
     void setupControls() {
@@ -83,6 +86,9 @@ import 'WarpChainView.dart';
          });
 
          window.onMouseUp.listen((Event e) {
+             if(draggingHeddles) {
+                 //todo either disable this feature or figure out hwo to do a transform but make the paths re-render too (they don't like the tranform)
+             }
              draggingHeddles = false;
          });
 
