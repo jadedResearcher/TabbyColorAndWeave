@@ -16,9 +16,13 @@ import 'WarpChainView.dart';
      SvgElement heddleContainer;
      bool draggingHeddles = false;
      WarpThread selectedThread;
-     int height = 800;
+     int height = 400;
+     Element instructions;
 
      void renderLoom() {
+         instructions = new DivElement()..text = "Instructions:"..classes.add("instructions");
+         setInstructions();
+         parent.append(instructions);
         final SvgElement loomElement = SvgElement.tag("svg")..classes.add("loom");
         loomElement.attributes["width"] = "1200";
         loomElement.attributes["height"] = "$height";
@@ -43,14 +47,29 @@ import 'WarpChainView.dart';
 
     }
 
-    void pickThread(WarpThread thread) {
-         selectedThread = thread;
-         window.alert("TODO: make sure selected thread is visibly different, print out instructions");
+    void setInstructions() {
+         if(selectedThread != null) {
+             instructions.text = "Instructions: Now that a thread is selected, you can click a hole or slot in any heddle to thread it. You can click multiple holes or slots.   You can click the thread again (or a new thread) to deselect it.   ";
+         }else {
+             instructions.text = "Instructions: Click a colored thread box below to select it and begin Threading Mode.";
+         }
     }
+
+    void pickThread(WarpThread thread) {
+         if(selectedThread == thread) {
+             selectedThread = null;
+         }else {
+             if(selectedThread != null) selectedThread.view.unselect();
+             selectedThread = thread;
+             thread.heddleSections.clear();
+             //TODO rerender the thread views.
+         }
+         setInstructions();
+     }
 
      void clearPickedThread() {
          selectedThread = null;
-         window.alert("TODO: make sure selected thread is visibly different, print out instructions");
+        setInstructions();
      }
 
      void pickHeddleSection(Section section) {

@@ -100,3 +100,41 @@ I have a slot going through both heddles. The next thread is "same slot as befor
 
 i'm not looking for an index so much as a spot? how do i know when to move right?  when all four threads are placed....
 
+~~~~
+
+okay i got the basic double heddle more or less done but i wanted to thread for twill and wow it fucke dup. crossed threads everywhere.
+
+far right slot to left hole is going into a hole BEFORE the slot hole to its left. why??? that one is veering to the right for...REASONS???
+
+ten minutes till movie night
+
+~~~
+
+i think i've gotten distracted trying to do default things?
+i think i wanna focus instead on getting the ui/serialization working cuz then i can just make the defaults same way i did for the non rigidheddle one.
+
+i wanna focus nearly entirely on rigid heddle to fabric tomorrow, which means making a pick system.
+  do i want it above or below the heddle? to the side?
+
+
+ ANYWAYS got an hour before game night and i wanna get my thoughts straight:
+
+UI:
+*  I want to be able to click a thread box to select it. At which point it should be highlighted, have its heddle list cleared, AND instructions should display on screen
+    TODO: selecting one thread should visually deselect the previous
+* I want to click a slot or hole while a thread box is selected to add that slot or hole to its heddle list
+* I want to either click that thread again or click a different thread to go out of select mode
+
+Picks:
+* I want to be able to have a set of default picks for my fabric.
+* I want to be able to click any existing pick to edit the color of the thread, and which the state of all heddles it is choosing. (each heddle can be up, down, or neutral, set of drop downs?)
+*I want to be able to delete an existing pick.
+*I want to be able to add a pick
+* I want to display a canvas fabric based on my threading and my picks so far. (since each thread knows what what sections it has should be able to turn that into sheds)
+
+Serialization:
+* I want to be able to save the size of my heddle and how many heddles there are.  (even if not yet configurable)
+* I want to be able to save each thread, including color and heddle list (original idea of list of indices) (even if not yet configurable)
+* I want to be able to save each pick, which would be color, and state of each heddle
+* I want to serialize to the canvas as image archive
+* I want to be able to load from image archive

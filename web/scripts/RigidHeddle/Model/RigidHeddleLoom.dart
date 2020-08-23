@@ -62,6 +62,20 @@ class RigidHeddleLoom{
         return ret;
     }
 
+    static RigidHeddleLoom testTwill() {
+        RigidHeddleLoom ret = new RigidHeddleLoom();
+        int numberThreads = 50;
+        ret.heddles.add(new Heddle(0, numberThreads));
+        ret.heddles.add(new Heddle(1, numberThreads));
+        for(int i = 0; i< 2; i++) {
+            ret.warpChains.add(new WarpChain(1, new Colour(255, 0, 0)));
+            ret.warpChains.add(new WarpChain(1, new Colour(0, 255, 0)));
+            ret.warpChains.add(new WarpChain(1, new Colour(0, 0, 255)));
+        }
+        ret.basicTwillThreading();
+        return ret;
+    }
+
     //its just single heddle, theres only two sheds
     void singleHeddleThreading() {
         List<WarpThread> threads = allThreads;
@@ -73,6 +87,38 @@ class RigidHeddleLoom{
                 break;
             }
             i++;
+        }
+    }
+
+    //slot front hole, back hole (always lean same way)
+    void basicTwillThreading() {
+        if(heddles.length < 2) return singleHeddleThreading();
+        List<WarpThread> threads = allThreads;
+        int totalIndex = 0;
+        int singleHeddleIndex = 0;
+        for(WarpThread thread in threads) {
+            Section firstHeddle = null;
+            Section secondHeddle = null;
+            print("JR NOTE: looking for singleHeddleIndex of $singleHeddleIndex and ttotalIndex of $totalIndex");
+            if(singleHeddleIndex % 3 == 0) {
+                print("JR NOTE: looking for right slot");
+                threadThroughBothSlotsLeft(thread, (totalIndex/4).floor());
+                singleHeddleIndex ++;
+            }else if(singleHeddleIndex %3 ==1) {
+                print("JR NOTE: looking for front hole then left slot");
+                frontHoleToLeftSlot(thread, (totalIndex/4).floor());
+                singleHeddleIndex ++;
+            }else if(singleHeddleIndex %3 ==2) {
+                print("JR NOTE: looking for another front slot and left hole");
+                frontSlotToLeftHole(thread, (totalIndex/4).floor());
+                singleHeddleIndex ++;
+            }
+
+            if(firstHeddle != null && secondHeddle != null) {
+                thread.heddleSections.add(firstHeddle);
+                thread.heddleSections.add(secondHeddle);
+            }
+            totalIndex+=2;
         }
     }
 
