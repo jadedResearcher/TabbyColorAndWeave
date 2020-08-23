@@ -145,3 +145,183 @@ Stretch goals:
 * I want to be able to number the threads
 * I want to be able to say "repeat threads 3-14 7 times" (but only for existing threads).
 * I want to be able to say "repeat picks 3-14 7 times" (and add picks)
+
+
+Alright so, I completed the ui entirely (including interactivity) for the rigid heddle portion yesterday.
+
+Today I want to focus on getting picks in and creating fabric (even if nothing is interactive YET).
+
+I want a Pick object that has color, and an array of HeddleStates that contain a heddle and then an ENUM or whatever for up/down/neutral.
+
+Then, I want to get that rendering to a canvas. Warp threads know what heddles they are touching so...
+
+If a warp thread is heddle1 hole and heddle2 slot, then it  says its up if heddle1 is up or if heddle 2 is down.
+ I can turn that into 1,0 pick patterns for the original fabric thingy. warpthread can just become a warp object for that.
+
+
+ lets go. first up is pick object.
+
+ i want my default pick to be both up, both down. plain weave. black thread.
+
+ alright i'm writing the pick to  pickuppattern thing and i wanna think this thru, got an hour before anime.
+
+ if my state is 1 up 2 neutral than any thread in 1's hole will be 1 and everything else will be 0
+
+
+ So, theres a few different ways I can do this right? I wanna go in order cuz the ones and zeroes are in order.
+
+ So....
+
+
+ Lets walk through the algorithm and see if anything obvious shakes loose or if we just need to do this the dumb, iterative way.
+
+
+
+ Let's say I have four threads total.
+
+ thread 1 is 1U 2N
+ thread 2 is 1N 2U
+ thread 3 is 1D 2D
+ thread 4 is 1U 2U
+
+ actually lets map out all states i don't THINK you can have one up and another down in rigid heddle? but lets modal it anyways
+
+ 1U 2N
+ 1U 2D
+ 1U 2U
+
+ 1D 2N
+ 1D 2D
+ 1D 2U
+
+ 1N 2N
+ 1N 2D
+ 1N 2U
+
+ does that cover all states?
+ probably not? when i look through permutation/combination calculators theres either a lot more or a lot less.
+
+ but i genuinely think it is?
+
+ aNYWAYS this isn't the point lets stay focused.
+
+ given an arbitrary amount of heddles what do i do?
+
+ lets go back to the toy:
+
+  thread 1 is 1U 2N
+  thread 2 is 1N 2U
+  thread 3 is 1D 2D
+  thread 4 is 1U 2U
+
+
+  So I'm in thread 1 and I have a pick. My pick is 1U
+
+  wait that thread is wrong? threads aren't u/d/n they are hole or slot.
+
+  whoops.
+
+
+  Okay thread 1 is 1H 2S
+
+  1H 2S
+  1S 2H
+  1S 2S
+  1H 2H
+
+
+  lets do this.
+
+  So I'm on thread one and my pick is 1U 2N.
+
+  Any thread with pick 1 up will be 1. Anything else will be zero.
+
+  Let's say my picks are
+ is 1U 2N
+is 1N 2U
+1D 2D
+1U 2U
+
+so what would my binary be?
+
+1,0,0,1
+0,1,0,1
+1,1,1,1  <-- this does NOT seem right
+1,1,0,1
+
+
+
+So one thing I noticed is that if both heddles are down shit gets *weird*. If they are down anything "with a slot" should be up but...that doesn't
+make sene intuitively? I've got a loom threaded for twill right now, lets check it out.
+
+
+gotcha, found the problem: if there are NO holes they'll be up, but even a single hole pulls it down.
+
+
+so its REALLY 0,0,1,0 for all down (which is the opposite of all up).
+
+
+so, what algorithm did I use to generate those, and how can i tell a computer about it?
+
+for that first pick , 1,0,0,1 i said " the first thread returns 1 becauase you can ignore neutral threads, and the first hole is up so its up"
+
+
+now, can you REALLY ignore neutral threads? are they always down? lets check.
+
+ah i see, its RELATIVE.  a shed in neutral might have its thread be in the "up" position if the other shed is down.
+
+so what this means to me is i will NOT be solving this for "any arbitrary number of heddles".
+ I keep referring back to my double heddle, so I'm not going to be doing it for three until I have one in the flesh.
+
+ alright so we're only doing doubles.
+
+
+ so, would an algorithm be
+ "if its a hole and the heddle is up its up no matter what the other heddle is doing"
+  and
+  "if its a slot its up ONLY if the heddle is higher than its opposite "?
+
+
+  So a thread would be one in the following states:
+
+* Any heddle is up and its in a hole in it
+* a heddle its a slot in is in neutral and a heddle its in a hole in is in down
+* a heddle its a slot in is in up and a heddle its in a hole in is neutral <-- is this bullshit?
+
+lets investigate
+
+seems to be...  my loom has the holes of the up heddle as up and everything else down.
+
+so is there only two states?
+
+lets watch my loom with a single thread.
+
+I'm watching a thread that is slot/slot.  when one heddle is up, its down (doesn't matter which one).  when either heddle is down its up.
+
+lets watch the next thread. its thru the first hole and the second slot. if its heddle is down its down. if its up its up.
+
+
+so if a thread is through a hole the only thing that matters is the state of that hole?
+
+if its through both slot then it only matters that at least one heddle is donw.
+
+
+i do see a third state.   if this hole/slot thread is in neutral and the othe rguy is down, its up.
+
+
+
+so...
+
+If my hole heddle is up, I'm *always* up.
+If my hole heddle is neutral, I'm up if the other heddle is down.
+If my hole heddle is down, I'm *always* down.
+If I have no hole heddle, I'm up if both heddles are down.
+
+that...seems viable?
+
+
+
+
+
+
+

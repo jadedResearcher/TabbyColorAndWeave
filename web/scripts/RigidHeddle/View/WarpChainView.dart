@@ -6,6 +6,7 @@ import 'package:CommonLib/Random.dart';
 import 'package:CommonLib/Utility.dart';
 
 import '../Model/Heddle.dart';
+import '../Model/Pick.dart';
 import '../Model/WarpChain.dart';
 
 /*
@@ -81,6 +82,7 @@ class ThreadView {
          rect.attributes["stroke"] = "#000000";
 
      }
+
 
 
      //todo how to make sure the lines stay synced to what they are touching?
