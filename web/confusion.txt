@@ -122,13 +122,13 @@ i wanna focus nearly entirely on rigid heddle to fabric tomorrow, which means ma
 UI:
 
 x  I want to be able to click a thread box to select it. At which point it should be highlighted, have its heddle list cleared, AND instructions should display on screen
-* I want to click a slot or hole while a thread box is selected to add that slot or hole to its heddle list
+x I want to click a slot or hole while a thread box is selected to add that slot or hole to its heddle list
 x ability to rerender thread.
-* I want to either click that thread again or click a different thread to go out of select mode
+
 
 Picks:
 * I want to be able to have a set of default picks for my fabric.
-* I want to be able to click any existing pick to edit the color of the thread, and which the state of all heddles it is choosing. (each heddle can be up, down, or neutral, set of drop downs?)
+* i want picks to be rendered on screen as Pick X and an editable color and heddle states dropdowns (up, down, neutral).
 *I want to be able to delete an existing pick.
 *I want to be able to add a pick
 * I want to display a canvas fabric based on my threading and my picks so far. (since each thread knows what what sections it has should be able to turn that into sheds)
@@ -139,3 +139,9 @@ Serialization:
 * I want to be able to save each pick, which would be color, and state of each heddle
 * I want to serialize to the canvas as image archive
 * I want to be able to load from image archive
+
+
+Stretch goals:
+* I want to be able to number the threads
+* I want to be able to say "repeat threads 3-14 7 times" (but only for existing threads).
+* I want to be able to say "repeat picks 3-14 7 times" (and add picks)
