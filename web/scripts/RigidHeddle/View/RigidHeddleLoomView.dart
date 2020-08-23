@@ -1,6 +1,8 @@
 import 'dart:html';
 import 'dart:svg';
 
+import '../../Fabric.dart';
+import '../../FabricRenderer.dart';
 import '../Model/Heddle.dart';
 import '../Model/RigidHeddleLoom.dart';
 import '../Model/WarpThread.dart';
@@ -42,11 +44,13 @@ import 'WarpThreadView.dart';
             new ThreadView(warpThread, warpContainer, x, height - 25,pickThread).renderThread();
             x+=11;
         }
+        renderFabric();
+    }
 
-
-        //setupControls();
-
-
+    void renderFabric() {
+        Fabric fabric = loom.exportLoomToFabric();
+        FabricRenderer renderer = new FabricRenderer(fabric);
+        renderer.renderToParent(parent);
     }
 
     void setInstructions() {

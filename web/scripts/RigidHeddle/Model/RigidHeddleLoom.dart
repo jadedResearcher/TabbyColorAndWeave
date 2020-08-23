@@ -28,6 +28,7 @@ there is also a button for "repeat pattern for rest of weaving"
 
 canvas height is based on picks. in vert scroll, always at top (new picks go up).
  */
+import '../../Fabric.dart';
 import 'Heddle.dart';
 import 'Pick.dart';
 import 'WarpThread.dart';
@@ -41,6 +42,56 @@ class RigidHeddleLoom{
 
     //each thread knows which section it is in for each heddle. so the loom knows what sheds exist by knowing what threads are in it and what heddles it has
     List<WarpThread> allThreads= new List<WarpThread>();
+
+
+    Fabric exportLoomToFabric() {
+        List<Colour> colors = collateAllColorsUsed();
+        String warpPatternStart = exportThreadsToWarpString(colors);
+        String weftPatternStart = exportPicksToWeftString(colors);
+        String pickupPatternStart = exportPicksToPickupString();
+        Fabric fabric = new Fabric(1200,1000);
+        fabric.colors = colors;
+        fabric.warpPatternStart = warpPatternStart;
+        fabric.weftPatternStart = weftPatternStart;
+        fabric.pickupPatternStart = pickupPatternStart;
+        return fabric;
+    }
+
+    List<Colour> collateAllColorsUsed() {
+        Set<Colour> colors = new Set<Colour>();
+        for(WarpThread thread in allThreads) {
+            colors.add(thread.color);
+        }
+
+        for(Pick pick in picks) {
+            colors.add(pick.color);
+        }
+        return new List.from(colors);
+    }
+
+    String exportThreadsToWarpString(List<Colour> colors) {
+        List<int> ret = new List<int>();
+        for(WarpThread thread in allThreads) {
+            ret.add(colors.indexOf(thread.color));
+        }
+        return ret.join(",");
+    }
+
+    String exportPicksToWeftString(List<Colour> colors) {
+        List<int> ret = new List<int>();
+        for(Pick pick in picks) {
+            ret.add(colors.indexOf(pick.color));
+        }
+        return ret.join(",");
+    }
+
+    String exportPicksToPickupString() {
+        String ret = "";
+        for(Pick pick in picks) {
+            ret = "$ret\n${pick.pickToPickupPattern(allThreads)}";
+        }
+        return ret;
+    }
 
     static RigidHeddleLoom testDoubleLoom() {
         RigidHeddleLoom ret = new RigidHeddleLoom();
@@ -56,16 +107,20 @@ class RigidHeddleLoom{
         ret.basicDoubleThreading();
         Colour color = new Colour(0,0,0);
         for(int i = 0; i<100; i++) {
-            Pick up = new Pick(color, [new HeddleState(ret.heddles[0],HeddleState.UP), new HeddleState(ret.heddles[1],HeddleState.UP)]);
-            Pick down = new Pick(color, [new HeddleState(ret.heddles[0],HeddleState.DOWN), new HeddleState(ret.heddles[1],HeddleState.DOWN)]);
-            ret.picks.add(up);
-            ret.picks.add(down);
+            Pick one = new Pick(color, [new HeddleState(ret.heddles[0],HeddleState.UP), new HeddleState(ret.heddles[1],HeddleState.NEUTRAL)]);
+            Pick two = new Pick(color, [new HeddleState(ret.heddles[0],HeddleState.NEUTRAL), new HeddleState(ret.heddles[1],HeddleState.UP)]);
+            Pick three = new Pick(color, [new HeddleState(ret.heddles[0],HeddleState.DOWN), new HeddleState(ret.heddles[1],HeddleState.DOWN)]);
+
+            ret.picks.add(one);
+            ret.picks.add(two);
+            ret.picks.add(three);
         }
 
         print("JR NOTE: first pick is binary: ${ret.picks.first.pickToPickupPattern(ret.allThreads)}");
 
         return ret;
     }
+
 
     static RigidHeddleLoom testTwill() {
         RigidHeddleLoom ret = new RigidHeddleLoom();
