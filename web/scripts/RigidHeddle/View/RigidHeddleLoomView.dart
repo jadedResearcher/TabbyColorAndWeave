@@ -3,9 +3,9 @@ import 'dart:svg';
 
 import '../Model/Heddle.dart';
 import '../Model/RigidHeddleLoom.dart';
-import '../Model/WarpChain.dart';
+import '../Model/WarpThread.dart';
 import 'HeddleView.dart';
-import 'WarpChainView.dart';
+import 'WarpThreadView.dart';
 
  class RigidHeddleLoomView {
      Element parent;
@@ -38,9 +38,11 @@ import 'WarpChainView.dart';
         final SvgElement warpContainer = SvgElement.tag("g")..classes.add("warpChains");
         loomElement.append(warpContainer);
         int x = 0;
-        for(WarpChain chain in loom.warpChains) {
-            x = new WarpChainView(chain, warpContainer,x, height-25).renderChain(pickThread);
+        for(WarpThread warpThread in loom.allThreads) {
+            new ThreadView(warpThread, warpContainer, x, height - 25,pickThread).renderThread();
+            x+=11;
         }
+
 
         //setupControls();
 

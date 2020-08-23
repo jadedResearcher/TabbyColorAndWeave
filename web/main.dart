@@ -19,7 +19,7 @@ void main() {
     patternLinks();
     fabric = new Fabric(1200,1000);
     //fabric.debug();
-    fabric.renderToParent(output,controls,stats, warpingGuide);
+    fabric.view.renderToParent(output,controls,stats, warpingGuide);
     //Util.test();
     //testWeftObject();
 
@@ -39,9 +39,9 @@ void patternLinks() {
         AnchorElement anchor = new AnchorElement()..text = p.name..classes.add("navbar-item");
         navbar.append(anchor);
         anchor.onClick.listen((Event e) {
-            fabric.syncPatternToWarp(p.warpPattern);
-            fabric.syncPatternToWeft(p.weftPattern);
-            if(p.pickupPattern != null) fabric.syncPickupToWeft(p.pickupPattern);
+            fabric.view.syncPatternToWarp(p.warpPattern);
+            fabric.view.syncPatternToWeft(p.weftPattern);
+            if(p.pickupPattern != null) fabric.view.syncPickupToWeft(p.pickupPattern);
 
         });
     }

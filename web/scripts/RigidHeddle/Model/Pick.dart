@@ -7,7 +7,7 @@
 import 'package:CommonLib/Colours.dart';
 
 import 'Heddle.dart';
-import 'WarpChain.dart';
+import 'WarpThread.dart';
 
 class Pick {
     Colour color;

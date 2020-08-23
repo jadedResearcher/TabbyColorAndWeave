@@ -319,7 +319,9 @@ If I have no hole heddle, I'm up if both heddles are down.
 
 that...seems viable?
 
-
+~~~~~~~~~
+need to test
+that the picks turn into binary okay.
 
 
 
