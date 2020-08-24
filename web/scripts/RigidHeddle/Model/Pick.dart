@@ -17,7 +17,9 @@ class Pick {
     String pickToPickupPattern(List<WarpThread> threads) {
         List<int> ret = new List<int>();
         for(WarpThread thread in threads) {
-            thread.isUpForPick(this) ? ret.add(1): ret.add(0);
+            if(thread.heddleSections.isNotEmpty) {
+                thread.isUpForPick(this) ? ret.add(1) : ret.add(0);
+            }
         }
         return ret.join(",");
     }

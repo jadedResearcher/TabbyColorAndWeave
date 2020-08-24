@@ -27,7 +27,6 @@ class Heddle {
             Section section = holesAndSlots[i];
             debug = "$debug  $section, ";
             if(section is Slot) {
-                print("JR NOTE: right slot found at index $i, when initial was $index");
                 return section;
             }
         }
@@ -41,7 +40,6 @@ class Heddle {
             Section section = holesAndSlots[i];
             debug = "$debug  $section, ";
             if(section is Slot) {
-                print("JR NOTE: left slot found at index $i, when initial was $index");
                 return section;
             }
         }
@@ -55,7 +53,6 @@ class Heddle {
             Section section = holesAndSlots[i];
             debug = "$debug  $section, ";
             if(section is Hole) {
-                print("JR NOTE: right hole found at index $i, when initial was $index");
                 return section;
             }
         }
@@ -69,7 +66,6 @@ class Heddle {
             Section section = holesAndSlots[i];
             debug = "$debug  $section, ";
             if(section is Hole) {
-                print("JR NOTE: left hole found at index $i, when initial was $index");
                 return section;
             }
         }

@@ -127,11 +127,12 @@ x ability to rerender thread.
 
 
 Picks:
-* I want to be able to have a set of default picks for my fabric.
+x I want to be able to have a set of default picks for my fabric.
 * i want picks to be rendered on screen as Pick X and an editable color and heddle states dropdowns (up, down, neutral).
 *I want to be able to delete an existing pick.
 *I want to be able to add a pick
-* I want to display a canvas fabric based on my threading and my picks so far. (since each thread knows what what sections it has should be able to turn that into sheds)
+x I want to display a canvas fabric based on my threading and my picks so far. (since each thread knows what what sections it has should be able to turn that into sheds)
+* i want a button to sync canvas to current heddle (don't do it live)
 
 Serialization:
 * I want to be able to save the size of my heddle and how many heddles there are.  (even if not yet configurable)
@@ -322,6 +323,15 @@ that...seems viable?
 ~~~~~~~~~
 need to test
 that the picks turn into binary okay.
+
+~~~
+
+I notice I am confused. When I output a particular pick pattern's binary equivalent,
+ and then manually put that in 1.0 weaving sim, it looks basically as expected.
+
+ but when its in the fabric system automatically it just...does plain weave.
+
+ is it ignoring me?
 
 
 

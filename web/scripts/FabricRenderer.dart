@@ -28,6 +28,7 @@ class FabricRenderer {
 
     void renderToParent(Element parent) {
         output = parent;
+        print("JR NOTE: in fabric renderer, pickupPattern is ${fabric.pickupPatternStart}");
         parent.append(canvas);
         fabric.initColors();
         for(int i = warpBuffer; i< width-WarpObject.WIDTH*4; i+= WarpObject.WIDTH) {
@@ -39,6 +40,7 @@ class FabricRenderer {
         }
         syncPatternToWarp(fabric.warpPatternStart, true);
         syncPatternToWeft(fabric.weftPatternStart, true);
+        syncPickupToWeft(fabric.pickupPatternStart, true);
         renderFabric();
     }
 
@@ -56,7 +58,6 @@ class FabricRenderer {
 
     void syncPatternToWarp(String pattern, bool render) {
         List<int> parsedPattern = new List.from(pattern.split(",").map((String s) => int.parse(s)));
-        print("parsed pattern is $parsedPattern");
         int index = 0;
         for(WarpObject w in warp) {
             //mod makes it so that it'll just repeat the pattern over and over
@@ -93,7 +94,6 @@ class FabricRenderer {
 
     void syncPatternToWeft(String pattern, bool render) {
         List<int> parsedPattern = new List.from(pattern.split(",").map((String s) => int.parse(s)));
-        print("parsed pattern is $parsedPattern");
         int index = 0;
         for(WeftObject w in weft) {
             //mod makes it so that it'll just repeat the pattern over and over

@@ -49,6 +49,7 @@ class RigidHeddleLoom{
         String warpPatternStart = exportThreadsToWarpString(colors);
         String weftPatternStart = exportPicksToWeftString(colors);
         String pickupPatternStart = exportPicksToPickupString();
+        print("JR NOTE: pickup pattern is $pickupPatternStart");
         Fabric fabric = new Fabric(1200,1000);
         fabric.colors = colors;
         fabric.warpPatternStart = warpPatternStart;
@@ -88,7 +89,11 @@ class RigidHeddleLoom{
     String exportPicksToPickupString() {
         String ret = "";
         for(Pick pick in picks) {
-            ret = "$ret\n${pick.pickToPickupPattern(allThreads)}";
+            if(ret.isEmpty) {
+                ret = "${pick.pickToPickupPattern(allThreads)}";
+            }else {
+                ret = "$ret\n${pick.pickToPickupPattern(allThreads)}";
+            }
         }
         return ret;
     }
@@ -98,25 +103,38 @@ class RigidHeddleLoom{
         int numberThreads = 50;
         ret.heddles.add(new Heddle(0, numberThreads));
         ret.heddles.add(new Heddle(1, numberThreads));
-        for(int i = 0; i< 40; i++) {
-            ret.allThreads.add(new WarpThread( new Colour(255, 0, 0)));
-            ret.allThreads.add(new WarpThread(new Colour(0, 255, 0)));
-            ret.allThreads.add(new WarpThread(new Colour(0, 0, 255)));
-            ret.allThreads.add(new WarpThread(new Colour(0, 255, 255)));
+        for(int i = 0; i< 30; i++) {
+            ret.allThreads.add(new WarpThread( new Colour(200, 0, 0)));
+            ret.allThreads.add(new WarpThread(new Colour(0, 200, 0)));
+            ret.allThreads.add(new WarpThread(new Colour(0, 0, 200)));
+            ret.allThreads.add(new WarpThread(new Colour(0, 200, 200)));
         }
         ret.basicDoubleThreading();
         Colour color = new Colour(0,0,0);
-        for(int i = 0; i<100; i++) {
-            Pick one = new Pick(color, [new HeddleState(ret.heddles[0],HeddleState.UP), new HeddleState(ret.heddles[1],HeddleState.NEUTRAL)]);
-            Pick two = new Pick(color, [new HeddleState(ret.heddles[0],HeddleState.NEUTRAL), new HeddleState(ret.heddles[1],HeddleState.UP)]);
-            Pick three = new Pick(color, [new HeddleState(ret.heddles[0],HeddleState.DOWN), new HeddleState(ret.heddles[1],HeddleState.DOWN)]);
 
-            ret.picks.add(one);
-            ret.picks.add(two);
-            ret.picks.add(three);
-        }
 
-        print("JR NOTE: first pick is binary: ${ret.picks.first.pickToPickupPattern(ret.allThreads)}");
+        Pick one = new Pick(color, [new HeddleState(ret.heddles[0],HeddleState.UP), new HeddleState(ret.heddles[1],HeddleState.NEUTRAL)]);
+        Pick two = new Pick(color, [new HeddleState(ret.heddles[0],HeddleState.NEUTRAL), new HeddleState(ret.heddles[1],HeddleState.UP)]);
+        Pick three = new Pick(color, [new HeddleState(ret.heddles[0],HeddleState.DOWN), new HeddleState(ret.heddles[1],HeddleState.DOWN)]);
+
+        ret.picks.add(one);
+        ret.picks.add(two);
+        ret.picks.add(three);
+        ret.picks.add(one);
+        ret.picks.add(two);
+        ret.picks.add(three);
+        ret.picks.add(one);
+        ret.picks.add(two);
+        ret.picks.add(three);
+        ret.picks.add(two);
+        ret.picks.add(one);
+        ret.picks.add(three);
+        ret.picks.add(two);
+        ret.picks.add(one);
+        ret.picks.add(three);
+        ret.picks.add(two);
+        ret.picks.add(one);
+
 
         return ret;
     }
@@ -166,17 +184,13 @@ class RigidHeddleLoom{
         for(WarpThread thread in threads) {
             Section firstHeddle = null;
             Section secondHeddle = null;
-            print("JR NOTE: looking for singleHeddleIndex of $singleHeddleIndex and ttotalIndex of $totalIndex");
             if(singleHeddleIndex % 3 == 0) {
-                print("JR NOTE: looking for right slot");
                 threadThroughBothSlotsLeft(thread, (totalIndex/4).floor());
                 singleHeddleIndex ++;
             }else if(singleHeddleIndex %3 ==1) {
-                print("JR NOTE: looking for front hole then left slot");
                 frontHoleToLeftSlot(thread, (totalIndex/4).floor());
                 singleHeddleIndex ++;
             }else if(singleHeddleIndex %3 ==2) {
-                print("JR NOTE: looking for another front slot and left hole");
                 frontSlotToLeftHole(thread, (totalIndex/4).floor());
                 singleHeddleIndex ++;
             }
@@ -198,22 +212,17 @@ class RigidHeddleLoom{
         for(WarpThread thread in threads) {
                 Section firstHeddle = null;
                 Section secondHeddle = null;
-                print("JR NOTE: looking for singleHeddleIndex of $singleHeddleIndex and ttotalIndex of $totalIndex");
                 if(singleHeddleIndex % 4 == 0) {
-                    print("JR NOTE: looking for right slot");
                     threadThroughBothSlotsLeft(thread, (totalIndex/4).floor());
                     singleHeddleIndex ++;
                 }else if(singleHeddleIndex %4 ==1) {
-                    print("JR NOTE: looking for front hole then left slot");
                     frontHoleToLeftSlot(thread, (totalIndex/4).floor());
                     singleHeddleIndex ++;
                 }else if(singleHeddleIndex %4 ==2) {
-                    print("JR NOTE: looking for another right slot");
                     threadThroughBothSlotsLeft(thread, (totalIndex/4).floor());
                     singleHeddleIndex ++;
                 }
                 else if(singleHeddleIndex %4 ==3) {
-                    print("JR NOTE: looking front slot that veers left to back hole");
                     frontSlotToLeftHole(thread, (totalIndex/4).floor());
                     singleHeddleIndex ++;
                 }
