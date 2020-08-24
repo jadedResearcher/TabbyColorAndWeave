@@ -341,9 +341,9 @@ Picks:
 x I want to be able to have a set of default picks for my fabric.
 x i want a button to sync canvas to current heddle (don't do it live)
 x button to clear all threadings
-* i want picks to be rendered on screen as Pick X and an editable color and heddle states dropdowns (up, down, neutral).
-*I want to be able to delete an existing pick.
-*I want to be able to add a pick
+x i want picks to be rendered on screen as Pick X and an editable color and heddle states dropdowns (up, down, neutral).
+xI want to be able to delete an existing pick.
+xI want to be able to add a pick
 x I want to display a canvas fabric based on my threading and my picks so far. (since each thread knows what what sections it has should be able to turn that into sheds)
 
 
@@ -356,11 +356,17 @@ Serialization:
 
 
 Stretch goals:
-* I want to be able to say "set color to X for thread X and Y threads after"
+* BARELY STRETCH, FUCKING DO THIS: I want to be able to say "set color to X for thread X and Y threads after"
 * I want to be able to say "repeat threads 3-14 7 times" (but only for existing threads).
 * I want to be able to say "repeat picks 3-14 7 times" (and add picks)
 * I want to be able to number the threads
 
+
+Got all of initial ui done saturday, and all of interactivity done sunday.
+
+What remains is serialization and usability
+ (I REALLY want to say things like "do straight twill three times, then do a single point, then do reverse straight twill")
+  and that'll be those repeats
 
 
 
