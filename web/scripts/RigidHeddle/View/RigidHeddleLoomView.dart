@@ -4,9 +4,11 @@ import 'dart:svg';
 import '../../Fabric.dart';
 import '../../FabricRenderer.dart';
 import '../Model/Heddle.dart';
+import '../Model/Pick.dart';
 import '../Model/RigidHeddleLoom.dart';
 import '../Model/WarpThread.dart';
 import 'HeddleView.dart';
+import 'PickView.dart';
 import 'WarpThreadView.dart';
 
  class RigidHeddleLoomView {
@@ -19,6 +21,8 @@ import 'WarpThreadView.dart';
      SvgElement heddleContainer;
      bool draggingHeddles = false;
      WarpThread selectedThread;
+     Element fabricContainer;
+     Element pickContainer;
      int height = 400;
      Element instructions;
      void renderLoom() {
@@ -46,6 +50,7 @@ import 'WarpThreadView.dart';
         }
         renderControls();
         renderFabric();
+        renderPicks();
     }
 
     void renderControls() {
@@ -66,6 +71,24 @@ import 'WarpThreadView.dart';
             renderFabric();
         });
 
+        TableElement table = new TableElement();
+        container.append(table);
+         TableRowElement row = new Element.tr();
+        table.append(row);
+        pickContainer = new TableCellElement()..style.verticalAlign="top";
+        row.append(pickContainer);
+        fabricContainer = new TableCellElement();
+        row.append(fabricContainer);
+    }
+
+    void renderPicks() {
+         pickContainer.text = "";
+        HeadingElement heading = new HeadingElement.h2()..text = "Picks";
+        pickContainer.append(heading);
+        for(Pick pick in loom.picks) {
+            new PickView(pick, pickContainer)..render();
+        }
+
     }
 
 
@@ -73,7 +96,7 @@ import 'WarpThreadView.dart';
          if(renderer == null) {
              Fabric fabric = loom.exportLoomToFabric(null);
              renderer = new FabricRenderer(fabric);
-             renderer.renderToParent(parent);
+             renderer.renderToParent(fabricContainer);
          }else {
              loom.exportLoomToFabric(renderer.fabric);
              renderer.update();

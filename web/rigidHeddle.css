@@ -13,3 +13,9 @@
 .instructions{
     text-align: left;
 }
+
+.pick{
+    margin-top: 5px;
+    border: 1px solid black;
+    padding: 5px;
+}

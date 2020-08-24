@@ -11,8 +11,9 @@ import 'WarpThread.dart';
 
 class Pick {
     Colour color;
+    int index;
     List<HeddleState> heddleStates = new List<HeddleState>();
-    Pick(this.color, this.heddleStates);
+    Pick(int this.index, this.color, this.heddleStates);
 
     String pickToPickupPattern(List<WarpThread> threads) {
         List<int> ret = new List<int>();
@@ -30,6 +31,7 @@ class HeddleState {
     static const UP="UP";
     static const DOWN = "DOWN";
     static const NEUTRAL = "NEUTRAL";
+    static const possibleStates = [UP, DOWN, NEUTRAL];
     Heddle heddle;
     String state;
     HeddleState(this.heddle, this.state);

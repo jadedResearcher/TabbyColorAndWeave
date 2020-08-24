@@ -105,39 +105,22 @@ class RigidHeddleLoom{
         int numberThreads = 50;
         ret.heddles.add(new Heddle(0, numberThreads));
         ret.heddles.add(new Heddle(1, numberThreads));
-        Colour color = new Colour(200,0,0);
         for(int i = 0; i< 30; i++) {
-            ret.allThreads.add(new WarpThread( color));
-            ret.allThreads.add(new WarpThread(color));
-            ret.allThreads.add(new WarpThread(color));
-            ret.allThreads.add(new WarpThread(color));
+            ret.allThreads.add(new WarpThread( new Colour(200,0,0)));
+            ret.allThreads.add(new WarpThread(new Colour(200,0,0)));
+            ret.allThreads.add(new WarpThread(new Colour(200,0,0)));
+            ret.allThreads.add(new WarpThread(new Colour(200,0,0)));
         }
         ret.basicDoubleThreading();
-        color = new Colour(0,0,0);
 
 
-        Pick one = new Pick(color, [new HeddleState(ret.heddles[0],HeddleState.UP), new HeddleState(ret.heddles[1],HeddleState.NEUTRAL)]);
-        Pick two = new Pick(color, [new HeddleState(ret.heddles[0],HeddleState.NEUTRAL), new HeddleState(ret.heddles[1],HeddleState.UP)]);
-        Pick three = new Pick(color, [new HeddleState(ret.heddles[0],HeddleState.DOWN), new HeddleState(ret.heddles[1],HeddleState.DOWN)]);
+        Pick one = new Pick(0,new Colour(0,0,0), [new HeddleState(ret.heddles[0],HeddleState.UP), new HeddleState(ret.heddles[1],HeddleState.NEUTRAL)]);
+        Pick two = new Pick(1,new Colour(0,0,0), [new HeddleState(ret.heddles[0],HeddleState.NEUTRAL), new HeddleState(ret.heddles[1],HeddleState.UP)]);
+        Pick three = new Pick(2,new Colour(0,0,0), [new HeddleState(ret.heddles[0],HeddleState.DOWN), new HeddleState(ret.heddles[1],HeddleState.DOWN)]);
 
         ret.picks.add(one);
         ret.picks.add(two);
         ret.picks.add(three);
-        ret.picks.add(one);
-        ret.picks.add(two);
-        ret.picks.add(three);
-        ret.picks.add(one);
-        ret.picks.add(two);
-        ret.picks.add(three);
-        ret.picks.add(two);
-        ret.picks.add(one);
-        ret.picks.add(three);
-        ret.picks.add(two);
-        ret.picks.add(one);
-        ret.picks.add(three);
-        ret.picks.add(two);
-        ret.picks.add(one);
-
 
         return ret;
     }

@@ -339,8 +339,8 @@ break time
 
 Picks:
 x I want to be able to have a set of default picks for my fabric.
-* i want a button to sync canvas to current heddle (don't do it live)
-* button to clear all threadings
+x i want a button to sync canvas to current heddle (don't do it live)
+x button to clear all threadings
 * i want picks to be rendered on screen as Pick X and an editable color and heddle states dropdowns (up, down, neutral).
 *I want to be able to delete an existing pick.
 *I want to be able to add a pick
