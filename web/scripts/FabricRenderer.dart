@@ -44,6 +44,12 @@ class FabricRenderer {
         renderFabric();
     }
 
+    void update() {
+        syncPatternToWarp(fabric.warpPatternStart, true);
+        syncPatternToWeft(fabric.weftPatternStart, true);
+        syncPickupToWeft(fabric.pickupPatternStart, true);
+        renderFabric();
+    }
 
     void renderFabric() {
         bufferCanvas.context2D.clearRect(0,0,canvas.width, canvas.height);

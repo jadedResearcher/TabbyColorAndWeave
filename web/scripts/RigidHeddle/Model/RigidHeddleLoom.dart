@@ -105,14 +105,15 @@ class RigidHeddleLoom{
         int numberThreads = 50;
         ret.heddles.add(new Heddle(0, numberThreads));
         ret.heddles.add(new Heddle(1, numberThreads));
+        Colour color = new Colour(200,0,0);
         for(int i = 0; i< 30; i++) {
-            ret.allThreads.add(new WarpThread( new Colour(200, 0, 0)));
-            ret.allThreads.add(new WarpThread(new Colour(0, 200, 0)));
-            ret.allThreads.add(new WarpThread(new Colour(0, 0, 200)));
-            ret.allThreads.add(new WarpThread(new Colour(0, 200, 200)));
+            ret.allThreads.add(new WarpThread( color));
+            ret.allThreads.add(new WarpThread(color));
+            ret.allThreads.add(new WarpThread(color));
+            ret.allThreads.add(new WarpThread(color));
         }
         ret.basicDoubleThreading();
-        Colour color = new Colour(0,0,0);
+        color = new Colour(0,0,0);
 
 
         Pick one = new Pick(color, [new HeddleState(ret.heddles[0],HeddleState.UP), new HeddleState(ret.heddles[1],HeddleState.NEUTRAL)]);
@@ -142,26 +143,6 @@ class RigidHeddleLoom{
     }
 
 
-    static RigidHeddleLoom testTwill() {
-        RigidHeddleLoom ret = new RigidHeddleLoom();
-        int numberThreads = 50;
-        ret.heddles.add(new Heddle(0, numberThreads));
-        ret.heddles.add(new Heddle(1, numberThreads));
-        for(int i = 0; i< 2; i++) {
-            ret.allThreads.add(new WarpThread( new Colour(255, 0, 0)));
-            ret.allThreads.add(new WarpThread(new Colour(0, 255, 0)));
-            ret.allThreads.add(new WarpThread(new Colour(0, 0, 255)));
-        }
-        Colour color = new Colour(0,0,0);
-        for(int i = 0; i<100; i++) {
-            Pick up = new Pick(color, [new HeddleState(ret.heddles[0],HeddleState.UP), new HeddleState(ret.heddles[1],HeddleState.UP)]);
-            Pick down = new Pick(color, [new HeddleState(ret.heddles[0],HeddleState.DOWN), new HeddleState(ret.heddles[1],HeddleState.DOWN)]);
-            ret.picks.add(up);
-            ret.picks.add(down);
-        }
-        ret.basicTwillThreading();
-        return ret;
-    }
 
     //its just single heddle, theres only two sheds
     void singleHeddleThreading() {
@@ -176,35 +157,6 @@ class RigidHeddleLoom{
             i++;
         }
     }
-
-    //slot front hole, back hole (always lean same way)
-    void basicTwillThreading() {
-        if(heddles.length < 2) return singleHeddleThreading();
-        List<WarpThread> threads = allThreads;
-        int totalIndex = 0;
-        int singleHeddleIndex = 0;
-        for(WarpThread thread in threads) {
-            Section firstHeddle = null;
-            Section secondHeddle = null;
-            if(singleHeddleIndex % 3 == 0) {
-                threadThroughBothSlotsLeft(thread, (totalIndex/4).floor());
-                singleHeddleIndex ++;
-            }else if(singleHeddleIndex %3 ==1) {
-                frontHoleToLeftSlot(thread, (totalIndex/4).floor());
-                singleHeddleIndex ++;
-            }else if(singleHeddleIndex %3 ==2) {
-                frontSlotToLeftHole(thread, (totalIndex/4).floor());
-                singleHeddleIndex ++;
-            }
-
-            if(firstHeddle != null && secondHeddle != null) {
-                thread.heddleSections.add(firstHeddle);
-                thread.heddleSections.add(secondHeddle);
-            }
-            totalIndex+=2;
-        }
-    }
-
     // slot hole, slot hole but for different heddles, and it matters if it leans left or right.
     void basicDoubleThreading() {
         if(heddles.length < 2) return singleHeddleThreading();

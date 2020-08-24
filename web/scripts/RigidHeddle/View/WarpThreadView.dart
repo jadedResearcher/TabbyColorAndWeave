@@ -16,6 +16,7 @@ class ThreadView {
      bool selected = false;
      RectElement rect;
      PathElement path;
+     PathElement guidePath;
      int y;
      //if i am selected, call this function to let whoever cares know
      Lambda<WarpThread> callThread;
@@ -30,7 +31,7 @@ class ThreadView {
          rect.attributes["x"] = "$x";
          rect.attributes["y"] = "$y";
          rect.attributes["fill"] = thread.color.toStyleString();
-         rect.attributes["stroke"] = "#000000";
+         rect.attributes["stroke"] = thread.guideColor.toStyleString();
          Colour invert = new Colour(255-thread.color.red, 255-thread.color.green, 255-thread.color.blue);
          parent.append(rect);
          rect.onClick.listen((Event e) {
@@ -49,7 +50,7 @@ class ThreadView {
      void unselect() {
          selected = false;
          rect.attributes["stroke-width"] = "1";
-         rect.attributes["stroke"] = "#000000";
+         rect.attributes["stroke"] = thread.guideColor.toStyleString();
 
      }
 
@@ -58,18 +59,25 @@ class ThreadView {
      //todo how to make sure the lines stay synced to what they are touching?
      void renderThreadPath() {
          if(path == null) {
+
+             guidePath = new PathElement();
+             parent.append(guidePath);
              path = new PathElement();
+             parent.append(path);
          }
          String pathString = "M${x+4},$y";
          path.attributes["stroke"] = thread.color.toStyleString();
-         path.attributes["stroke-width"] = "2";
+         path.attributes["stroke-width"] = "1";
          int wiggle = -1*((x % 40) /10).ceil()+3 ;
          for(Section section in thread.heddleSections) {
              pathString = "${pathString} L${section.view.threadX - wiggle},${section.view.threadY+3} M${section.view.threadX - wiggle},${section.view.threadY+3}";
          }
          pathString = "$pathString Z";
          path.attributes["d"] = pathString;
-         parent.append(path);
+
+         guidePath.attributes["stroke"] = thread.guideColor.toStyleString();
+         guidePath.attributes["stroke-width"] = "3";
+         guidePath.attributes["d"] = pathString;
 
      }
 

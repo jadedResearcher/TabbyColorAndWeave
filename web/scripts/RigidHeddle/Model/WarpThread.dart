@@ -7,6 +7,8 @@ import 'Pick.dart';
 class WarpThread {
     ThreadView view;
     Colour color;
+    //makes it easier to thread
+    Colour guideColor = new Colour(0,0,0);
     List<Section> heddleSections = new List<Section>();
 
 

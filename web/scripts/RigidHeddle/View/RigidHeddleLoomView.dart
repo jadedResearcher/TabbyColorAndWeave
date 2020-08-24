@@ -21,7 +21,6 @@ import 'WarpThreadView.dart';
      WarpThread selectedThread;
      int height = 400;
      Element instructions;
-
      void renderLoom() {
          instructions = new DivElement()..text = "Instructions:"..classes.add("instructions");
          setInstructions();
@@ -45,17 +44,40 @@ import 'WarpThreadView.dart';
             new ThreadView(warpThread, warpContainer, x, height - 25,pickThread).renderThread();
             x+=11;
         }
+        renderControls();
         renderFabric();
     }
+
+    void renderControls() {
+         DivElement container = new DivElement();
+         parent.append(container);
+        ButtonElement clearButton = new ButtonElement()..text = "Clear All Threading";
+         container.append(clearButton);
+        clearButton.onClick.listen((Event e) {
+            for(WarpThread thread in loom.allThreads) {
+                thread.heddleSections.clear();
+                thread.view.renderThreadPath();
+            }
+        });
+
+        ButtonElement updateButton = new ButtonElement()..text = "Update Fabric From Loom";
+         container.append(updateButton);
+        updateButton.onClick.listen((Event e) {
+            renderFabric();
+        });
+
+    }
+
 
     void renderFabric() {
          if(renderer == null) {
              Fabric fabric = loom.exportLoomToFabric(null);
              renderer = new FabricRenderer(fabric);
+             renderer.renderToParent(parent);
          }else {
              loom.exportLoomToFabric(renderer.fabric);
+             renderer.update();
          }
-        renderer.renderToParent(parent);
     }
 
     void setInstructions() {
