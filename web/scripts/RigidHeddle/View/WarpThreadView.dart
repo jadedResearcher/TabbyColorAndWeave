@@ -79,6 +79,22 @@ class ThreadView {
          guidePath.attributes["stroke-width"] = "3";
          guidePath.attributes["d"] = pathString;
 
+         path.onMouseOver.listen((Event e) {
+             path.attributes["stroke"] = thread.guideColor.toStyleString();
+         });
+
+         path.onMouseLeave.listen((Event e) {
+             path.attributes["stroke"] = thread.color.toStyleString();
+         });
+
+         guidePath.onMouseOver.listen((Event e) {
+             path.attributes["stroke"] = thread.guideColor.toStyleString();
+         });
+
+         guidePath.onMouseLeave.listen((Event e) {
+             path.attributes["stroke"] = thread.color.toStyleString();
+         });
+
      }
 
      void renderThread() {
