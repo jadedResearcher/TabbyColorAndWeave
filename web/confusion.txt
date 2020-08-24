@@ -332,7 +332,34 @@ I notice I am confused. When I output a particular pick pattern's binary equival
  but when its in the fabric system automatically it just...does plain weave.
 
  is it ignoring me?
+it was.
 
+~~~~~~~~~~~
+break time
+
+Picks:
+x I want to be able to have a set of default picks for my fabric.
+* i want a button to sync canvas to current heddle (don't do it live)
+* button to clear all threadings
+* i want picks to be rendered on screen as Pick X and an editable color and heddle states dropdowns (up, down, neutral).
+*I want to be able to delete an existing pick.
+*I want to be able to add a pick
+x I want to display a canvas fabric based on my threading and my picks so far. (since each thread knows what what sections it has should be able to turn that into sheds)
+
+
+Serialization:
+* I want to be able to save the size of my heddle and how many heddles there are.  (even if not yet configurable)
+* I want to be able to save each thread, including color and heddle list (original idea of list of indices) (even if not yet configurable)
+* I want to be able to save each pick, which would be color, and state of each heddle
+* I want to serialize to the canvas as image archive
+* I want to be able to load from image archive
+
+
+Stretch goals:
+* I want to be able to say "set color to X for thread X and Y threads after"
+* I want to be able to say "repeat threads 3-14 7 times" (but only for existing threads).
+* I want to be able to say "repeat picks 3-14 7 times" (and add picks)
+* I want to be able to number the threads
 
 
 

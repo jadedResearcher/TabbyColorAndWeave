@@ -15,6 +15,7 @@ import 'WarpThreadView.dart';
      RigidHeddleLoomView(this.loom, this.parent);
      int heddlesX;
      int heddlesY;
+     FabricRenderer renderer;
      SvgElement heddleContainer;
      bool draggingHeddles = false;
      WarpThread selectedThread;
@@ -48,8 +49,12 @@ import 'WarpThreadView.dart';
     }
 
     void renderFabric() {
-        Fabric fabric = loom.exportLoomToFabric();
-        FabricRenderer renderer = new FabricRenderer(fabric);
+         if(renderer == null) {
+             Fabric fabric = loom.exportLoomToFabric(null);
+             renderer = new FabricRenderer(fabric);
+         }else {
+             loom.exportLoomToFabric(renderer.fabric);
+         }
         renderer.renderToParent(parent);
     }
 

@@ -44,13 +44,15 @@ class RigidHeddleLoom{
     List<WarpThread> allThreads= new List<WarpThread>();
 
 
-    Fabric exportLoomToFabric() {
+    Fabric exportLoomToFabric(Fabric fabric) {
         List<Colour> colors = collateAllColorsUsed();
         String warpPatternStart = exportThreadsToWarpString(colors);
         String weftPatternStart = exportPicksToWeftString(colors);
         String pickupPatternStart = exportPicksToPickupString();
         print("JR NOTE: pickup pattern is $pickupPatternStart");
-        Fabric fabric = new Fabric(1200,1000);
+        if(fabric == null) {
+             fabric = new Fabric(1200, 1000);
+        }
         fabric.colors = colors;
         fabric.warpPatternStart = warpPatternStart;
         fabric.weftPatternStart = weftPatternStart;
