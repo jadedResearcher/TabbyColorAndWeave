@@ -24,6 +24,10 @@ class Pick {
         }
         return ret.join(",");
     }
+
+    Pick copy(index) {
+        return new Pick(index, Colour.fromStyleString(color.toStyleString()), new List.from(heddleStates));
+    }
 }
 
 

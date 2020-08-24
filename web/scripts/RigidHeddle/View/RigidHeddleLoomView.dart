@@ -86,9 +86,21 @@ import 'WarpThreadView.dart';
         HeadingElement heading = new HeadingElement.h2()..text = "Picks";
         pickContainer.append(heading);
         for(Pick pick in loom.picks) {
-            new PickView(pick, pickContainer)..render();
+            new PickView(pick, pickContainer)..render(removePick);
         }
 
+         ButtonElement addButton = new ButtonElement()..text = "Add Pick";
+         pickContainer.append(addButton);
+         addButton.onClick.listen((Event e) {
+             loom.picks.add(loom.picks.last.copy(loom.picks.length));
+             renderPicks();
+         });
+
+    }
+
+    void removePick(Pick pick) {
+         loom.picks.remove(pick);
+         renderPicks();
     }
 
 

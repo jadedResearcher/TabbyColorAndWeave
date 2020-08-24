@@ -18,4 +18,13 @@
     margin-top: 5px;
     border: 1px solid black;
     padding: 5px;
+    position: relative;
+}
+
+.x{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: #aa0000;
 }

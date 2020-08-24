@@ -1,6 +1,7 @@
 import 'dart:html';
 
 import 'package:CommonLib/Colours.dart';
+import 'package:CommonLib/Utility.dart';
 
 import '../Model/Pick.dart';
 
@@ -9,12 +10,15 @@ class PickView {
     Element parent;
     PickView(Pick this.pick, this.parent);
 
-    void render() {
+    void render(Lambda<Pick> removeCallback) {
         DivElement div = new DivElement()..classes.add("pick");
         parent.append(div);
         HeadingElement heading = new HeadingElement.h3()..text = "Pick ${pick.index}";
         div.append(heading);
         int index = 0;
+        ButtonElement remove = new ButtonElement()..text = "x"..classes.add("x");
+        div.append(remove);
+        remove.onClick.listen((Event e) => removeCallback(pick));
         InputElement color = new InputElement()..type = "color"..value = pick.color.toStyleString()..style.display="block";
         div.append(color);
         color.onInput.listen((Event e) {
@@ -32,11 +36,13 @@ class PickView {
                 select.append(option);
             }
             select.onInput.listen((Event e) {
-                heddleState.state = select.selectedOptions[select.selectedIndex].value;
+                heddleState.state = select.value;
             });
             subcontainer.append(label);
             subcontainer.append(select);
             index ++;
         }
+
+
     }
 }

@@ -144,32 +144,23 @@ class RigidHeddleLoom{
     void basicDoubleThreading() {
         if(heddles.length < 2) return singleHeddleThreading();
         List<WarpThread> threads = allThreads;
-        int totalIndex = 0;
-        int singleHeddleIndex = 0;
-        for(WarpThread thread in threads) {
-                Section firstHeddle = null;
-                Section secondHeddle = null;
-                if(singleHeddleIndex % 4 == 0) {
-                    threadThroughBothSlotsLeft(thread, (totalIndex/4).floor());
-                    singleHeddleIndex ++;
-                }else if(singleHeddleIndex %4 ==1) {
-                    frontHoleToLeftSlot(thread, (totalIndex/4).floor());
-                    singleHeddleIndex ++;
-                }else if(singleHeddleIndex %4 ==2) {
-                    threadThroughBothSlotsLeft(thread, (totalIndex/4).floor());
-                    singleHeddleIndex ++;
-                }
-                else if(singleHeddleIndex %4 ==3) {
-                    frontSlotToLeftHole(thread, (totalIndex/4).floor());
-                    singleHeddleIndex ++;
-                }
+        Heddle h1 = heddles[0];
+        Heddle h2 = heddles[1];
+        WarpThread one = threads[0];
+        WarpThread two = threads[1];
+        WarpThread three = threads[2];
+        WarpThread four = threads[3];
+        one.heddleSections.add(h1.holesAndSlots[1]);
+        two.heddleSections.add(h1.holesAndSlots[1]);
+        three.heddleSections.add(h1.holesAndSlots[2]);
+        four.heddleSections.add(h1.holesAndSlots[3]);
 
-                if(firstHeddle != null && secondHeddle != null) {
-                    thread.heddleSections.add(firstHeddle);
-                    thread.heddleSections.add(secondHeddle);
-                }
-                totalIndex+=2;
-        }
+        one.heddleSections.add(h2.holesAndSlots[1]);
+        two.heddleSections.add(h2.holesAndSlots[2]);
+        three.heddleSections.add(h2.holesAndSlots[3]);
+        four.heddleSections.add(h2.holesAndSlots[3]);
+
+
     }
 
     bool threadSections(WarpThread thread, List<Section> sections) {
@@ -183,42 +174,5 @@ class RigidHeddleLoom{
         }
         return true;
     }
-
-    bool threadThroughBothSlotsLeft(WarpThread thread, int index) {
-        Section firstHeddle =(heddles[0].getNextSlotToLeft(index));
-        Section secondHeddle = (heddles[1].getNextSlotToLeft(index));
-        return threadSections(thread, [firstHeddle, secondHeddle]);
-    }
-
-    bool threadThroughBothSlotsRight(WarpThread thread, int index) {
-        Section firstHeddle =(heddles[0].getNextSlotToRight(index));
-        Section secondHeddle = (heddles[1].getNextSlotToRight(index));
-        return threadSections(thread, [firstHeddle, secondHeddle]);
-    }
-
-    bool frontHoleToRightSlot(WarpThread thread, int index) {
-        Section firstHeddle = heddles[0].getNextHoleToRight(index);
-        Section secondHeddle = (heddles[1].getNextSlotToRight(index));
-        return threadSections(thread, [firstHeddle, secondHeddle]);
-    }
-
-    bool frontHoleToLeftSlot(WarpThread thread, int index) {
-        Section firstHeddle =(heddles[0].getNextHoleToLeft(index));
-        Section secondHeddle = (heddles[1].getNextSlotToLeft(index));
-        return threadSections(thread, [firstHeddle, secondHeddle]);
-    }
-
-    bool frontSlotToRightHole(WarpThread thread, int index) {
-        Section firstHeddle =(heddles[0].getNextSlotToRight(index));
-        Section secondHeddle = (heddles[1].getNextHoleToRight(index));
-        return threadSections(thread, [firstHeddle, secondHeddle]);
-    }
-
-    bool frontSlotToLeftHole(WarpThread thread, int index) {
-        Section firstHeddle =(heddles[0].getNextSlotToLeft(index));
-        Section secondHeddle = (heddles[1].getNextHoleToLeft(index));
-        return threadSections(thread, [firstHeddle, secondHeddle]);
-    }
-
 
 }
