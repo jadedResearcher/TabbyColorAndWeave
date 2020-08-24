@@ -31,6 +31,9 @@ class PickView {
                 OptionElement option = new OptionElement()..value = state..text = state..selected=heddleState.state == state;
                 select.append(option);
             }
+            select.onInput.listen((Event e) {
+                heddleState.state = select.selectedOptions[select.selectedIndex].value;
+            });
             subcontainer.append(label);
             subcontainer.append(select);
             index ++;
