@@ -1,6 +1,8 @@
 import 'dart:html';
 import 'dart:svg';
 
+import 'package:CommonLib/Colours.dart';
+
 import '../../Fabric.dart';
 import '../../FabricRenderer.dart';
 import '../Model/Heddle.dart';
@@ -57,7 +59,9 @@ import 'WarpThreadView.dart';
 
     void renderControls() {
          DivElement container = new DivElement();
+
          parent.append(container);
+         renderWarpColorControls(container);
         ButtonElement clearButton = new ButtonElement()..text = "Clear All Threading";
          container.append(clearButton);
         clearButton.onClick.listen((Event e) {
@@ -81,6 +85,39 @@ import 'WarpThreadView.dart';
         row.append(pickContainer);
         fabricContainer = new TableCellElement();
         row.append(fabricContainer);
+    }
+
+    void renderWarpColorControls(Element container) {
+         //"set thread x to this color and for X ones after"
+        DivElement div = new DivElement()..classes.add('colorControls');
+        container.append(div);
+        LabelElement label = new LabelElement()..text = "Set thread ";
+        NumberInputElement number = new NumberInputElement()..value="0";
+        LabelElement label2 = new LabelElement()..text = "and the next";
+        NumberInputElement number2 = new NumberInputElement()..value = "${loom.allThreads.length}";
+        LabelElement label3 = new LabelElement()..text = "threads to ";
+        InputElement color = new InputElement()..type="color";
+        ButtonElement button = new ButtonElement()..text = "Set";
+
+        div.append(label);
+        div.append(number);
+        div.append(label2);
+        div.append(number2);
+        div.append(label3);
+        div.append(color);
+        div.append(button);
+
+        button.onClick.listen((Event e) {
+            int startIndex = int.parse(number.value);
+            int howMany = int.parse(number2.value);
+            for(int i = startIndex; i< startIndex + howMany; i++) {
+                WarpThread thread = loom.allThreads[i];
+                Colour newColor = Colour.fromStyleString(color.value);
+                thread.color.setFrom(newColor);
+                thread.view.renderThread();
+            }
+        });
+
     }
 
     void renderPicks() {

@@ -18,6 +18,18 @@
     text-align: left;
 }
 
+.colorControls{
+    text-align: left;
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.colorControls input{
+    width: 38px;
+    margin: 5px;
+}
+
 .pick{
     margin-top: 5px;
     border: 1px solid black;
