@@ -18,14 +18,14 @@
     text-align: left;
 }
 
-.colorControls{
+.controls{
     text-align: left;
     width: 1200px;
     margin-left: auto;
     margin-right: auto;
 }
 
-.colorControls input{
+.controls input{
     width: 38px;
     margin: 5px;
 }

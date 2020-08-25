@@ -12,7 +12,6 @@ import '../Model/WarpThread.dart';
 import 'HeddleView.dart';
 import 'PickView.dart';
 import 'WarpThreadView.dart';
-
  class RigidHeddleLoomView {
      Element parent;
      RigidHeddleLoom loom;
@@ -22,10 +21,12 @@ import 'WarpThreadView.dart';
      FabricRenderer renderer;
      SvgElement heddleContainer;
      bool draggingHeddles = false;
+     SvgElement warpContainer;
      WarpThread selectedThread;
      Element fabricContainer;
      Element pickContainer;
      int height = 400;
+     int threadSeparationDistance = 20;
      Element instructions;
      void renderLoom() {
          instructions = new DivElement()..text = "Instructions:"..classes.add("instructions");
@@ -34,7 +35,7 @@ import 'WarpThreadView.dart';
          DivElement container = new DivElement()..classes.add("loom");
          parent.append(container);
         final SvgElement loomElement = SvgElement.tag("svg");
-        loomElement.attributes["width"] = "2000";
+        loomElement.attributes["width"] = "5000";
         loomElement.attributes["height"] = "$height";
         container.append(loomElement);
         heddleContainer = SvgElement.tag("g")..classes.add("heddles");
@@ -45,12 +46,12 @@ import 'WarpThreadView.dart';
             y+= -125;
         }
 
-        final SvgElement warpContainer = SvgElement.tag("g")..classes.add("warpChains");
+        warpContainer = SvgElement.tag("g")..classes.add("warpChains");
         loomElement.append(warpContainer);
         int x = 0;
         for(WarpThread warpThread in loom.allThreads) {
             new ThreadView(warpThread, warpContainer, x, height - 50,pickThread).renderThread();
-            x+=20;
+            x+=threadSeparationDistance;
         }
         renderControls();
         renderFabric();
@@ -62,34 +63,39 @@ import 'WarpThreadView.dart';
 
          parent.append(container);
          renderWarpColorControls(container);
-        ButtonElement clearButton = new ButtonElement()..text = "Clear All Threading";
-         container.append(clearButton);
-        clearButton.onClick.listen((Event e) {
-            for(WarpThread thread in loom.allThreads) {
-                thread.heddleSections.clear();
-                thread.view.renderThreadPath();
-            }
-        });
+         renderThreadCountControls(container);
+         renderSyncControls(container);
+    }
 
-        ButtonElement updateButton = new ButtonElement()..text = "Update Fabric From Loom";
-         container.append(updateButton);
-        updateButton.onClick.listen((Event e) {
-            renderFabric();
-        });
+    void renderSyncControls(DivElement container) {
+      ButtonElement clearButton = new ButtonElement()..text = "Clear All Threading";
+      container.append(clearButton);
+              clearButton.onClick.listen((Event e) {
+         for(WarpThread thread in loom.allThreads) {
+             thread.heddleSections.clear();
+             thread.view.renderThreadPath();
+         }
+              });
 
-        TableElement table = new TableElement();
-        container.append(table);
-         TableRowElement row = new Element.tr();
-        table.append(row);
-        pickContainer = new TableCellElement()..style.verticalAlign="top";
-        row.append(pickContainer);
-        fabricContainer = new TableCellElement();
-        row.append(fabricContainer);
+              ButtonElement updateButton = new ButtonElement()..text = "Update Fabric From Loom";
+      container.append(updateButton);
+              updateButton.onClick.listen((Event e) {
+         renderFabric();
+              });
+
+              TableElement table = new TableElement();
+              container.append(table);
+      TableRowElement row = new Element.tr();
+              table.append(row);
+              pickContainer = new TableCellElement()..style.verticalAlign="top";
+              row.append(pickContainer);
+              fabricContainer = new TableCellElement();
+              row.append(fabricContainer);
     }
 
     void renderWarpColorControls(Element container) {
          //"set thread x to this color and for X ones after"
-        DivElement div = new DivElement()..classes.add('colorControls');
+        DivElement div = new DivElement()..classes.add('controls');
         container.append(div);
         LabelElement label = new LabelElement()..text = "Set thread ";
         NumberInputElement number = new NumberInputElement()..value="0";
@@ -110,14 +116,63 @@ import 'WarpThreadView.dart';
         button.onClick.listen((Event e) {
             int startIndex = int.parse(number.value);
             int howMany = int.parse(number2.value);
-            for(int i = startIndex; i< startIndex + howMany; i++) {
-                WarpThread thread = loom.allThreads[i];
-                Colour newColor = Colour.fromStyleString(color.value);
-                thread.color.setFrom(newColor);
-                thread.view.renderThread();
+            for(int i = startIndex; i<= startIndex + howMany; i++) {
+                if(i < loom.allThreads.length) {
+                    WarpThread thread = loom.allThreads[i];
+                    Colour newColor = Colour.fromStyleString(color.value);
+                    thread.color.setFrom(newColor);
+                    thread.view.renderThread();
+                }
             }
         });
 
+
+    }
+
+    void renderThreadCountControls(Element container) {
+        DivElement div = new DivElement()..classes.add('controls');
+        container.append(div);
+        LabelElement label = new LabelElement()..text = "# of threads";
+        NumberInputElement number = new NumberInputElement()..value="4";
+        ButtonElement button = new ButtonElement()..text = "Set";
+        div.append(label);
+        div.append(number);
+        div.append(button);
+        button.onClick.listen((Event e) {
+            int threadCount = int.parse(number.value);
+            int oldCount = loom.allThreads.length;
+            int newThreadCount = threadCount -oldCount;
+            if(newThreadCount > 0) { //add
+                Colour color;
+                int lastX = 0;
+                if(loom.allThreads.isNotEmpty) {
+                    WarpThread lastThread = loom.allThreads.last;
+                    color = new Colour.from(lastThread.color);
+                    lastX = lastThread.view.x;
+                }else {
+                    color = new Colour(200,0,0);
+                }
+                for(int i = 0; i< newThreadCount; i++) {
+                    WarpThread warpThread = new WarpThread( color,i+oldCount);
+                    lastX += threadSeparationDistance;
+                    loom.allThreads.add(warpThread);
+                    new ThreadView(warpThread, warpContainer, lastX, height - 50,pickThread).renderThread();
+                }
+            }else if (newThreadCount < 0) { //remove
+                newThreadCount = newThreadCount.abs();
+                int length = loom.allThreads.length;
+                List<WarpThread> toRemove = new List<WarpThread>();
+                for(int i = 1; i<= newThreadCount; i++) {
+                    toRemove.add(loom.allThreads[length - i]);
+                }
+                for(WarpThread thread in toRemove){
+                    thread.view.teardown();
+                    loom.allThreads.remove(thread);
+                }
+
+            }
+
+        });
     }
 
     void renderPicks() {

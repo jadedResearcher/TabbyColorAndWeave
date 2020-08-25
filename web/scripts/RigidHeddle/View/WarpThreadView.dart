@@ -18,6 +18,7 @@ class ThreadView {
      PathElement path;
      PathElement guidePath;
      int y;
+     TextElement text;
      //if i am selected, call this function to let whoever cares know
      Lambda<WarpThread> callThread;
      ThreadView(this.thread, this.parent, int this.x, this.y, this.callThread) {
@@ -46,7 +47,7 @@ class ThreadView {
              callThread(thread);
          });
 
-         TextElement text = new TextElement()..text = "${thread.index}"..classes.add("threadLabel");
+         text = new TextElement()..text = "${thread.index}"..classes.add("threadLabel");
          text.attributes["x"] = "${x}";
          text.attributes["y"] = "${y+40}";
          parent.append(text);
@@ -105,5 +106,12 @@ class ThreadView {
      void renderThread() {
          renderThreadSource();
          renderThreadPath();
+     }
+
+     void teardown() {
+        path.remove();
+        rect.remove();
+        guidePath.remove();
+        text.remove();
      }
 }

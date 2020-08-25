@@ -53,10 +53,12 @@ abstract class SectionView {
 
 //should be two rectangles, one big and  grey, one small and in the middle and white.
 class HoleView extends SectionView {
+     RectElement rectContainer;
+     RectElement rectHole;
   HoleView(Section section, Element parent, int x, int y, int width, callback) : super(section, parent, x, y, width,callback);
      void render() {
          int height = 100;
-         RectElement rectContainer = new RectElement();
+         rectContainer = new RectElement();
 
          rectContainer.attributes["width"] = "$width";
          rectContainer.attributes["height"] = "$height";
@@ -69,7 +71,7 @@ class HoleView extends SectionView {
              callback(section);
          });
 
-         RectElement rectHole = new RectElement();
+         rectHole = new RectElement();
          rectHole.attributes["width"] = "5";
          rectHole.attributes["height"] = "10";
          rectHole.attributes["x"] = "${x+width/4}";
@@ -82,11 +84,18 @@ class HoleView extends SectionView {
              callback(section);
          });
      }
+
+     void teardown() {
+         rectContainer.remove();
+         rectHole.remove();
+     }
 }
 
 //should be a rectangle as tall as the big hole rectangle, but all white (represents space between heddles)
 class SlotView extends SectionView{
   SlotView(Section section, Element parent, int x, int y, int width, callback) : super(section, parent, x, y, width, callback);
+  RectElement rectContainer;
+
 
      void render() {
          int height = 100;
@@ -104,5 +113,9 @@ class SlotView extends SectionView{
          rectContainer.onClick.listen((Event e) {
              callback(section);
          });
+     }
+
+     void teardown() {
+        rectContainer.remove();
      }
 }
