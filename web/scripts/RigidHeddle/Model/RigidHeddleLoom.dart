@@ -102,14 +102,11 @@ class RigidHeddleLoom{
 
     static RigidHeddleLoom testDoubleLoom() {
         RigidHeddleLoom ret = new RigidHeddleLoom();
-        int numberThreads = 50;
+        int numberThreads = 80;
         ret.heddles.add(new Heddle(0, numberThreads));
         ret.heddles.add(new Heddle(1, numberThreads));
-        for(int i = 0; i< 30; i++) {
-            ret.allThreads.add(new WarpThread( new Colour(200,0,0)));
-            ret.allThreads.add(new WarpThread(new Colour(200,0,0)));
-            ret.allThreads.add(new WarpThread(new Colour(200,0,0)));
-            ret.allThreads.add(new WarpThread(new Colour(200,0,0)));
+        for(int i = 0; i< numberThreads*2; i++) {
+            ret.allThreads.add(new WarpThread( new Colour(200,0,0),i));
         }
         ret.basicDoubleThreading();
 

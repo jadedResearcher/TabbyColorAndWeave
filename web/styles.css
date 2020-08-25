@@ -32,6 +32,10 @@ table{
     display: inline-block;
 }
 
+.threadLabel{
+    font-size: 12px;
+}
+
 .colorStat{
     display: inline-block;
 }

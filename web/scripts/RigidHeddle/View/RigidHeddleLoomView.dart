@@ -29,10 +29,12 @@ import 'WarpThreadView.dart';
          instructions = new DivElement()..text = "Instructions:"..classes.add("instructions");
          setInstructions();
          parent.append(instructions);
-        final SvgElement loomElement = SvgElement.tag("svg")..classes.add("loom");
-        loomElement.attributes["width"] = "1200";
+         DivElement container = new DivElement()..classes.add("loom");
+         parent.append(container);
+        final SvgElement loomElement = SvgElement.tag("svg");
+        loomElement.attributes["width"] = "2000";
         loomElement.attributes["height"] = "$height";
-        parent.append(loomElement);
+        container.append(loomElement);
         heddleContainer = SvgElement.tag("g")..classes.add("heddles");
         loomElement.append(heddleContainer);
         int y = 125;
@@ -45,8 +47,8 @@ import 'WarpThreadView.dart';
         loomElement.append(warpContainer);
         int x = 0;
         for(WarpThread warpThread in loom.allThreads) {
-            new ThreadView(warpThread, warpContainer, x, height - 25,pickThread).renderThread();
-            x+=11;
+            new ThreadView(warpThread, warpContainer, x, height - 50,pickThread).renderThread();
+            x+=20;
         }
         renderControls();
         renderFabric();

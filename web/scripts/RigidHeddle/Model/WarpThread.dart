@@ -9,10 +9,11 @@ class WarpThread {
     Colour color;
     //makes it easier to thread
     Colour guideColor = new Colour(0,0,0);
+    int index;
     List<Section> heddleSections = new List<Section>();
 
 
-    WarpThread(Colour this.color);
+    WarpThread(Colour this.color, int this.index);
 
 
 

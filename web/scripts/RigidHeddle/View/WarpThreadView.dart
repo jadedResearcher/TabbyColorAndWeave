@@ -45,6 +45,11 @@ class ThreadView {
              }
              callThread(thread);
          });
+
+         TextElement text = new TextElement()..text = "${thread.index}"..classes.add("threadLabel");
+         text.attributes["x"] = "${x}";
+         text.attributes["y"] = "${y+40}";
+         parent.append(text);
      }
 
      void unselect() {

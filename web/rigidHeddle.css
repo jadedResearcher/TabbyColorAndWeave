@@ -1,5 +1,9 @@
 .loom{
     border: 1px solid black;
+    width: 1200px;
+    overflow: scroll;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .heddles{

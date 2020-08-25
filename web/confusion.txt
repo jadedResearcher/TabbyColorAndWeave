@@ -346,6 +346,9 @@ xI want to be able to delete an existing pick.
 xI want to be able to add a pick
 x I want to display a canvas fabric based on my threading and my picks so far. (since each thread knows what what sections it has should be able to turn that into sheds)
 
+BugFixes:
+* sometimes when i add a pick it changes the values of previous picks?
+* can't get point twill working as picks (possibly from the above)s
 
 Serialization:
 * I want to be able to save the size of my heddle and how many heddles there are.  (even if not yet configurable)
@@ -368,5 +371,9 @@ What remains is serialization and usability
  (I REALLY want to say things like "do straight twill three times, then do a single point, then do reverse straight twill")
   and that'll be those repeats
 
+
+before i do anything else, i wanna have the ability to say "set thread x to this color and for X ones after"
+
+but i should label my threads....
 
 
