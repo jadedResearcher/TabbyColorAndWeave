@@ -330,7 +330,7 @@ class FabricView {
       archiveSaveButton.remove();
       archiveSaveButton = null;
     }
-    archiveSaveButton = FileFormat.saveButton(ArchivePng.format, () => png,
+    archiveSaveButton = FileFormat.saveButton(ArchivePng.format, () async => png,
         filename: () => "JRColorWeaveMaker.png", caption: "Download Pattern");
 
     parent.append(archiveSaveButton);
