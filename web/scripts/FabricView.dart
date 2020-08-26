@@ -311,7 +311,7 @@ class FabricView {
       archiveSaveButton.remove();
       archiveSaveButton = null;
     }
-    int thumbnail_width = 500;
+    int thumbnail_width = 1000; //pl you're amazing
 
     CanvasElement thumbnail =
         new CanvasElement(width: thumbnail_width, height: thumbnail_width);
