@@ -89,7 +89,7 @@ import 'WarpThreadView.dart';
               table.append(row);
               pickContainer = new TableCellElement()..style.verticalAlign="top";
               row.append(pickContainer);
-              fabricContainer = new TableCellElement();
+              fabricContainer = new TableCellElement()..style.verticalAlign="top";
               row.append(fabricContainer);
     }
 

@@ -26,7 +26,11 @@ class Pick {
     }
 
     Pick copy(index) {
-        return new Pick(index, Colour.fromStyleString(color.toStyleString()), new List.from(heddleStates));
+        List<HeddleState> deepCopy = new List<HeddleState>();
+        for(HeddleState hs in heddleStates) {
+            deepCopy.add(new HeddleState(hs.heddle, hs.state));
+        }
+        return new Pick(index, Colour.fromStyleString(color.toStyleString()), deepCopy);
     }
 }
 

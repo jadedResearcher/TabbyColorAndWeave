@@ -379,4 +379,48 @@ before i do anything else, i wanna have the ability to say "set thread x to this
 
 but i should label my threads....
 
+did it
+
+~~~~~~~~~~~~~~~~
+
+* sometimes when i add a pick it changes the values of previous picks?
+that is keeping me from using this even to work out how to do huck lace, time to go hunting.
+
+I added a pick. Nothing chanced. I changed a value, then added a new pick,
+ something changed from down/down to neutral down (which is the thing i added).
+
+ is it possible i'm leaving a reference somewhere?
+
+ lets go to pick view
+ before i do does color change too?
+
+ no.
+
+ is there a pattern to how it changes?
+
+ if i CHANGE the last pick and then add a new one it changes the value of everything above it save the last two.
+
+ WHY? is it my copy? i bet thats it .
+
+ lets check what "add pick" does .
+
+              loom.picks.add(loom.picks.last.copy(loom.picks.length));
+
+
+                      return new Pick(index, Colour.fromStyleString(color.toStyleString()), new List.from(heddleStates));
+
+
+it makes a new pick view for them when rendering , too..
+
+
+so.
+
+
+why????
+
+
+is this the problem?
+        return new Pick(index, Colour.fromStyleString(color.toStyleString()), new List.from(heddleStates));
+its not making new heddle states but copies.
+
 
