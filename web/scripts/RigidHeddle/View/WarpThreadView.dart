@@ -87,18 +87,23 @@ class ThreadView {
 
          path.onMouseOver.listen((Event e) {
              path.attributes["stroke"] = thread.guideColor.toStyleString();
+             guidePath.attributes["stroke-width"] = "6";
+
          });
 
          path.onMouseLeave.listen((Event e) {
              path.attributes["stroke"] = thread.color.toStyleString();
+             guidePath.attributes["stroke-width"] = "3";
          });
 
          guidePath.onMouseOver.listen((Event e) {
              path.attributes["stroke"] = thread.guideColor.toStyleString();
+             guidePath.attributes["stroke-width"] = "6";
          });
 
          guidePath.onMouseLeave.listen((Event e) {
              path.attributes["stroke"] = thread.color.toStyleString();
+             guidePath.attributes["stroke-width"] = "3";
          });
 
      }

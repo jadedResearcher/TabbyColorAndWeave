@@ -361,6 +361,7 @@ Serialization:
 Stretch goals:
 x BARELY STRETCH, FUCKING DO THIS: I want to be able to say "set color to X for thread X and Y threads after"
 * i want to be able to say "repeat colors 1-10 5 times"
+* i want to be able to say "set color to X for thread X and Y threads after" for picks (or repeat threads 1-10 5 times colorways)
 * i want to be able to say "make the heddle this big"
 * i want to be able to say "make there be this many threads on screen"
 * I want to be able to say "repeat threads 3-14 7 times" (but only for existing threads).
