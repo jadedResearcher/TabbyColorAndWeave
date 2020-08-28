@@ -26,6 +26,10 @@ class ThreadView {
      }
 
      void renderThreadSource() {
+         if(rect != null) {
+             rect.remove();
+             text.remove();
+         }
          rect = new RectElement();
          rect.attributes["width"] = "8";
          rect.attributes["height"] = "20";
@@ -109,14 +113,17 @@ class ThreadView {
      }
 
      void renderThread() {
+         teardown();
          renderThreadSource();
          renderThreadPath();
      }
 
      void teardown() {
-        path.remove();
-        rect.remove();
-        guidePath.remove();
-        text.remove();
+         if(path != null) {
+             path.remove();
+             rect.remove();
+             guidePath.remove();
+             text.remove();
+         }
      }
 }

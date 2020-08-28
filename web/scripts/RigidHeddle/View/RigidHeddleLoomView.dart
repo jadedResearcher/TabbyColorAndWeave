@@ -125,7 +125,7 @@ import 'WarpThreadView.dart';
             int repsStartIndex = int.parse(number4.value);
             List<WarpThread> dirtyThreads = loom.copyThreadColors(startIndex, endIndex, numberRepetitions, repsStartIndex);
             for(WarpThread thread in dirtyThreads) {
-                thread.view.renderThread();
+                thread.view.renderThreadSource();
             }
         });
     }
@@ -158,7 +158,7 @@ import 'WarpThreadView.dart';
                     WarpThread thread = loom.allThreads[i];
                     Colour newColor = Colour.fromStyleString(color.value);
                     thread.color.setFrom(newColor);
-                    thread.view.renderThread();
+                    thread.view.renderThreadSource();
                 }
             }
         });
