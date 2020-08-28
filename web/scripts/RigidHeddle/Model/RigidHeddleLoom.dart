@@ -28,6 +28,8 @@ there is also a button for "repeat pattern for rest of weaving"
 
 canvas height is based on picks. in vert scroll, always at top (new picks go up).
  */
+import 'dart:html';
+
 import '../../Fabric.dart';
 import 'Heddle.dart';
 import 'Pick.dart';
@@ -88,7 +90,30 @@ class RigidHeddleLoom{
         return ret.join(",");
     }
 
+    List<Pick> copyPicks(int startIndex, int endIndex, int numberRepetitions) {
+        if(endIndex > picks.length) endIndex = picks.length -1;
+        List<Pick> patternPicks = picks.sublist(startIndex, endIndex+1);
+        print("Pattern picks are $patternPicks, start was $startIndex, end was $endIndex");
+        List<Pick> newPicks = new List<Pick>();
+        int originalLength = picks.length;
+        int index = 0;
+        for(int i = 0; i<numberRepetitions; i++){
+            for(Pick pattern in patternPicks) {
+                Pick pick = pattern.copy(
+                    originalLength + index);
+                picks.add(pick);
+                print("Pick $index addeded");
+                newPicks.add(pick);
+                index ++;
+            }
+
+        }
+        return newPicks;
+
+    }
+
     List<WarpThread> copyThreadColors(int startIndex, int endIndex, int numberRepetitions, int repsStartIndex) {
+        if(endIndex > picks.length) endIndex = allThreads.length -1;
         List<WarpThread> patternThreads = allThreads.sublist(startIndex, endIndex);
         List<WarpThread> modifiedThreads = new List<WarpThread>();
         //each loop is a single new thread

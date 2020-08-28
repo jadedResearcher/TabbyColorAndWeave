@@ -462,3 +462,9 @@ don't want to go down that path. its not too hard to thread.
 but PICKS are hard cuz you gotta keep adding new ones and their values are wrong.
 
 can change thread color p easy.
+
+okay lets replicate that work for pick, but instead of changing existing picks its just "add to end";
+
+maybe also a "delete picks x-y" instead of having to manually click, if that gets annoying.
+
+consider letting threads and picks views have a callback to update fabric, see if its terribly slow to make it realtime.

@@ -25,6 +25,10 @@ class Pick {
         return ret.join(",");
     }
 
+    @override toString() {
+        return "${this.color.toStyleString()}: $heddleStates";
+    }
+
     Pick copy(index) {
         List<HeddleState> deepCopy = new List<HeddleState>();
         for(HeddleState hs in heddleStates) {
@@ -43,4 +47,8 @@ class HeddleState {
     Heddle heddle;
     String state;
     HeddleState(this.heddle, this.state);
+    @override
+    String toString() {
+        return "${heddle.index}${state}";
+    }
 }

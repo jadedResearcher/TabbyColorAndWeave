@@ -25,6 +25,8 @@ import 'WarpThreadView.dart';
      WarpThread selectedThread;
      Element fabricContainer;
      Element pickContainer;
+     Element justPicksContainer;
+
      int height = 400;
      int threadSeparationDistance = 20;
      Element instructions;
@@ -65,6 +67,7 @@ import 'WarpThreadView.dart';
          renderWarpColorControls(container);
          renderCopyColorPatternControls(container);
          renderThreadCountControls(container);
+         renderCopyPickControls(container);
          renderSyncControls(container);
     }
 
@@ -93,7 +96,40 @@ import 'WarpThreadView.dart';
               fabricContainer = new TableCellElement()..style.verticalAlign="top";
               row.append(fabricContainer);
     }
-    //"repeat pick x-y, z times, starting at w" (not possible for threads)
+
+    void renderCopyPickControls(Element container) {
+        DivElement div = new DivElement()..classes.add('controls');
+        container.append(div);
+        LabelElement label = new LabelElement()..text = "Copy picks ";
+        NumberInputElement number = new NumberInputElement()..value="0";
+        LabelElement label2 = new LabelElement()..text = "through";
+        NumberInputElement number2 = new NumberInputElement()..value = "2";
+        LabelElement label3 = new LabelElement()..text = ",";
+        NumberInputElement number3 = new NumberInputElement()..value = "3";
+        LabelElement label4 = new LabelElement()..text = "times, and then put them at the end.";
+
+        ButtonElement button = new ButtonElement()..text = "Set";
+        div.append(label);
+        div.append(number);
+        div.append(label2);
+        div.append(number2);
+        div.append(label3);
+        div.append(number3);
+        div.append(label4);
+        div.append(button);
+
+        button.onClick.listen((Event e) {
+            int startIndex = int.parse(number.value);
+            int endIndex = int.parse(number2.value);
+            int numberRepetitions = int.parse(number3.value);
+            List<Pick> newPicks = loom.copyPicks(startIndex, endIndex, numberRepetitions);
+            for(Pick pick in newPicks) {
+                new PickView(pick, justPicksContainer)..render(removePick);
+            }
+        });
+    }
+
+    //"repeat color x-y, z times, starting at w" (not possible for threads)
     void renderCopyColorPatternControls(Element container) {
         DivElement div = new DivElement()..classes.add('controls');
         container.append(div);
@@ -216,8 +252,11 @@ import 'WarpThreadView.dart';
          pickContainer.text = "";
         HeadingElement heading = new HeadingElement.h2()..text = "Picks";
         pickContainer.append(heading);
+        //so the pattern adder can not bury the button
+        justPicksContainer = new DivElement();
+        pickContainer.append(justPicksContainer);
         for(Pick pick in loom.picks) {
-            new PickView(pick, pickContainer)..render(removePick);
+            new PickView(pick, justPicksContainer)..render(removePick);
         }
 
          ButtonElement addButton = new ButtonElement()..text = "Add Pick";
