@@ -88,6 +88,20 @@ class RigidHeddleLoom{
         return ret.join(",");
     }
 
+    List<WarpThread> copyThreadColors(int startIndex, int endIndex, int numberRepetitions, int repsStartIndex) {
+        List<WarpThread> patternThreads = allThreads.sublist(startIndex, endIndex);
+        List<WarpThread> modifiedThreads = new List<WarpThread>();
+        //each loop is a single new thread
+        for(int i = repsStartIndex; i<numberRepetitions*patternThreads.length; i++) {
+            if(i <allThreads.length) {
+                WarpThread thread = allThreads[i];
+                thread.copyColourFromSource(patternThreads[i%patternThreads.length]);
+                modifiedThreads.add(thread);
+            }
+        }
+        return modifiedThreads;
+    }
+
     String exportPicksToPickupString() {
         String ret = "";
         for(Pick pick in picks) {

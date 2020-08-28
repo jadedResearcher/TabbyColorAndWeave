@@ -425,3 +425,40 @@ is this the problem?
 its not making new heddle states but copies.
 
 
+~~~
+
+remaining todo:
+
+Serialization:
+* I want to be able to save the size of my heddle and how many heddles there are.  (even if not yet configurable)
+* I want to be able to save each thread, including color and heddle list (original idea of list of indices) (even if not yet configurable)
+* I want to be able to save each pick, which would be color, and state of each heddle
+* I want to serialize to the canvas as image archive
+* I want to be able to load from image archive
+
+
+Stretch goals:
+x BARELY STRETCH, FUCKING DO THIS: I want to be able to say "set color to X for thread X and Y threads after"
+* i want to be able to say "repeat colors 1-10 5 times"
+* i want to be able to say "set color to X for thread X and Y threads after" for picks (or repeat threads 1-10 5 times colorways)
+* i want to be able to say "make the heddle this big"
+* i want to be able to say "make there be this many threads on screen"
+* I want to be able to say "repeat threads 3-14 7 times" (but only for existing threads).
+* I want to be able to say "repeat picks 3-14 7 times" (and add picks)
+x I want to be able to number the threads
+
+i think i wanna do the stretch goals fisrt, actually, cuz otherwise its too annoying to make things complicated enough i wanna save
+
+instead of colors for now, lets do "threads"
+
+"repeat threads x-y, z times, starting at w"
+
+ah , just realized that copying threads is not as easy as i thought, because i would need to know which new section is a hole or slot.
+
+whoops.
+
+don't want to go down that path. its not too hard to thread.
+
+but PICKS are hard cuz you gotta keep adding new ones and their values are wrong.
+
+can change thread color p easy.

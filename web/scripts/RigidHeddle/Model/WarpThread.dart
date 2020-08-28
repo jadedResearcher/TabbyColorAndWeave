@@ -24,6 +24,12 @@ class WarpThread {
         return false;
     }
 
+    void copyColourFromSource(WarpThread source) {
+        color.setFrom(Colour.fromStyleString(source.color.toStyleString()));
+        guideColor.setFrom(source.guideColor);
+        //doing heddleSections is very very hard. have to guess which section to pick for the copy, don't do it, humans are better.
+    }
+
     bool isUpForPickSingleHeddle(Pick pick) {
         Section section = heddleSections.first;
         bool hole = section is Hole;
