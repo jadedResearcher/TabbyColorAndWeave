@@ -470,6 +470,8 @@ maybe also a "delete picks x-y" instead of having to manually click, if that get
 consider letting threads and picks views have a callback to update fabric, see if its terribly slow to make it realtime.
 
 alright now all thats left is
+Quality Of Life:
+* ability to set ranges of colors in existing picks (just like i can with threads)
 Serialization:
 * I want to be able to save the size of my heddle and how many heddles there are.  (even if not yet configurable)
 * I want to be able to save each thread, including color and heddle list (original idea of list of indices) (even if not yet configurable)
