@@ -468,3 +468,11 @@ okay lets replicate that work for pick, but instead of changing existing picks i
 maybe also a "delete picks x-y" instead of having to manually click, if that gets annoying.
 
 consider letting threads and picks views have a callback to update fabric, see if its terribly slow to make it realtime.
+
+alright now all thats left is
+Serialization:
+* I want to be able to save the size of my heddle and how many heddles there are.  (even if not yet configurable)
+* I want to be able to save each thread, including color and heddle list (original idea of list of indices) (even if not yet configurable)
+* I want to be able to save each pick, which would be color, and state of each heddle
+* I want to serialize to the canvas as image archive
+* I want to be able to load from image archive

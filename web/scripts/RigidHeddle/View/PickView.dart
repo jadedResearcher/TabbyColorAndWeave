@@ -10,7 +10,7 @@ class PickView {
     Element parent;
     PickView(Pick this.pick, this.parent);
 
-    void render(Lambda<Pick> removeCallback) {
+    void render(Lambda<Pick> removeCallback, Action changeCallback) {
         DivElement div = new DivElement()..classes.add("pick");
         parent.append(div);
         HeadingElement heading = new HeadingElement.h3()..text = "Pick ${pick.index}";
@@ -24,6 +24,7 @@ class PickView {
         color.onInput.listen((Event e) {
             Colour newColor = Colour.fromStyleString(color.value);
             pick.color.setFrom(newColor);
+            changeCallback();
         });
 
         for(HeddleState heddleState in pick.heddleStates) {
@@ -37,6 +38,7 @@ class PickView {
             }
             select.onInput.listen((Event e) {
                 heddleState.state = select.value;
+                changeCallback();
             });
             subcontainer.append(label);
             subcontainer.append(select);

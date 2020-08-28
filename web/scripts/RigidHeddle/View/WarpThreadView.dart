@@ -13,6 +13,7 @@ class ThreadView {
      WarpThread thread;
      Element parent;
      int x;
+     Action changeCallback;
      bool selected = false;
      RectElement rect;
      PathElement path;

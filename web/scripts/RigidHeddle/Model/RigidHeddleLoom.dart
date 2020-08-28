@@ -91,7 +91,7 @@ class RigidHeddleLoom{
     }
 
     List<Pick> copyPicks(int startIndex, int endIndex, int numberRepetitions) {
-        if(endIndex > picks.length) endIndex = picks.length -1;
+        if(endIndex+1 > picks.length) endIndex = picks.length -1;
         List<Pick> patternPicks = picks.sublist(startIndex, endIndex+1);
         print("Pattern picks are $patternPicks, start was $startIndex, end was $endIndex");
         List<Pick> newPicks = new List<Pick>();
@@ -113,8 +113,9 @@ class RigidHeddleLoom{
     }
 
     List<WarpThread> copyThreadColors(int startIndex, int endIndex, int numberRepetitions, int repsStartIndex) {
-        if(endIndex > picks.length) endIndex = allThreads.length -1;
-        List<WarpThread> patternThreads = allThreads.sublist(startIndex, endIndex);
+        if(endIndex+1 > allThreads.length) endIndex = allThreads.length -1;
+        List<WarpThread> patternThreads = allThreads.sublist(startIndex, endIndex+1);
+        print("Pattern threads for color is $patternThreads, start was $startIndex, end was $endIndex");
         List<WarpThread> modifiedThreads = new List<WarpThread>();
         //each loop is a single new thread
         for(int i = repsStartIndex; i<numberRepetitions*patternThreads.length; i++) {

@@ -124,8 +124,9 @@ import 'WarpThreadView.dart';
             int numberRepetitions = int.parse(number3.value);
             List<Pick> newPicks = loom.copyPicks(startIndex, endIndex, numberRepetitions);
             for(Pick pick in newPicks) {
-                new PickView(pick, justPicksContainer)..render(removePick);
+                new PickView(pick, justPicksContainer)..render(removePick, renderFabric);
             }
+            renderFabric();
         });
     }
 
@@ -163,6 +164,7 @@ import 'WarpThreadView.dart';
             for(WarpThread thread in dirtyThreads) {
                 thread.view.renderThreadSource();
             }
+            renderFabric();
         });
     }
 
@@ -197,6 +199,7 @@ import 'WarpThreadView.dart';
                     thread.view.renderThreadSource();
                 }
             }
+            renderFabric();
         });
 
 
@@ -244,7 +247,7 @@ import 'WarpThreadView.dart';
                 }
 
             }
-
+            renderFabric();
         });
     }
 
@@ -256,7 +259,7 @@ import 'WarpThreadView.dart';
         justPicksContainer = new DivElement();
         pickContainer.append(justPicksContainer);
         for(Pick pick in loom.picks) {
-            new PickView(pick, justPicksContainer)..render(removePick);
+            new PickView(pick, justPicksContainer)..render(removePick, renderFabric);
         }
 
          ButtonElement addButton = new ButtonElement()..text = "Add Pick";
@@ -264,12 +267,14 @@ import 'WarpThreadView.dart';
          addButton.onClick.listen((Event e) {
              loom.picks.add(loom.picks.last.copy(loom.picks.length));
              renderPicks();
+             renderFabric();
          });
 
     }
 
     void removePick(Pick pick) {
          loom.picks.remove(pick);
+         renderFabric();
          renderPicks();
     }
 
@@ -301,6 +306,7 @@ import 'WarpThreadView.dart';
              selectedThread = thread;
              thread.heddleSections.clear();
              thread.view.renderThreadPath();
+             renderFabric();
          }
          setInstructions();
      }
@@ -314,6 +320,7 @@ import 'WarpThreadView.dart';
          if(selectedThread != null) {
             selectedThread.heddleSections.add(section);
             selectedThread.view.renderThreadPath();
+            renderFabric();
          }
      }
 

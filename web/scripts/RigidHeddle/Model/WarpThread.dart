@@ -24,6 +24,11 @@ class WarpThread {
         return false;
     }
 
+    @override
+    String toString() {
+        return "Thread $index ${color.toStyleString()}";
+    }
+
     void copyColourFromSource(WarpThread source) {
         color.setFrom(Colour.fromStyleString(source.color.toStyleString()));
         guideColor.setFrom(source.guideColor);
