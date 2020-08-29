@@ -471,7 +471,9 @@ consider letting threads and picks views have a callback to update fabric, see i
 
 alright now all thats left is
 Quality Of Life:
-* ability to set ranges of colors in existing picks (just like i can with threads)
+*separate controls into threads and picks
+*ability to bulk set pick colors (just like I can with threads)
+* ability to set patterns of colors in existing picks (just like i can with threads)
 Serialization:
 * I want to be able to save the size of my heddle and how many heddles there are.  (even if not yet configurable)
 * I want to be able to save each thread, including color and heddle list (original idea of list of indices) (even if not yet configurable)

@@ -12,30 +12,30 @@ import '../Model/WarpThread.dart';
 import 'HeddleView.dart';
 import 'PickView.dart';
 import 'WarpThreadView.dart';
- class RigidHeddleLoomView {
-     Element parent;
-     RigidHeddleLoom loom;
-     RigidHeddleLoomView(this.loom, this.parent);
-     int heddlesX;
-     int heddlesY;
-     FabricRenderer renderer;
-     SvgElement heddleContainer;
-     bool draggingHeddles = false;
-     SvgElement warpContainer;
-     WarpThread selectedThread;
-     Element fabricContainer;
-     Element pickContainer;
-     Element justPicksContainer;
+class RigidHeddleLoomView {
+    Element parent;
+    RigidHeddleLoom loom;
+    RigidHeddleLoomView(this.loom, this.parent);
+    int heddlesX;
+    int heddlesY;
+    FabricRenderer renderer;
+    SvgElement heddleContainer;
+    bool draggingHeddles = false;
+    SvgElement warpContainer;
+    WarpThread selectedThread;
+    Element fabricContainer;
+    Element pickContainer;
+    Element justPicksContainer;
 
-     int height = 400;
-     int threadSeparationDistance = 20;
-     Element instructions;
-     void renderLoom() {
-         instructions = new DivElement()..text = "Instructions:"..classes.add("instructions");
-         setInstructions();
-         parent.append(instructions);
-         DivElement container = new DivElement()..classes.add("loom");
-         parent.append(container);
+    int height = 400;
+    int threadSeparationDistance = 20;
+    Element instructions;
+    void renderLoom() {
+        instructions = new DivElement()..text = "Instructions:"..classes.add("instructions");
+        setInstructions();
+        parent.append(instructions);
+        DivElement container = new DivElement()..classes.add("loom");
+        parent.append(container);
         final SvgElement loomElement = SvgElement.tag("svg");
         loomElement.attributes["width"] = "5000";
         loomElement.attributes["height"] = "$height";
@@ -56,45 +56,47 @@ import 'WarpThreadView.dart';
             x+=threadSeparationDistance;
         }
         renderControls();
+        renderPicksAndFabricContainers(parent);
         renderFabric();
         renderPicks();
     }
 
     void renderControls() {
-         DivElement container = new DivElement();
-
-         parent.append(container);
-         renderWarpColorControls(container);
-         renderCopyColorPatternControls(container);
-         renderThreadCountControls(container);
-         renderCopyPickControls(container);
-         renderSyncControls(container);
+        DivElement container = new DivElement();
+        parent.append(container);
+        DivElement pickControls = new DivElement()..classes.add("pickControls")..text = "Pick Controls";
+        DivElement threadControls = new DivElement()..classes.add("threadControls")..text = "Thread Controls";
+        container.append(pickControls);
+        container.append(threadControls);
+        renderWarpColorControls(threadControls);
+        renderCopyColorPatternControls(threadControls);
+        renderThreadCountControls(threadControls);
+        renderCopyPickControls(pickControls);
+        renderSyncControls(threadControls);
     }
 
     void renderSyncControls(DivElement container) {
-      ButtonElement clearButton = new ButtonElement()..text = "Clear All Threading";
-      container.append(clearButton);
-              clearButton.onClick.listen((Event e) {
-         for(WarpThread thread in loom.allThreads) {
-             thread.heddleSections.clear();
-             thread.view.renderThreadPath();
-         }
-              });
+        ButtonElement clearButton = new ButtonElement()..text = "Clear All Threading";
+        container.append(clearButton);
+        clearButton.onClick.listen((Event e) {
+            for(WarpThread thread in loom.allThreads) {
+                thread.heddleSections.clear();
+                thread.view.renderThreadPath();
+            }
+        });
 
-              ButtonElement updateButton = new ButtonElement()..text = "Update Fabric From Loom";
-      container.append(updateButton);
-              updateButton.onClick.listen((Event e) {
-         renderFabric();
-              });
 
-              TableElement table = new TableElement();
-              container.append(table);
-      TableRowElement row = new Element.tr();
-              table.append(row);
-              pickContainer = new TableCellElement()..style.verticalAlign="top";
-              row.append(pickContainer);
-              fabricContainer = new TableCellElement()..style.verticalAlign="top";
-              row.append(fabricContainer);
+    }
+
+    void renderPicksAndFabricContainers(Element container) {
+        TableElement table = new TableElement();
+        container.append(table);
+        TableRowElement row = new Element.tr();
+        table.append(row);
+        pickContainer = new TableCellElement()..style.verticalAlign="top";
+        row.append(pickContainer);
+        fabricContainer = new TableCellElement()..style.verticalAlign="top";
+        row.append(fabricContainer);
     }
 
     void renderCopyPickControls(Element container) {
@@ -169,7 +171,7 @@ import 'WarpThreadView.dart';
     }
 
     void renderWarpColorControls(Element container) {
-         //"set thread x to this color and for X ones after"
+        //"set thread x to this color and for X ones after"
         DivElement div = new DivElement()..classes.add('controls');
         container.append(div);
         LabelElement label = new LabelElement()..text = "Set thread ";
@@ -252,7 +254,7 @@ import 'WarpThreadView.dart';
     }
 
     void renderPicks() {
-         pickContainer.text = "";
+        pickContainer.text = "";
         HeadingElement heading = new HeadingElement.h2()..text = "Picks";
         pickContainer.append(heading);
         //so the pattern adder can not bury the button
@@ -262,89 +264,73 @@ import 'WarpThreadView.dart';
             new PickView(pick, justPicksContainer)..render(removePick, renderFabric);
         }
 
-         ButtonElement addButton = new ButtonElement()..text = "Add Pick";
-         pickContainer.append(addButton);
-         addButton.onClick.listen((Event e) {
-             loom.picks.add(loom.picks.last.copy(loom.picks.length));
-             renderPicks();
-             renderFabric();
-         });
+        ButtonElement addButton = new ButtonElement()..text = "Add Pick";
+        pickContainer.append(addButton);
+        addButton.onClick.listen((Event e) {
+            loom.picks.add(loom.picks.last.copy(loom.picks.length));
+            renderPicks();
+            renderFabric();
+        });
 
     }
 
     void removePick(Pick pick) {
-         loom.picks.remove(pick);
-         renderFabric();
-         renderPicks();
+        loom.picks.remove(pick);
+        renderFabric();
+        renderPicks();
     }
 
 
     void renderFabric() {
-         if(renderer == null) {
-             Fabric fabric = loom.exportLoomToFabric(null);
-             renderer = new FabricRenderer(fabric);
-             renderer.renderToParent(fabricContainer);
-         }else {
-             loom.exportLoomToFabric(renderer.fabric);
-             renderer.update();
-         }
+        if(renderer == null) {
+            Fabric fabric = loom.exportLoomToFabric(null);
+            renderer = new FabricRenderer(fabric);
+            renderer.renderToParent(fabricContainer);
+        }else {
+            loom.exportLoomToFabric(renderer.fabric);
+            renderer.update();
+        }
     }
 
     void setInstructions() {
-         if(selectedThread != null) {
-             instructions.text = "Instructions: Now that a thread is selected, you can click a hole or slot in any heddle to thread it. You can click multiple holes or slots.   You can click the thread again (or a new thread) to deselect it.   ";
-         }else {
-             instructions.text = "Instructions: Click a colored thread box below to select it and begin Threading Mode.";
-         }
+        if(selectedThread != null) {
+            instructions.text = "Instructions: Now that a thread is selected, you can click a hole or slot in any heddle to thread it. You can click multiple holes or slots.   You can click the thread again (or a new thread) to deselect it.   ";
+        }else {
+            instructions.text = "Instructions: Click a colored thread box below to select it and begin Threading Mode.";
+        }
     }
 
     void pickThread(WarpThread thread) {
-         if(selectedThread == thread) {
-             selectedThread = null;
-         }else {
-             if(selectedThread != null) selectedThread.view.unselect();
-             selectedThread = thread;
-             thread.heddleSections.clear();
-             thread.view.renderThreadPath();
-             renderFabric();
-         }
-         setInstructions();
-     }
-
-     void clearPickedThread() {
-         selectedThread = null;
+        if(selectedThread == thread) {
+            selectedThread = null;
+        }else {
+            if(selectedThread != null) selectedThread.view.unselect();
+            selectedThread = thread;
+            thread.heddleSections.clear();
+            thread.view.renderThreadPath();
+            renderFabric();
+        }
         setInstructions();
-     }
+    }
 
-     void pickHeddleSection(Section section) {
-         if(selectedThread != null) {
+    void clearPickedThread() {
+        selectedThread = null;
+        setInstructions();
+    }
+
+    void pickHeddleSection(Section section) {
+        if(selectedThread != null) {
             selectedThread.heddleSections.add(section);
             selectedThread.view.renderThreadPath();
             renderFabric();
-         }
-     }
-
-    void setupControls() {
-
-         heddleContainer.onMouseDown.listen((Event e) {
-             draggingHeddles = true;
-         });
-
-         window.onMouseUp.listen((Event e) {
-             if(draggingHeddles) {
-                 //todo either disable this feature or figure out hwo to do a transform but make the paths re-render too (they don't like the tranform)
-             }
-             draggingHeddles = false;
-         });
-
-         window.onMouseMove.listen((MouseEvent e) {
-             if(draggingHeddles) handleMove((e.offset.x).ceil(), (e.offset.y).ceil());
-         });
+        }
     }
 
-     void handleMove(int newX, int newY) {
-         heddlesX = newX;
-         heddlesY = newY;
-         heddleContainer.attributes["transform"] = "translate($newX,$newY)";
-     }
+
+
+    void handleMove(int newX, int newY) {
+        heddlesX = newX;
+        heddlesY = newY;
+        heddleContainer.attributes["transform"] = "translate($newX,$newY)";
+    }
 }
