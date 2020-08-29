@@ -71,14 +71,17 @@ class RigidHeddleLoomView {
     void renderPickControls(Element container) {
         DivElement pickControls = new DivElement()..classes.add("pickControls")..text = "Pick Controls";
         container.append(pickControls);
+        renderPickColorControls(pickControls);
+        //renderCopyPickColorPatternControls(pickControls);
         renderCopyPickControls(pickControls);
+
     }
 
     void renderThreadControls(Element container) {
         DivElement threadControls = new DivElement()..classes.add("threadControls")..text = "Thread Controls";
         container.append(threadControls);
         renderWarpColorControls(threadControls);
-        renderCopyColorPatternControls(threadControls);
+        renderCopyWarpColorPatternControls(threadControls);
         renderThreadCountControls(threadControls);
         renderSyncControls(threadControls);
 
@@ -142,7 +145,7 @@ class RigidHeddleLoomView {
     }
 
     //"repeat color x-y, z times, starting at w" (not possible for threads)
-    void renderCopyColorPatternControls(Element container) {
+    void renderCopyWarpColorPatternControls(Element container) {
         DivElement div = new DivElement()..classes.add('controls');
         container.append(div);
         LabelElement label = new LabelElement()..text = "Copy thread colors ";
@@ -208,6 +211,41 @@ class RigidHeddleLoomView {
                     Colour newColor = Colour.fromStyleString(color.value);
                     thread.color.setFrom(newColor);
                     thread.view.renderThreadSource();
+                }
+            }
+            renderFabric();
+        });
+    }
+
+    void renderPickColorControls(Element container) {
+        //"set thread x to this color and for X ones after"
+        DivElement div = new DivElement()..classes.add('controls');
+        container.append(div);
+        LabelElement label = new LabelElement()..text = "Set pick ";
+        NumberInputElement number = new NumberInputElement()..value="0";
+        LabelElement label2 = new LabelElement()..text = "and the next";
+        NumberInputElement number2 = new NumberInputElement()..value = "${loom.picks.length}";
+        LabelElement label3 = new LabelElement()..text = "picks to ";
+        InputElement color = new InputElement()..type="color";
+        ButtonElement button = new ButtonElement()..text = "Set";
+
+        div.append(label);
+        div.append(number);
+        div.append(label2);
+        div.append(number2);
+        div.append(label3);
+        div.append(color);
+        div.append(button);
+
+        button.onClick.listen((Event e) {
+            int startIndex = int.parse(number.value);
+            int howMany = int.parse(number2.value);
+            for(int i = startIndex; i<= startIndex + howMany; i++) {
+                if(i < loom.picks.length) {
+                    Pick pick = loom.picks[i];
+                    Colour newColor = Colour.fromStyleString(color.value);
+                    pick.color.setFrom(newColor);
+                    pick.view.syncColor();
                 }
             }
             renderFabric();

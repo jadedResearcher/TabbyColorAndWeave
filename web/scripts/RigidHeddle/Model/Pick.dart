@@ -6,12 +6,14 @@
  */
 import 'package:CommonLib/Colours.dart';
 
+import '../View/PickView.dart';
 import 'Heddle.dart';
 import 'WarpThread.dart';
 
 class Pick {
     Colour color;
     int index;
+    PickView view;
     List<HeddleState> heddleStates = new List<HeddleState>();
     Pick(int this.index, this.color, this.heddleStates);
 

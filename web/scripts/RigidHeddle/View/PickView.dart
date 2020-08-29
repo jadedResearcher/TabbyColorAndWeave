@@ -8,7 +8,14 @@ import '../Model/Pick.dart';
 class PickView {
     Pick pick;
     Element parent;
-    PickView(Pick this.pick, this.parent);
+    InputElement color;
+    PickView(Pick this.pick, this.parent) {
+        pick.view = this;
+    }
+
+    void syncColor() {
+        color.value = pick.color.toStyleString();
+    }
 
     void render(Lambda<Pick> removeCallback, Action changeCallback) {
         DivElement div = new DivElement()..classes.add("pick");
@@ -19,7 +26,7 @@ class PickView {
         ButtonElement remove = new ButtonElement()..text = "x"..classes.add("x");
         div.append(remove);
         remove.onClick.listen((Event e) => removeCallback(pick));
-        InputElement color = new InputElement()..type = "color"..value = pick.color.toStyleString()..style.display="block";
+        color = new InputElement()..type = "color"..value = pick.color.toStyleString()..style.display="block";
         div.append(color);
         color.onInput.listen((Event e) {
             Colour newColor = Colour.fromStyleString(color.value);
