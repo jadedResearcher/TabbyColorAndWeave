@@ -27,6 +27,10 @@ class Pick {
         return ret.join(",");
     }
 
+    void copyColourFromSource(Pick source) {
+        color.setFrom(Colour.fromStyleString(source.color.toStyleString()));
+    }
+
     @override toString() {
         return "${this.color.toStyleString()}: $heddleStates";
     }

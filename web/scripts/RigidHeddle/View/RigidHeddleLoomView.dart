@@ -72,13 +72,9 @@ class RigidHeddleLoomView {
         DivElement pickControls = new DivElement()..classes.add("pickControls")..text = "Pick Controls";
         container.append(pickControls);
         renderPickColorControls(pickControls);
-        //renderCopyPickColorPatternControls(pickControls);
+        renderCopyPickColorPatternControls(pickControls);
         renderCopyPickControls(pickControls);
-
-
         renderClearPickControls(pickControls);
-
-
     }
 
     void renderThreadControls(Element container) {
@@ -88,7 +84,6 @@ class RigidHeddleLoomView {
         renderCopyWarpColorPatternControls(threadControls);
         renderThreadCountControls(threadControls);
         renderClearThreadControls(threadControls);
-
     }
 
     void renderClearThreadControls(DivElement container) {
@@ -157,7 +152,7 @@ class RigidHeddleLoomView {
         });
     }
 
-    //"repeat color x-y, z times, starting at w" (not possible for threads)
+    //"repeat color x-y, z times, starting at w" (not possible for threading)
     void renderCopyWarpColorPatternControls(Element container) {
         DivElement div = new DivElement()..classes.add('controls');
         container.append(div);
@@ -190,6 +185,44 @@ class RigidHeddleLoomView {
             List<WarpThread> dirtyThreads = loom.copyThreadColors(startIndex, endIndex, numberRepetitions, repsStartIndex);
             for(WarpThread thread in dirtyThreads) {
                 thread.view.renderThreadSource();
+            }
+            renderFabric();
+        });
+    }
+
+    //"repeat color x-y, z times, starting at w" (not possible for threads)
+    void renderCopyPickColorPatternControls(Element container) {
+        DivElement div = new DivElement()..classes.add('controls');
+        container.append(div);
+        LabelElement label = new LabelElement()..text = "Copy pick colors ";
+        NumberInputElement number = new NumberInputElement()..value="0";
+        LabelElement label2 = new LabelElement()..text = "through";
+        NumberInputElement number2 = new NumberInputElement()..value = "4";
+        LabelElement label3 = new LabelElement()..text = ",";
+        NumberInputElement number3 = new NumberInputElement()..value = "10";
+        LabelElement label4 = new LabelElement()..text = "times, starting at pick";
+        NumberInputElement number4 = new NumberInputElement()..value = "5";
+
+
+        ButtonElement button = new ButtonElement()..text = "Set";
+        div.append(label);
+        div.append(number);
+        div.append(label2);
+        div.append(number2);
+        div.append(label3);
+        div.append(number3);
+        div.append(label4);
+        div.append(number4);
+        div.append(button);
+
+        button.onClick.listen((Event e) {
+            int startIndex = int.parse(number.value);
+            int endIndex = int.parse(number2.value);
+            int numberRepetitions = int.parse(number3.value);
+            int repsStartIndex = int.parse(number4.value);
+            List<Pick> dirtyPicks = loom.copyPickColors(startIndex, endIndex, numberRepetitions, repsStartIndex);
+            for(Pick pick in dirtyPicks) {
+                pick.view.syncColor();
             }
             renderFabric();
         });
