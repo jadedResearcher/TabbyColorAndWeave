@@ -64,15 +64,24 @@ class RigidHeddleLoomView {
     void renderControls() {
         DivElement container = new DivElement();
         parent.append(container);
+        renderThreadControls(container);
+        renderPickControls(container);
+    }
+
+    void renderPickControls(Element container) {
         DivElement pickControls = new DivElement()..classes.add("pickControls")..text = "Pick Controls";
-        DivElement threadControls = new DivElement()..classes.add("threadControls")..text = "Thread Controls";
         container.append(pickControls);
+        renderCopyPickControls(pickControls);
+    }
+
+    void renderThreadControls(Element container) {
+        DivElement threadControls = new DivElement()..classes.add("threadControls")..text = "Thread Controls";
         container.append(threadControls);
         renderWarpColorControls(threadControls);
         renderCopyColorPatternControls(threadControls);
         renderThreadCountControls(threadControls);
-        renderCopyPickControls(pickControls);
         renderSyncControls(threadControls);
+
     }
 
     void renderSyncControls(DivElement container) {
