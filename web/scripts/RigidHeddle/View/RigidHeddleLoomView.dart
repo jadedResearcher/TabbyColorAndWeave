@@ -75,6 +75,10 @@ class RigidHeddleLoomView {
         //renderCopyPickColorPatternControls(pickControls);
         renderCopyPickControls(pickControls);
 
+
+        renderClearPickControls(pickControls);
+
+
     }
 
     void renderThreadControls(Element container) {
@@ -83,11 +87,11 @@ class RigidHeddleLoomView {
         renderWarpColorControls(threadControls);
         renderCopyWarpColorPatternControls(threadControls);
         renderThreadCountControls(threadControls);
-        renderSyncControls(threadControls);
+        renderClearThreadControls(threadControls);
 
     }
 
-    void renderSyncControls(DivElement container) {
+    void renderClearThreadControls(DivElement container) {
         ButtonElement clearButton = new ButtonElement()..text = "Clear All Threading";
         container.append(clearButton);
         clearButton.onClick.listen((Event e) {
@@ -96,8 +100,17 @@ class RigidHeddleLoomView {
                 thread.view.renderThreadPath();
             }
         });
+    }
 
-
+    void renderClearPickControls(DivElement container) {
+        ButtonElement clearButton = new ButtonElement()..text = "Clear All But One Picks";
+        container.append(clearButton);
+        clearButton.onClick.listen((Event e) {
+            Pick savedPick = loom.picks.first;
+            loom.picks.clear();
+            loom.picks.add(savedPick);
+            renderPicks();
+        });
     }
 
     void renderPicksAndFabricContainers(Element container) {
@@ -322,9 +335,13 @@ class RigidHeddleLoomView {
     }
 
     void removePick(Pick pick) {
-        loom.picks.remove(pick);
-        renderFabric();
-        renderPicks();
+        if(loom.picks.length > 1) {
+            loom.picks.remove(pick);
+            renderFabric();
+            renderPicks();
+        }else {
+            window.alert("Cannot remove last pick!");
+        }
     }
 
 
