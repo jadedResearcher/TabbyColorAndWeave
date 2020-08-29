@@ -62,14 +62,14 @@ class RigidHeddleLoomView {
     }
 
     void renderControls() {
-        DivElement container = new DivElement();
+        DivElement container = new DivElement()..classes.add("controlsHolder");
         parent.append(container);
         renderThreadControls(container);
         renderPickControls(container);
     }
 
     void renderPickControls(Element container) {
-        DivElement pickControls = new DivElement()..classes.add("pickControls")..text = "Pick Controls";
+        DivElement pickControls = new DivElement()..classes.add("pickControls")..innerHtml = "<b>Pick Controls</b>";
         container.append(pickControls);
         renderPickColorControls(pickControls);
         renderCopyPickColorPatternControls(pickControls);
@@ -78,7 +78,7 @@ class RigidHeddleLoomView {
     }
 
     void renderThreadControls(Element container) {
-        DivElement threadControls = new DivElement()..classes.add("threadControls")..text = "Thread Controls";
+        DivElement threadControls = new DivElement()..classes.add("threadControls")..innerHtml = "<b>Thread Controls</b>";
         container.append(threadControls);
         renderWarpColorControls(threadControls);
         renderCopyWarpColorPatternControls(threadControls);
@@ -162,7 +162,7 @@ class RigidHeddleLoomView {
         NumberInputElement number2 = new NumberInputElement()..value = "4";
         LabelElement label3 = new LabelElement()..text = ",";
         NumberInputElement number3 = new NumberInputElement()..value = "10";
-        LabelElement label4 = new LabelElement()..text = "times, starting at thread";
+        LabelElement label4 = new LabelElement()..text = "times, starting at";
         NumberInputElement number4 = new NumberInputElement()..value = "5";
 
 
@@ -200,7 +200,7 @@ class RigidHeddleLoomView {
         NumberInputElement number2 = new NumberInputElement()..value = "4";
         LabelElement label3 = new LabelElement()..text = ",";
         NumberInputElement number3 = new NumberInputElement()..value = "10";
-        LabelElement label4 = new LabelElement()..text = "times, starting at pick";
+        LabelElement label4 = new LabelElement()..text = "times, starting at";
         NumberInputElement number4 = new NumberInputElement()..value = "5";
 
 

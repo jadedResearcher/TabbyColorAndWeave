@@ -25,7 +25,10 @@
 .warpChains{
     border: 1px solid black;
 }
-
+.controlsHolder{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 .instructions{
     text-align: left;
 }
@@ -35,6 +38,7 @@
     width: 600px;
     margin-left: auto;
     margin-right: auto;
+    padding: 10px;
 }
 
 .controls input{
