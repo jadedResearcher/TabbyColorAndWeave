@@ -45,6 +45,14 @@ class RigidHeddleLoom{
     //each thread knows which section it is in for each heddle. so the loom knows what sheds exist by knowing what threads are in it and what heddles it has
     List<WarpThread> allThreads= new List<WarpThread>();
 
+    Map<String,dynamic > getSerialization() {
+        Map<String,dynamic> ret = new Map<String,dynamic>();
+        ret["heddles"] = heddles.map((Heddle s) => s.getSerialization()).toList();
+        ret["picks"] = picks.map((Pick s) => s.getSerialization()).toList();
+        ret["allThreads"] = allThreads.map((WarpThread s) => s.getSerialization()).toList();
+        return ret;
+    }
+
 
     Fabric exportLoomToFabric(Fabric fabric) {
         List<Colour> colors = collateAllColorsUsed();

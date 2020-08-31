@@ -9,6 +9,13 @@ class Heddle {
         initHeddle(numberEnds);
     }
 
+    Map<String,dynamic > getSerialization() {
+        Map<String,dynamic> ret = new Map<String,dynamic>();
+        ret["index"] = index;
+        ret["holesAndSlots"] = holesAndSlots.map((Section s) => s.getSerialization()).toList();
+        return ret;
+    }
+
     void initHeddle(int numberEnds) {
         for(int i =0; i<numberEnds; i++) {
             if(i%2 == 0) {
@@ -79,24 +86,37 @@ abstract class Section {
     SectionView view;
     int index;
     Heddle heddle;
+    String type;
     Section(int this.index,  Heddle this.heddle);
+
+    Map<String,dynamic > getSerialization() {
+        Map<String,dynamic> ret = new Map<String,dynamic>();
+        ret["type"] = type;
+        ret["index"] = index;
+        ret["heddleIndex"] = heddle.index; //use this to set your heddle
+        return ret;
+    }
+
+    @override
+    String toString() {
+        return "$type$index";
+    }
 }
 
 class Hole extends Section {
+    static const TYPE="HOLE";
+    @override
+    String type = TYPE;
   Hole(int index, Heddle heddle) : super(index, heddle);
 
-  @override
-    String toString() {
-        return "Hole$index";
-  }
+
 
 }
 
 class Slot extends Section {
-  Slot(int index,  Heddle heddle) : super(index, heddle);
+    static const TYPE="SLOT";
+    @override
+    String type = TYPE;
+    Slot(int index,  Heddle heddle) : super(index, heddle);
 
-  @override
-  String toString() {
-      return "Slot$index";
-  }
 }

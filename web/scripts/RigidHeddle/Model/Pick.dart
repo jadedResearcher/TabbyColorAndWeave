@@ -17,6 +17,14 @@ class Pick {
     List<HeddleState> heddleStates = new List<HeddleState>();
     Pick(int this.index, this.color, this.heddleStates);
 
+    Map<String,dynamic > getSerialization() {
+        Map<String,dynamic> ret = new Map<String,dynamic>();
+        ret["color"] = color.toStyleString();
+        ret["index"] = index;
+        ret["heddleStates"] = heddleStates.map((HeddleState s) => s.getSerialization()).toList();
+        return ret;
+    }
+
     String pickToPickupPattern(List<WarpThread> threads) {
         List<int> ret = new List<int>();
         for(WarpThread thread in threads) {
@@ -53,6 +61,14 @@ class HeddleState {
     Heddle heddle;
     String state;
     HeddleState(this.heddle, this.state);
+
+    Map<String,dynamic > getSerialization() {
+        Map<String,dynamic> ret = new Map<String,dynamic>();
+        ret["heddleIndex"] = heddle.index;
+        ret["state"] = state;
+        return ret;
+    }
+
     @override
     String toString() {
         return "${heddle.index}${state}";

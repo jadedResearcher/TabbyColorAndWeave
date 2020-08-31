@@ -15,6 +15,16 @@ class WarpThread {
 
     WarpThread(Colour this.color, int this.index);
 
+    Map<String,dynamic > getSerialization() {
+        Map<String,dynamic> ret = new Map<String,dynamic>();
+        ret["color"] = color.toStyleString();
+        ret["guideColor"] = guideColor.toStyleString();
+        ret["index"] = index;
+        //yes its a repeat from heddle section but this can be used to get the data to get the already parsed heddleSection
+        ret["heddleSections"] = heddleSections.map((Section s) => s.getSerialization()).toList();
+        return ret;
+    }
+
 
 
     //TODO warning this is only going to be tested for up to TWO HEDDLES because i don't have three yet to confirm with

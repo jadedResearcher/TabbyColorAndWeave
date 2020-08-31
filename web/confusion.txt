@@ -484,13 +484,18 @@ Serialization:
 so all thats left is serialization, which'll require a chunk of thought. well, technically that and patterns.
 
 Serialization:
-* I want to be able to save the size of my heddle and how many heddles there are.  (even if not yet configurable)
-* I want to be able to save each thread, including color and heddle list (original idea of list of indices) (even if not yet configurable)
-* I want to be able to save each pick, which would be color, and state of each heddle
-* I want to serialize to the canvas as image archive
+x I want to be able to save the size of my heddle and how many heddles there are.  (even if not yet configurable)
+x I want to be able to save each thread, including color and heddle list (original idea of list of indices) (even if not yet configurable)
+x I want to be able to save each pick, which would be color, and state of each heddle
+x I want to serialize to the canvas as image archive
+* ability to load color order from file (but nothing else)
 * I want to be able to load from image archive
 
+
 Polish:
-* links to patterns (plain weave, hounds tooth, log cabin, various twills, huck lace, etc)
+* links to patterns (plain weave, hounds tooth, log cabin, various twills, huck lace, etc) (just load from image)
 * Credits on the bottom (PL for library, Erica de Ruiter for 3 shaft weaving, dyed it my way, inventive weaving on the little loom)
 * make a video of you using the system to make twills and huck lace while talking about what you're doing
+
+working on serialization. gonna test. how do i wanna handle loading. might be easier to just...rerender the whole page?
+ might not be too.

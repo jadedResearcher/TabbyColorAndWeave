@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'dart:html';
 import 'dart:svg';
 
 import 'package:CommonLib/Colours.dart';
+import 'package:ImageLib/Encoding.dart';
+import 'package:LoaderLib/Loader.dart';
 
 import '../../Fabric.dart';
 import '../../FabricRenderer.dart';
@@ -15,13 +18,17 @@ import 'WarpThreadView.dart';
 class RigidHeddleLoomView {
     Element parent;
     RigidHeddleLoom loom;
+    Element archiveSaveButton;
     RigidHeddleLoomView(this.loom, this.parent);
+    Element archiveControls;
     int heddlesX;
     int heddlesY;
     FabricRenderer renderer;
     SvgElement heddleContainer;
     bool draggingHeddles = false;
     SvgElement warpContainer;
+    static String fileKey = "COLORANDWEAVE/rigidHeddle.txt";
+
     WarpThread selectedThread;
     Element fabricContainer;
     Element pickContainer;
@@ -59,6 +66,7 @@ class RigidHeddleLoomView {
         renderPicksAndFabricContainers(parent);
         renderFabric();
         renderPicks();
+        print("Serialization Test: ${loom.getSerialization()}");
     }
 
     void renderControls() {
@@ -66,6 +74,36 @@ class RigidHeddleLoomView {
         parent.append(container);
         renderThreadControls(container);
         renderPickControls(container);
+        renderArchiveControls(container);
+
+    }
+
+    void renderArchiveControls(Element container) {
+        archiveControls = new DivElement()..classes.add("archiveControls")..innerHtml = "<b>Archive Controls</b>";
+        container.append(archiveControls);
+        makeDownloadImage();
+
+    }
+
+    void makeDownloadImage() async {
+        if(renderer == null || renderer.canvas == null) return;
+        if (archiveSaveButton != null) {
+            archiveSaveButton.remove();
+            archiveSaveButton = null;
+        }
+
+
+        ArchivePng png = new ArchivePng.fromCanvas(renderer.canvas);
+        await png.archive.setFile(fileKey, jsonEncode(loom.getSerialization()));
+
+        if (archiveSaveButton != null) {
+            archiveSaveButton.remove();
+            archiveSaveButton = null;
+        }
+        archiveSaveButton = FileFormat.saveButton(ArchivePng.format, () async => png,
+            filename: () => "RigidHeddleSimulator.png", caption: "Download Pattern");
+        archiveControls.append(archiveSaveButton);
+
     }
 
     void renderPickControls(Element container) {
@@ -387,6 +425,13 @@ class RigidHeddleLoomView {
             loom.exportLoomToFabric(renderer.fabric);
             renderer.update();
         }
+        CanvasElement tmp = renderer.canvas;
+        tmp.context2D.font = "bold 24px nunito";
+        tmp.context2D.fillStyle = "#ffffff";
+        tmp.context2D.fillText("RigidHeddleSim", tmp.width-200, tmp.height-2);
+        tmp.context2D.fillStyle = "#000000";
+        tmp.context2D.fillText("RigidHeddleSim", tmp.width-203, tmp.height-2);
+        makeDownloadImage();
     }
 
     void setInstructions() {
