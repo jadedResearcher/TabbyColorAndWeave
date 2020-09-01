@@ -16,6 +16,24 @@ class Heddle {
         return ret;
     }
 
+    void  loadFromSerialization(Map<String, dynamic > serialization, List<Heddle> possibleHeddles) {
+
+        index = serialization["index"];
+        holesAndSlots.clear();
+        for(Map<String,dynamic> subserialization in serialization["heddleStates"]) {
+            Section s;
+            if(subserialization["type"] == Hole.TYPE) {
+                s = new Hole(0,null);
+            }else {
+                s = new Slot(0,null);
+            }
+            s.loadFromSerializationWithHeddle(subserialization, this);
+            holesAndSlots.add(s);
+
+
+        }
+    }
+
     void initHeddle(int numberEnds) {
         for(int i =0; i<numberEnds; i++) {
             if(i%2 == 0) {
@@ -84,7 +102,7 @@ class Heddle {
 //sections know what their unique identifier is, like heddle 1, section 5
 abstract class Section {
     SectionView view;
-    int index;
+    int index; //your index matters more than your place in the array, since pick will look here
     Heddle heddle;
     String type;
     Section(int this.index,  Heddle this.heddle);
@@ -93,8 +111,13 @@ abstract class Section {
         Map<String,dynamic> ret = new Map<String,dynamic>();
         ret["type"] = type;
         ret["index"] = index;
-        ret["heddleIndex"] = heddle.index; //use this to set your heddle
         return ret;
+    }
+
+    void  loadFromSerializationWithHeddle(Map<String, dynamic > serialization, Heddle owner) {
+        //type does'n tmatter here, it'll be used a layer above
+        index = serialization["index"];
+        heddle = owner;
     }
 
     @override
