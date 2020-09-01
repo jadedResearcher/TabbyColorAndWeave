@@ -92,9 +92,24 @@ class RigidHeddleLoomView {
         }
     }
 
+    void handleLoadingColorFromImage(Element doop) {
+            Element uploadElement = FileFormat.loadButton(
+                ArchivePng.format, syncColorToImage,
+                caption: "Load Color Palette From Image");
+            doop.append(uploadElement);
+    }
+
     void syncLoomToImage(ArchivePng png, String fileName) async {
         String rawJSON = await png.getFile(fileKey);
         loadFromSerialization(jsonDecode(rawJSON));
+        renderer = null;
+        archiveUploaderHolder = null;
+        renderLoom(null);
+    }
+
+    void syncColorToImage(ArchivePng png, String fileName) async {
+        String rawJSON = await png.getFile(fileKey);
+        loadColorFromSerialization(jsonDecode(rawJSON));
         renderer = null;
         archiveUploaderHolder = null;
         renderLoom(null);
@@ -114,6 +129,7 @@ class RigidHeddleLoomView {
         container.append(archiveControls);
         makeDownloadImage();
         handleLoadingFromImage(archiveControls);
+        handleLoadingColorFromImage(archiveControls);
     }
 
     void makeDownloadImage() async {
@@ -448,6 +464,10 @@ class RigidHeddleLoomView {
 
     void  loadFromSerialization(Map<String, dynamic > serialization) {
         loom.loadFromSerialization(serialization);
+    }
+
+    void  loadColorFromSerialization(Map<String, dynamic > serialization) {
+        loom.loadColorFromSerialization(serialization);
     }
 
 

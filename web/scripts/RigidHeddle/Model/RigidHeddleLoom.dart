@@ -75,6 +75,26 @@ class RigidHeddleLoom{
         }
     }
 
+    //keep all structural elements as is, load only color
+    void  loadColorFromSerialization(Map<String, dynamic > serialization) {
+
+        int pickIndex = 0;
+        int threadIndex = 0;
+        List<Map<String,dynamic>> sourceDataPicks = new List.from(serialization["picks"]);
+        List<Map<String,dynamic>> sourceDataThreads = new List.from(serialization["allThreads"]);
+
+        for(Pick pick in picks) {
+            pick.loadColorFromSerialization(sourceDataPicks[pickIndex % sourceDataPicks.length]);
+            pickIndex ++;
+        }
+
+        for(WarpThread thread in allThreads) {
+            thread.loadColorFromSerialization(sourceDataThreads[threadIndex % sourceDataThreads.length]);
+            threadIndex ++;
+        }
+
+    }
+
 
         Fabric exportLoomToFabric(Fabric fabric) {
         List<Colour> colors = collateAllColorsUsed();

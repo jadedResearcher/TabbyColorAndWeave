@@ -41,6 +41,14 @@ class WarpThread {
         }
     }
 
+    void  loadColorFromSerialization(Map<String, dynamic > serialization) {
+        Colour tmpcolor = new Colour.fromStyleString(serialization["color"]);
+        color.setFrom(tmpcolor);
+
+        Colour tmpcolor2= new Colour.fromStyleString(serialization["guideColor"]);
+        guideColor.setFrom(tmpcolor2);
+    }
+
 
 
     //TODO warning this is only going to be tested for up to TWO HEDDLES because i don't have three yet to confirm with

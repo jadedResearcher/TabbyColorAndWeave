@@ -39,6 +39,12 @@ class Pick {
         }
     }
 
+    void  loadColorFromSerialization(Map<String, dynamic > serialization) {
+        print("in pick, serialization is $serialization");
+        Colour tmpcolor = new Colour.fromStyleString(serialization["color"]);
+        color.setFrom(tmpcolor);
+    }
+
     String pickToPickupPattern(List<WarpThread> threads) {
         List<int> ret = new List<int>();
         for(WarpThread thread in threads) {
