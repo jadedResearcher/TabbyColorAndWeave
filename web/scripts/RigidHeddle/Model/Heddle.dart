@@ -16,8 +16,7 @@ class Heddle {
         return ret;
     }
 
-    void  loadFromSerialization(Map<String, dynamic > serialization, List<Heddle> possibleHeddles) {
-
+    void  loadFromSerialization(Map<String, dynamic > serialization) {
         index = serialization["index"];
         holesAndSlots.clear();
         for(Map<String,dynamic> subserialization in serialization["heddleStates"]) {
@@ -29,8 +28,6 @@ class Heddle {
             }
             s.loadFromSerializationWithHeddle(subserialization, this);
             holesAndSlots.add(s);
-
-
         }
     }
 
@@ -118,6 +115,19 @@ abstract class Section {
         //type does'n tmatter here, it'll be used a layer above
         index = serialization["index"];
         heddle = owner;
+    }
+
+    //first figure out which heddle we're in, then find the right section
+    static Section findFromSerialization(Map<String, dynamic > serialization, List<Heddle> possibleHeddles) {
+        for(Heddle h in possibleHeddles) {
+            if(serialization["index"] == h.index) {
+                for(Section s in h.holesAndSlots) {
+                    if(serialization["index"] == s.index) {
+                        return s;
+                    }
+                }
+            }
+        }
     }
 
     @override

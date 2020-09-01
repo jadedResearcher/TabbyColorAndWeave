@@ -53,8 +53,34 @@ class RigidHeddleLoom{
         return ret;
     }
 
+    void  loadFromSerialization(Map<String, dynamic > serialization) {
+        /*TODO
+            heddles HAVE to go first, since pick and warpthread refer to them.
+         */
+        heddles.clear();
+        picks.clear();
+        allThreads.clear();
+        for(Map<String,dynamic> subserialization in serialization["heddles"]) {
+            Heddle h = new Heddle(null, null);
+            h.loadFromSerialization(subserialization);
+            heddles.add(h);
+        }
 
-    Fabric exportLoomToFabric(Fabric fabric) {
+        for(Map<String,dynamic> subserialization in serialization["picks"]) {
+            Pick h = new Pick(null, null,null);
+            h.loadFromSerialization(subserialization, heddles);
+            picks.add(h);
+        }
+
+        for(Map<String,dynamic> subserialization in serialization["allThreads"]) {
+            WarpThread h = new WarpThread(null, null);
+            h.loadFromSerialization(subserialization, heddles);
+            allThreads.add(h);
+        }
+    }
+
+
+        Fabric exportLoomToFabric(Fabric fabric) {
         List<Colour> colors = collateAllColorsUsed();
         String warpPatternStart = exportThreadsToWarpString(colors);
         String weftPatternStart = exportPicksToWeftString(colors);

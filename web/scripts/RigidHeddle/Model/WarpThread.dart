@@ -10,6 +10,7 @@ class WarpThread {
     //makes it easier to thread
     Colour guideColor = new Colour(0,0,0);
     int index;
+    //one per heddle
     List<Section> heddleSections = new List<Section>();
 
 
@@ -23,6 +24,20 @@ class WarpThread {
         //yes its a repeat from heddle section but this can be used to get the data to get the already parsed heddleSection
         ret["heddleSections"] = heddleSections.map((Section s) => s.getSerialization()).toList();
         return ret;
+    }
+
+    void  loadFromSerialization(Map<String, dynamic > serialization, List<Heddle> possibleHeddles) {
+        index = serialization["index"];
+        Colour tmpcolor = new Colour.fromStyleString(serialization["color"]);
+        color.setFrom(tmpcolor);
+
+        Colour tmpcolor2= new Colour.fromStyleString(serialization["guidecolor"]);
+        guideColor.setFrom(tmpcolor2);
+
+        heddleSections.clear();
+        for(Map<String,dynamic> subserialization in serialization["heddleStates"]) {
+            heddleSections.add(Section.findFromSerialization(subserialization, possibleHeddles));
+        }
     }
 
 
