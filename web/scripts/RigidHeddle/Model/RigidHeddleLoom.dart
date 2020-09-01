@@ -52,28 +52,24 @@ class RigidHeddleLoom{
         ret["allThreads"] = allThreads.map((WarpThread s) => s.getSerialization()).toList();
         return ret;
     }
-
     void  loadFromSerialization(Map<String, dynamic > serialization) {
-        /*TODO
-            heddles HAVE to go first, since pick and warpthread refer to them.
-         */
         heddles.clear();
         picks.clear();
         allThreads.clear();
         for(Map<String,dynamic> subserialization in serialization["heddles"]) {
-            Heddle h = new Heddle(null, null);
+            Heddle h = new Heddle.empty();
             h.loadFromSerialization(subserialization);
             heddles.add(h);
         }
 
         for(Map<String,dynamic> subserialization in serialization["picks"]) {
-            Pick h = new Pick(null, null,null);
+            Pick h = new Pick.empty();
             h.loadFromSerialization(subserialization, heddles);
             picks.add(h);
         }
 
         for(Map<String,dynamic> subserialization in serialization["allThreads"]) {
-            WarpThread h = new WarpThread(null, null);
+            WarpThread h = new WarpThread.empty();
             h.loadFromSerialization(subserialization, heddles);
             allThreads.add(h);
         }

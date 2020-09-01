@@ -33,12 +33,20 @@
     text-align: left;
 }
 
+.archiveControls div{
+    display: inline-block;
+}
+
+#credits{
+    padding: 20px;
+}
+
 .controls{
     text-align: left;
     width: 600px;
     margin-left: auto;
     margin-right: auto;
-    padding: 10px;
+    padding: 5px;
 }
 
 .controls input{

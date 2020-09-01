@@ -16,10 +16,12 @@ import 'HeddleView.dart';
 import 'PickView.dart';
 import 'WarpThreadView.dart';
 class RigidHeddleLoomView {
+    Element me;
     Element parent;
+    DivElement archiveUploaderHolder;
     RigidHeddleLoom loom;
     Element archiveSaveButton;
-    RigidHeddleLoomView(this.loom, this.parent);
+    RigidHeddleLoomView(this.loom);
     Element archiveControls;
     int heddlesX;
     int heddlesY;
@@ -37,12 +39,17 @@ class RigidHeddleLoomView {
     int height = 400;
     int threadSeparationDistance = 20;
     Element instructions;
-    void renderLoom() {
-        instructions = new DivElement()..text = "Instructions:"..classes.add("instructions");
-        setInstructions();
-        parent.append(instructions);
+    void renderLoom(Element tmp) {
+        if(tmp != null) {
+            parent = tmp;
+        }else if(me != null) {
+            me.remove();
+        }
+        me = new DivElement();
+        parent.append(me);
+
         DivElement container = new DivElement()..classes.add("loom");
-        parent.append(container);
+        me.append(container);
         final SvgElement loomElement = SvgElement.tag("svg");
         loomElement.attributes["width"] = "5000";
         loomElement.attributes["height"] = "$height";
@@ -57,21 +64,45 @@ class RigidHeddleLoomView {
 
         warpContainer = SvgElement.tag("g")..classes.add("warpChains");
         loomElement.append(warpContainer);
+        instructions = new DivElement()..text = "Instructions:"..classes.add("instructions");
+        me.append(instructions);
+        setInstructions();
+
         int x = 0;
         for(WarpThread warpThread in loom.allThreads) {
             new ThreadView(warpThread, warpContainer, x, height - 50,pickThread).renderThread();
             x+=threadSeparationDistance;
         }
+
         renderControls();
-        renderPicksAndFabricContainers(parent);
+        renderPicksAndFabricContainers(me);
         renderFabric();
         renderPicks();
         print("Serialization Test: ${loom.getSerialization()}");
     }
 
-    void renderControls() {
+    void handleLoadingFromImage(Element doop) {
+        if (archiveUploaderHolder == null) {
+            archiveUploaderHolder = new DivElement()..classes.add("archiveUploaderHolder");
+            doop.append(archiveUploaderHolder);
+            Element uploadElement = FileFormat.loadButton(
+                ArchivePng.format, syncLoomToImage,
+                caption: "Load RigidHeddleSim Setup From Image");
+            doop.append(uploadElement);
+        }
+    }
+
+    void syncLoomToImage(ArchivePng png, String fileName) async {
+        String rawJSON = await png.getFile(fileKey);
+        loadFromSerialization(jsonDecode(rawJSON));
+        renderer = null;
+        archiveUploaderHolder = null;
+        renderLoom(null);
+    }
+
+        void renderControls() {
         DivElement container = new DivElement()..classes.add("controlsHolder");
-        parent.append(container);
+        me.append(container);
         renderThreadControls(container);
         renderPickControls(container);
         renderArchiveControls(container);
@@ -82,7 +113,7 @@ class RigidHeddleLoomView {
         archiveControls = new DivElement()..classes.add("archiveControls")..innerHtml = "<b>Archive Controls</b>";
         container.append(archiveControls);
         makeDownloadImage();
-
+        handleLoadingFromImage(archiveControls);
     }
 
     void makeDownloadImage() async {
@@ -415,6 +446,10 @@ class RigidHeddleLoomView {
         }
     }
 
+    void  loadFromSerialization(Map<String, dynamic > serialization) {
+        loom.loadFromSerialization(serialization);
+    }
+
 
     void renderFabric() {
         if(renderer == null) {
@@ -435,10 +470,11 @@ class RigidHeddleLoomView {
     }
 
     void setInstructions() {
+        if(instructions == null) return;
         if(selectedThread != null) {
             instructions.text = "Instructions: Now that a thread is selected, you can click a hole or slot in any heddle to thread it. You can click multiple holes or slots.   You can click the thread again (or a new thread) to deselect it.   ";
         }else {
-            instructions.text = "Instructions: Click a colored thread box below to select it and begin Threading Mode.";
+            instructions.text = "Instructions: Click a colored thread box above to select it and begin Threading Mode.";
         }
     }
 

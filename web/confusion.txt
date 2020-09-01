@@ -499,3 +499,9 @@ Polish:
 
 working on serialization. gonna test. how do i wanna handle loading. might be easier to just...rerender the whole page?
  might not be too.
+
+ i notice i am confused:
+
+ WarpThreadDebug: Is it heddle Instance of 'Heddle$'? it's index is 0 vs 2
+how am i getting a heddle index of TWO if theres only two heddles?
+

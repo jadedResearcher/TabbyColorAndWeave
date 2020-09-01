@@ -11,11 +11,12 @@ import 'Heddle.dart';
 import 'WarpThread.dart';
 
 class Pick {
-    Colour color;
+    Colour color = new Colour();
     int index;
     PickView view;
     List<HeddleState> heddleStates = new List<HeddleState>();
     Pick(int this.index, this.color, this.heddleStates);
+    Pick.empty();
 
     Map<String,dynamic > getSerialization() {
         Map<String,dynamic> ret = new Map<String,dynamic>();
@@ -26,6 +27,7 @@ class Pick {
     }
 
     void  loadFromSerialization(Map<String, dynamic > serialization, List<Heddle> possibleHeddles) {
+        print("in pick, serialization is $serialization");
         Colour tmpcolor = new Colour.fromStyleString(serialization["color"]);
         color.setFrom(tmpcolor);
         index = serialization["index"];

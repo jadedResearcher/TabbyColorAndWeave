@@ -6,7 +6,7 @@ import 'Pick.dart';
 
 class WarpThread {
     ThreadView view;
-    Colour color;
+    Colour color = new Colour();
     //makes it easier to thread
     Colour guideColor = new Colour(0,0,0);
     int index;
@@ -15,6 +15,7 @@ class WarpThread {
 
 
     WarpThread(Colour this.color, int this.index);
+    WarpThread.empty();
 
     Map<String,dynamic > getSerialization() {
         Map<String,dynamic> ret = new Map<String,dynamic>();
@@ -31,11 +32,11 @@ class WarpThread {
         Colour tmpcolor = new Colour.fromStyleString(serialization["color"]);
         color.setFrom(tmpcolor);
 
-        Colour tmpcolor2= new Colour.fromStyleString(serialization["guidecolor"]);
+        Colour tmpcolor2= new Colour.fromStyleString(serialization["guideColor"]);
         guideColor.setFrom(tmpcolor2);
 
         heddleSections.clear();
-        for(Map<String,dynamic> subserialization in serialization["heddleStates"]) {
+        for(Map<String,dynamic> subserialization in serialization["heddleSections"]) {
             heddleSections.add(Section.findFromSerialization(subserialization, possibleHeddles));
         }
     }

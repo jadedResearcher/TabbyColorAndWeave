@@ -9,6 +9,8 @@ class Heddle {
         initHeddle(numberEnds);
     }
 
+    Heddle.empty();
+
     Map<String,dynamic > getSerialization() {
         Map<String,dynamic> ret = new Map<String,dynamic>();
         ret["index"] = index;
@@ -19,7 +21,7 @@ class Heddle {
     void  loadFromSerialization(Map<String, dynamic > serialization) {
         index = serialization["index"];
         holesAndSlots.clear();
-        for(Map<String,dynamic> subserialization in serialization["heddleStates"]) {
+        for(Map<String,dynamic> subserialization in serialization["holesAndSlots"]) {
             Section s;
             if(subserialization["type"] == Hole.TYPE) {
                 s = new Hole(0,null);
@@ -108,6 +110,7 @@ abstract class Section {
         Map<String,dynamic> ret = new Map<String,dynamic>();
         ret["type"] = type;
         ret["index"] = index;
+        ret["heddleIndex"] = heddle.index;
         return ret;
     }
 
@@ -117,17 +120,24 @@ abstract class Section {
         heddle = owner;
     }
 
+
+
     //first figure out which heddle we're in, then find the right section
     static Section findFromSerialization(Map<String, dynamic > serialization, List<Heddle> possibleHeddles) {
         for(Heddle h in possibleHeddles) {
-            if(serialization["index"] == h.index) {
+            print("WarpThreadDebug: Is it heddle $h? it's index is ${h.index} vs ${serialization["index"]}");
+            if(serialization["heddleIndex"] == h.index) {
+                print("WarpThreadDebug: it was");
                 for(Section s in h.holesAndSlots) {
+                    print("WarpThreadDebug: is it section $s? ${serialization["index"]} vs ${s.index}");
                     if(serialization["index"] == s.index) {
+                        print("WarpThreadDebug: it was");
                         return s;
                     }
                 }
             }
         }
+        print("EMERGENCY!!! WarpThreadDebug:  No Section was found!!!");
     }
 
     @override
@@ -137,7 +147,7 @@ abstract class Section {
 }
 
 class Hole extends Section {
-    static const TYPE="HOLE";
+    static const TYPE="H";
     @override
     String type = TYPE;
   Hole(int index, Heddle heddle) : super(index, heddle);
@@ -147,7 +157,7 @@ class Hole extends Section {
 }
 
 class Slot extends Section {
-    static const TYPE="SLOT";
+    static const TYPE="S";
     @override
     String type = TYPE;
     Slot(int index,  Heddle heddle) : super(index, heddle);
