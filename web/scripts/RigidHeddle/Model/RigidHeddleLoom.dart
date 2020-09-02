@@ -162,13 +162,16 @@ class RigidHeddleLoom{
     List<WarpThread> copyThreadColors(int startIndex, int endIndex, int numberRepetitions, int repsStartIndex) {
         if(endIndex+1 > allThreads.length) endIndex = allThreads.length -1;
         List<WarpThread> patternThreads = allThreads.sublist(startIndex, endIndex+1);
+        List<Colour> patternColors = new List.from(patternThreads.map((WarpThread thread) =>thread.color));
         List<WarpThread> modifiedThreads = new List<WarpThread>();
         //each loop is a single new thread
+        int index = 0; //important for thread modulo
         for(int i = repsStartIndex; i<numberRepetitions*patternThreads.length; i++) {
             if(i <allThreads.length) {
                 WarpThread thread = allThreads[i];
-                thread.copyColourFromSource(patternThreads[i%patternThreads.length]);
+                thread.copyColourFromSource(patternColors[index%patternColors.length]);
                 modifiedThreads.add(thread);
+                index ++;
             }
         }
         return modifiedThreads;
@@ -179,11 +182,13 @@ class RigidHeddleLoom{
         List<Pick> patternPicks = picks.sublist(startIndex, endIndex+1);
         List<Pick> modifiedPicks = new List<Pick>();
         //each loop is a single new thread
+        int index = 0; //important for pick modulo
         for(int i = repsStartIndex; i<numberRepetitions*patternPicks.length; i++) {
             if(i <picks.length) {
                 Pick pick = picks[i];
-                pick.copyColourFromSource(patternPicks[i%patternPicks.length]);
+                pick.copyColourFromSource(patternPicks[index%patternPicks.length]);
                 modifiedPicks.add(pick);
+                index ++;
             }
         }
         return modifiedPicks;

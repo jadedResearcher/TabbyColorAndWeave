@@ -63,9 +63,8 @@ class WarpThread {
         return "Thread $index ${color.toStyleString()}";
     }
 
-    void copyColourFromSource(WarpThread source) {
-        color.setFrom(Colour.fromStyleString(source.color.toStyleString()));
-        guideColor.setFrom(source.guideColor);
+    void copyColourFromSource(Colour source) {
+        color.setFrom(Colour.fromStyleString(source.toStyleString()));
         //doing heddleSections is very very hard. have to guess which section to pick for the copy, don't do it, humans are better.
     }
 
