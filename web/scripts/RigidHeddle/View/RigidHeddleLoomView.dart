@@ -485,8 +485,11 @@ class RigidHeddleLoomView {
         //so the pattern adder can not bury the button
         justPicksContainer = new DivElement();
         pickContainer.append(justPicksContainer);
+        int index = 0;
         for(Pick pick in loom.picks) {
+            pick.index = index;
             new PickView(pick, justPicksContainer)..render(removePick, renderFabric);
+            index ++;
         }
 
         ButtonElement addButton = new ButtonElement()..text = "Add Pick";
