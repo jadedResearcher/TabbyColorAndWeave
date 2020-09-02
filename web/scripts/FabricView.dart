@@ -296,7 +296,6 @@ class FabricView {
       WeftObject.WIDTH = WarpObject.WIDTH;
     }
 
-    print("I got three patterns: $warpPattern, $weftPattern, $colorPattern");
     warpText.value = warpPattern;
     weftText.value = weftPattern;
     syncPatternToWarp(warpPattern);

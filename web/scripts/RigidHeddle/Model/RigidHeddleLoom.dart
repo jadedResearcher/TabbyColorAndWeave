@@ -101,7 +101,6 @@ class RigidHeddleLoom{
         String warpPatternStart = exportThreadsToWarpString(colors);
         String weftPatternStart = exportPicksToWeftString(colors);
         String pickupPatternStart = exportPicksToPickupString();
-        print("JR NOTE: pickup pattern is $pickupPatternStart");
         if(fabric == null) {
              fabric = new Fabric(1200, 1000);
         }
@@ -143,7 +142,6 @@ class RigidHeddleLoom{
     List<Pick> copyPicks(int startIndex, int endIndex, int numberRepetitions) {
         if(endIndex+1 > picks.length) endIndex = picks.length -1;
         List<Pick> patternPicks = picks.sublist(startIndex, endIndex+1);
-        print("Pattern picks are $patternPicks, start was $startIndex, end was $endIndex");
         List<Pick> newPicks = new List<Pick>();
         int originalLength = picks.length;
         int index = 0;
@@ -152,7 +150,6 @@ class RigidHeddleLoom{
                 Pick pick = pattern.copy(
                     originalLength + index);
                 picks.add(pick);
-                print("Pick $index addeded");
                 newPicks.add(pick);
                 index ++;
             }

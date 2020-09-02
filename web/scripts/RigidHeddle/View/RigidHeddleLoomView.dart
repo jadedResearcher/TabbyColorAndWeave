@@ -78,7 +78,6 @@ class RigidHeddleLoomView {
         renderPicksAndFabricContainers(me);
         renderFabric();
         renderPicks();
-        print("Serialization Test: ${loom.getSerialization()}");
     }
 
     void handleLoadingFromImage(Element doop) {

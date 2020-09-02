@@ -27,7 +27,6 @@ class Pick {
     }
 
     void  loadFromSerialization(Map<String, dynamic > serialization, List<Heddle> possibleHeddles) {
-        print("in pick, serialization is $serialization");
         Colour tmpcolor = new Colour.fromStyleString(serialization["color"]);
         color.setFrom(tmpcolor);
         index = serialization["index"];
@@ -40,7 +39,6 @@ class Pick {
     }
 
     void  loadColorFromSerialization(Map<String, dynamic > serialization) {
-        print("in pick, serialization is $serialization");
         Colour tmpcolor = new Colour.fromStyleString(serialization["color"]);
         color.setFrom(tmpcolor);
     }
