@@ -159,6 +159,7 @@ class RigidHeddleLoomView {
         renderPickColorControls(pickControls);
         renderCopyPickColorPatternControls(pickControls);
         renderCopyPickControls(pickControls);
+        renderBulkPickRemovalControls(pickControls);
         renderSyncPickColorControls(pickControls);
         renderClearPickControls(pickControls);
     }
@@ -181,6 +182,7 @@ class RigidHeddleLoomView {
             for(WarpThread thread in loom.allThreads) {
                 thread.color.setFrom(loom.picks[index%loom.picks.length].color);
                 thread.view.renderThread();
+                index ++;
             }
             renderFabric();
         });
@@ -193,6 +195,7 @@ class RigidHeddleLoomView {
             int index = 0;
             for(Pick pick in loom.picks) {
                 pick.color.setFrom(loom.allThreads[index%loom.allThreads.length].color);
+                index ++;
             }
             renderPicks();
             renderFabric();
@@ -241,7 +244,7 @@ class RigidHeddleLoomView {
         NumberInputElement number2 = new NumberInputElement()..value = "2";
         LabelElement label3 = new LabelElement()..text = ",";
         NumberInputElement number3 = new NumberInputElement()..value = "3";
-        LabelElement label4 = new LabelElement()..text = "times, and then put them at the end.";
+        LabelElement label4 = new LabelElement()..text = "times.";
 
         ButtonElement button = new ButtonElement()..text = "Set";
         div.append(label);
@@ -411,6 +414,23 @@ class RigidHeddleLoomView {
         });
 
 
+    }
+
+    void renderBulkPickRemovalControls(Element container) {
+        DivElement div = new DivElement()..classes.add('controls');
+        container.append(div);
+        LabelElement label = new LabelElement()..text = "Remove any picks past pick:";
+        NumberInputElement number = new NumberInputElement()..value="3";
+        ButtonElement button = new ButtonElement()..text = "Set";
+        div.append(label);
+        div.append(number);
+        div.append(button);
+        button.onClick.listen((Event e) {
+            int pickCount = int.parse(number.value);
+            loom.picks.removeRange(pickCount, loom.picks.length);
+            renderPicks();
+            renderFabric();
+        });
     }
 
     void renderThreadCountControls(Element container) {
