@@ -9,17 +9,22 @@
 .heddles{
     border: 1px solid black;
 }
+.archiveControls{
+    margin-top: 10px;
+}
 
 .threadControls{
     border: 1px solid black;
     display: inline-block;
     vertical-align: top;
+    height: 190px;
 }
 
 .pickControls{
     border: 1px solid black;
     display: inline-block;
     vertical-align: top;
+    height: 190px;
 }
 
 .warpChains{
@@ -31,11 +36,18 @@
 }
 .instructions{
     text-align: left;
+    width: 1224px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .archiveControls div{
     display: inline-block;
     padding-left: 5px;
+}
+
+button{
+    margin-left: 5px;
 }
 
 #credits{

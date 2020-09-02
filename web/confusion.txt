@@ -502,6 +502,8 @@ how am i getting a heddle index of TWO if theres only two heddles?
 
 
 Polish:
+* button to sync picks to thread color order and vice versa
 * links to patterns (plain weave, hounds tooth, log cabin, various twills, huck lace, etc) (just load from image)
 x Credits on the bottom (PL for library, Erica de Ruiter for 3 shaft weaving, dyed it my way, inventive weaving on the little loom)
 * make a video of you using the system to make twills and huck lace while talking about what you're doing
+*make a new directory called RigidHeddleSim

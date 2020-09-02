@@ -7,11 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="scaffolded-by" content="https://github.com/google/stagehand">
-    <title>RigidHeddle Simulator</title>
+    <title>Tabby Color and Weave Builder</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="rigidHeddle.css">
     <link rel="icon" href="favicon.ico">
-    <script defer src="rigidHeddle.dart.js"></script>
+    <script defer src="main.dart.js"></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-118163395-1"></script>
     <script>
@@ -23,17 +22,21 @@
 </script>
 </head>
 
-<y>
+<body>
+<h1>Tabby Color and Weave Builder by jadedResearcher</h1>
 <div id = "navbar"></div>
-<div id="output"></div>
-    <div id = "credits">
-By jadedResearcher. Special thanks to paradoxLands for additional coding (especially the ability to save and load to images).
-<br><br>
-Knowledge gained from:
-    <li><a href = 'https://sylviaemard.com/2019/06/16/weaving-twill/'>Weaving 2/1 Twill on a Rigid Heddle Loom</a>, by Sylvia Emard on her blog "I Dyed it My Way"</li>
-<li><i>Inventive Weaving on a Little Loom</i>, by Syne Mitchell</li>
-<li><i>Weaving on 3 shafts</i>, by Erica de Ruiter</li>
-    </div>
+<table>
+    <tr>
+    <td id = "controls">
+        You can input a pattern bellow (no need to put in repetitions, it'll handle that itself).  If you want houndstooth, for example, you'd go for "0,0,1,1" for both warp and weft.
 
+        <br><br>
+        Each number represents a color saved to memory.  1 might be black, for example, while 0 white. You can specify the colors below as well.
+        <br><br>
+    </td>
+    <td id="output"></td>
+    </tr>
+    <tr><td id = "stats"></td><td id = "warpingGuide"></td></tr>
+</table>
 </body>
 </html>

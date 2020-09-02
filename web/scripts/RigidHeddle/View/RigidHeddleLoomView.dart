@@ -159,16 +159,44 @@ class RigidHeddleLoomView {
         renderPickColorControls(pickControls);
         renderCopyPickColorPatternControls(pickControls);
         renderCopyPickControls(pickControls);
+        renderSyncPickColorControls(pickControls);
         renderClearPickControls(pickControls);
     }
 
     void renderThreadControls(Element container) {
-        DivElement threadControls = new DivElement()..classes.add("threadControls")..innerHtml = "<b>Thread Controls</b>";
+        DivElement threadControls = new DivElement()..classes.add("threadControls")..innerHtml = "<b>Warp Controls</b>";
         container.append(threadControls);
         renderWarpColorControls(threadControls);
         renderCopyWarpColorPatternControls(threadControls);
         renderThreadCountControls(threadControls);
+        renderSyncThreadColorControls(threadControls);
         renderClearThreadControls(threadControls);
+    }
+
+    void renderSyncThreadColorControls(DivElement container) {
+        ButtonElement clearButton = new ButtonElement()..text = "Sync Color From Picks";
+        container.append(clearButton);
+        clearButton.onClick.listen((Event e) {
+            int index = 0;
+            for(WarpThread thread in loom.allThreads) {
+                thread.color.setFrom(loom.picks[index%loom.picks.length].color);
+                thread.view.renderThread();
+            }
+            renderFabric();
+        });
+    }
+
+    void renderSyncPickColorControls(DivElement container) {
+        ButtonElement clearButton = new ButtonElement()..text = "Sync Color From Warp";
+        container.append(clearButton);
+        clearButton.onClick.listen((Event e) {
+            int index = 0;
+            for(Pick pick in loom.picks) {
+                pick.color.setFrom(loom.allThreads[index%loom.allThreads.length].color);
+            }
+            renderPicks();
+            renderFabric();
+        });
     }
 
     void renderClearThreadControls(DivElement container) {
