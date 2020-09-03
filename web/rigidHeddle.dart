@@ -41,7 +41,13 @@ void processFolder(Element container, String folder,Map<String,dynamic>  results
     container.append(folderContainer);
     for(String file in results["folders"][folder]["files"]) {
         if (file.contains("png")) {
-            print("found file $file");
+            processfile(folderContainer, file);
         }
     }
+}
+
+void processfile(Element container, String file) {
+    ButtonElement button = new ButtonElement()..classes.add("file")..text = "${file.replaceAll(".png","")}";
+    container.append(button);
+
 }
