@@ -159,6 +159,28 @@ class RigidHeddleLoom{
 
     }
 
+    List<WarpThread> replaceThreadColors(Colour from, Colour to) {
+        List<WarpThread> modifiedThreads = new List<WarpThread>();
+        for(WarpThread thread in allThreads) {
+            if(thread.color == from) {
+                thread.color.setFrom(to);
+                modifiedThreads.add(thread);
+            }
+        }
+        return modifiedThreads;
+    }
+
+    List<Pick> replacePickColors(Colour from, Colour to) {
+        List<Pick> modifiedPicks = new List<Pick>();
+        for(Pick pick in picks) {
+            if(pick.color == from) {
+                pick.color.setFrom(to);
+                modifiedPicks.add(pick);
+            }
+        }
+        return modifiedPicks;
+    }
+
     List<WarpThread> copyThreadColors(int startIndex, int endIndex, int numberRepetitions, int repsStartIndex) {
         if(endIndex+1 > allThreads.length) endIndex = allThreads.length -1;
         List<WarpThread> patternThreads = allThreads.sublist(startIndex, endIndex+1);

@@ -119,6 +119,7 @@ class RigidHeddleLoomView {
         me.append(container);
         renderThreadControls(container);
         renderPickControls(container);
+        renderColorReplaceControls(container);
         renderArchiveControls(container);
 
     }
@@ -160,6 +161,7 @@ class RigidHeddleLoomView {
         renderCopyPickControls(pickControls);
         renderBulkPickRemovalControls(pickControls);
         renderSyncPickColorControls(pickControls);
+        renderPickColorReplaceControls(pickControls);
         renderClearPickControls(pickControls);
     }
 
@@ -169,8 +171,85 @@ class RigidHeddleLoomView {
         renderWarpColorControls(threadControls);
         renderCopyWarpColorPatternControls(threadControls);
         renderThreadCountControls(threadControls);
+        renderThreadColorReplaceControls(threadControls);
         renderSyncThreadColorControls(threadControls);
         renderClearThreadControls(threadControls);
+    }
+
+    void renderThreadColorReplaceControls(DivElement container) {
+        DivElement div = new DivElement()..classes.add('controls');
+        container.append(div);
+        LabelElement label1 = new LabelElement()..text = "Change threads of color:";
+        InputElement colorPicker1 = new InputElement()..type="color";
+        LabelElement label2 = new LabelElement()..text = "to";
+        InputElement colorPicker2 = new InputElement()..type="color";
+        div.append(label1);
+        div.append(colorPicker1);
+        div.append(label2);
+        div.append(colorPicker2);
+
+
+        ButtonElement clearButton = new ButtonElement()..text = "Set";
+        div.append(clearButton);
+        clearButton.onClick.listen((Event e) {
+            List<WarpThread> dirtyThreads = loom.replaceThreadColors(Colour.fromStyleString(colorPicker1.value), Colour.fromStyleString(colorPicker2.value));
+            for(WarpThread thread in dirtyThreads) {
+                thread.view.renderThreadSource();
+            }
+            renderFabric();
+        });
+    }
+
+    void renderPickColorReplaceControls(DivElement container) {
+        DivElement div = new DivElement()..classes.add('controls');
+        container.append(div);
+        LabelElement label1 = new LabelElement()..text = "Change picks of color:";
+        InputElement colorPicker1 = new InputElement()..type="color";
+        LabelElement label2 = new LabelElement()..text = "to";
+        InputElement colorPicker2 = new InputElement()..type="color";
+        div.append(label1);
+        div.append(colorPicker1);
+        div.append(label2);
+        div.append(colorPicker2);
+        ButtonElement clearButton = new ButtonElement()..text = "Set";
+        div.append(clearButton);
+        clearButton.onClick.listen((Event e) {
+            List<Pick> dirtyPicks = loom.replacePickColors(Colour.fromStyleString(colorPicker1.value), Colour.fromStyleString(colorPicker2.value));
+            for(Pick pick in dirtyPicks) {
+                pick.view.syncColor();
+            }
+            renderFabric();
+        });
+    }
+
+    void renderColorReplaceControls(DivElement container) {
+        DivElement div = new DivElement()..classes.add('controls');
+        container.append(div);
+        LabelElement label1 = new LabelElement()..text = "Change everything of color:";
+        InputElement colorPicker1 = new InputElement()..type="color";
+        LabelElement label2 = new LabelElement()..text = "to";
+        InputElement colorPicker2 = new InputElement()..type="color";
+        div.append(label1);
+        div.append(colorPicker1);
+        div.append(label2);
+        div.append(colorPicker2);
+
+
+        ButtonElement clearButton = new ButtonElement()..text = "Set";
+        div.append(clearButton);
+        clearButton.onClick.listen((Event e) {
+            List<Pick> dirtyPicks = loom.replacePickColors(Colour.fromStyleString(colorPicker1.value), Colour.fromStyleString(colorPicker2.value));
+            List<WarpThread> dirtyThreads = loom.replaceThreadColors(Colour.fromStyleString(colorPicker1.value), Colour.fromStyleString(colorPicker2.value));
+
+            for(Pick pick in dirtyPicks) {
+                pick.view.syncColor();
+            }
+
+            for(WarpThread thread in dirtyThreads) {
+                thread.view.renderThreadSource();
+            }
+            renderFabric();
+        });
     }
 
     void renderSyncThreadColorControls(DivElement container) {
