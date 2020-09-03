@@ -125,13 +125,9 @@ abstract class Section {
     //first figure out which heddle we're in, then find the right section
     static Section findFromSerialization(Map<String, dynamic > serialization, List<Heddle> possibleHeddles) {
         for(Heddle h in possibleHeddles) {
-            print("WarpThreadDebug: Is it heddle $h? it's index is ${h.index} vs ${serialization["index"]}");
             if(serialization["heddleIndex"] == h.index) {
-                print("WarpThreadDebug: it was");
                 for(Section s in h.holesAndSlots) {
-                    print("WarpThreadDebug: is it section $s? ${serialization["index"]} vs ${s.index}");
                     if(serialization["index"] == s.index) {
-                        print("WarpThreadDebug: it was");
                         return s;
                     }
                 }

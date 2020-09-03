@@ -456,7 +456,7 @@ class RigidHeddleLoomView {
                     color = new Colour(200,0,0);
                 }
                 for(int i = 0; i< newThreadCount; i++) {
-                    WarpThread warpThread = new WarpThread( color,i+oldCount);
+                    WarpThread warpThread = new WarpThread(Colour.from(color),i+oldCount);
                     lastX += threadSeparationDistance;
                     loom.allThreads.add(warpThread);
                     new ThreadView(warpThread, warpContainer, lastX, height - 50,pickThread).renderThread();
