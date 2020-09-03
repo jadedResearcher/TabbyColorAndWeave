@@ -544,7 +544,7 @@ class RigidHeddleLoomView {
         if(selectedThread != null) {
             instructions.text = "Instructions: Now that a thread is selected, you can click a hole or slot in any heddle to thread it. You can click multiple holes or slots.   You can click the thread again (or a new thread) to deselect it.   ";
         }else {
-            instructions.text = "Instructions: Click a colored thread box above to select it and begin Threading Mode.";
+            instructions.text = "Instructions: Click a colored thread box above to select it and begin Threading Mode. (You only need to thread/pick one repetition of your pattern, it will repeat.)";
         }
     }
 

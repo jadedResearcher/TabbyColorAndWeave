@@ -509,3 +509,8 @@ x make a new directory called RigidHeddleSim
 TODO
 * use pl's php to make links to patterns (plain weave, hounds tooth, log cabin, various twills, huck lace, etc) (just load from image)
 * make a video of you using the system to make twills and huck lace while talking about what you're doing
+
+
+I got pl's php in there btw, just gotta...grab it. and i wanna display the templates on the right hand side, absolute position
+
+(unless in mobile mode than i guess the bottom?)

@@ -20,6 +20,16 @@
     height: 218px;
 }
 
+.templates{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    padding: 5px;
+    background-color: #c4c4c4;
+    text-align: right;
+    border-radius: 13px;
+}
+
 .pickControls{
     border: 1px solid black;
     display: inline-block;

@@ -206,6 +206,25 @@ class RigidHeddleLoom{
         return ret;
     }
 
+    static RigidHeddleLoom testSingleLoom() {
+        RigidHeddleLoom ret = new RigidHeddleLoom();
+        int numberThreads = 80;
+        ret.heddles.add(new Heddle(0, numberThreads));
+        ret.heddles.add(new Heddle(1, numberThreads));
+        for(int i = 0; i< numberThreads*2; i++) {
+            ret.allThreads.add(new WarpThread( new Colour(200,0,0),i));
+        }
+        ret.singleHeddleThreading();
+
+
+        Pick one = new Pick(0,new Colour(0,0,0), [new HeddleState(ret.heddles[0],HeddleState.UP), new HeddleState(ret.heddles[1],HeddleState.NEUTRAL)]);
+        Pick two = new Pick(1,new Colour(0,0,0), [new HeddleState(ret.heddles[0],HeddleState.DOWN), new HeddleState(ret.heddles[1],HeddleState.NEUTRAL)]);
+
+        ret.picks.add(one);
+        ret.picks.add(two);
+        return ret;
+    }
+
     static RigidHeddleLoom testDoubleLoom() {
         RigidHeddleLoom ret = new RigidHeddleLoom();
         int numberThreads = 80;
@@ -234,8 +253,9 @@ class RigidHeddleLoom{
     void singleHeddleThreading() {
         List<WarpThread> threads = allThreads;
         int i = 0;
+        int max = 2;
         for(WarpThread thread in threads) {
-            if(i < heddles[0].holesAndSlots.length) {
+            if(i < heddles[0].holesAndSlots.length && i < max) {
                 thread.heddleSections.add(heddles[0].holesAndSlots[i]);
             }else {
                 break;
