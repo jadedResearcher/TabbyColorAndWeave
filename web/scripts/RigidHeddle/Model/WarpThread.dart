@@ -101,7 +101,7 @@ class WarpThread {
             return true;
         }else if (holeIsNeutralOtherIsDown(h1IsHole, h2IsHole, h1State, h2State)) {
             return true;
-        }else if(thereIsNoHoleAndBothAreDown(h1IsHole, h2IsHole, h1State, h2State)) {
+        }else if(oneHeddleIsDownAndASlotAndTheOtherNeutralOrDownAndSlotToo(h1IsHole, h2IsHole, h1State, h2State)) {
             return true;
         }
         return false;
@@ -131,6 +131,17 @@ class WarpThread {
     bool thereIsNoHoleAndBothAreDown(bool h1IsHole, bool h2IsHole, String h1State, String h2State) {
         if(!h1IsHole && !h2IsHole) {
             return h1State == HeddleState.DOWN && h2State == HeddleState.DOWN;
+        }
+        return false;
+    }
+
+    //its not just both are slot and down because of pickup etc.
+    bool oneHeddleIsDownAndASlotAndTheOtherNeutralOrDownAndSlotToo(bool h1IsHole, bool h2IsHole, String h1State, String h2State) {
+        if(!h1IsHole) {
+            return h1State == HeddleState.DOWN && (h2State == HeddleState.NEUTRAL || (!h2IsHole && h2State == HeddleState.DOWN)) ;
+        }
+        if(!h2IsHole) {
+            return h2State == HeddleState.DOWN && (h1State == HeddleState.NEUTRAL || (!h1IsHole && h1State == HeddleState.DOWN)) ;
         }
         return false;
     }
