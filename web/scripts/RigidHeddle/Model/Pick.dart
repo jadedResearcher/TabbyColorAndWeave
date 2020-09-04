@@ -80,6 +80,23 @@ class HeddleState {
     String state;
     HeddleState(this.heddle, this.state);
 
+    static List<List<HeddleState>> allForDoubleHeddles(List<Heddle> heddles) {
+        List<List<HeddleState>> ret = new List<List<HeddleState>>();
+
+        for(String state1 in possibleStates) {
+            for(String state2 in possibleStates) {
+                //for our purposes up up is not valid, we care about up neutral, neutral up, and down down.
+                if(state1 != state2 || state1 == DOWN) {
+                    ret.add([
+                        new HeddleState(heddles[0], state1),
+                        new HeddleState(heddles[1], state2)
+                    ]);
+                }
+            }
+        }
+        return ret;
+    }
+
     Map<String,dynamic > getSerialization() {
         Map<String,dynamic> ret = new Map<String,dynamic>();
         ret["heddleIndex"] = heddle.index;

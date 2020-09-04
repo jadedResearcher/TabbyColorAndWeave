@@ -74,6 +74,23 @@ class RigidHeddleLoom{
             allThreads.add(h);
         }
     }
+    //for each thread, design a pick that would make that thread be up.
+    void replicateThreadsInPicksDouble() {
+        //thread.isUpForPick(this)
+        picks.clear();
+        for(WarpThread thread in allThreads) {
+            Colour color = new Colour(255-thread.color.red, 255-thread.color.green, 255-thread.color.blue);
+            Pick pick = new Pick(picks.length, color, []);
+            List<List<HeddleState>> potentials = HeddleState.allForDoubleHeddles(heddles);
+            for(List<HeddleState> states in potentials) {
+                pick.heddleStates = states;
+                if(thread.isUpForPick(pick)) {
+                    picks.add(pick);
+                    break;
+                }
+            }
+        }
+    }
 
     void  loadPicksFromSerialization(Map<String, dynamic > serialization) {
         picks.clear();

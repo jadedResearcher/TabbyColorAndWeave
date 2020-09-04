@@ -284,10 +284,10 @@ class RigidHeddleLoomView {
     }
 
     void renderSyncPickFromThreadControls(DivElement container) {
-        ButtonElement clearButton = new ButtonElement()..text = "Sync Color From Warp";
+        ButtonElement clearButton = new ButtonElement()..text = "Sync Pick Sheds From Warp Threading";
         container.append(clearButton);
         clearButton.onClick.listen((Event e) {
-            window.alert("TODO");
+            loom.replicateThreadsInPicksDouble();
             renderPicks();
             renderFabric();
         });
