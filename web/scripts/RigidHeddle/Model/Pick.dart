@@ -85,12 +85,15 @@ class HeddleState {
 
         for(String state1 in possibleStates) {
             for(String state2 in possibleStates) {
-                //for our purposes up up is not valid, we care about up neutral, neutral up, and down down.
+                //first if is just going for weft facing, not warp. up up is less important to us than down down
                 if(state1 != state2 || state1 == DOWN) {
-                    ret.add([
-                        new HeddleState(heddles[0], state1),
-                        new HeddleState(heddles[1], state2)
-                    ]);
+                    //second if avoids logical impossibilities like one being up and the other being down
+                    if(!(state1 == UP && state2 == DOWN) && !(state1 == DOWN && state2 == UP)) {
+                        ret.add([
+                            new HeddleState(heddles[0], state1),
+                            new HeddleState(heddles[1], state2)
+                        ]);
+                    }
                 }
             }
         }
