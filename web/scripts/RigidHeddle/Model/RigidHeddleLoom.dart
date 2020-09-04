@@ -75,6 +75,15 @@ class RigidHeddleLoom{
         }
     }
 
+    void  loadPicksFromSerialization(Map<String, dynamic > serialization) {
+        picks.clear();
+        for(Map<String,dynamic> subserialization in serialization["picks"]) {
+            Pick h = new Pick.empty();
+            h.loadFromSerialization(subserialization, heddles);
+            picks.add(h);
+        }
+    }
+
     //keep all structural elements as is, load only color
     void  loadColorFromSerialization(Map<String, dynamic > serialization) {
 

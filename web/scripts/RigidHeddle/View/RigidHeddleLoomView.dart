@@ -98,6 +98,13 @@ class RigidHeddleLoomView {
             doop.append(uploadElement);
     }
 
+    void handleLoadingPicksFromImage(Element doop) {
+        Element uploadElement = FileFormat.loadButton(
+            ArchivePng.format, syncPicksToImage,
+            caption: "Load Picks From Image");
+        doop.append(uploadElement);
+    }
+
     void syncLoomToImage(ArchivePng png, String fileName) async {
         String rawJSON = await png.getFile(fileKey);
         loadFromSerialization(jsonDecode(rawJSON));
@@ -109,6 +116,14 @@ class RigidHeddleLoomView {
     void syncColorToImage(ArchivePng png, String fileName) async {
         String rawJSON = await png.getFile(fileKey);
         loadColorFromSerialization(jsonDecode(rawJSON));
+        renderer = null;
+        archiveUploaderHolder = null;
+        renderLoom(null);
+    }
+
+    void syncPicksToImage(ArchivePng png, String fileName) async {
+        String rawJSON = await png.getFile(fileKey);
+        loadPicksFromSerialization(jsonDecode(rawJSON));
         renderer = null;
         archiveUploaderHolder = null;
         renderLoom(null);
@@ -130,6 +145,7 @@ class RigidHeddleLoomView {
         makeDownloadImage();
         handleLoadingFromImage(archiveControls);
         handleLoadingColorFromImage(archiveControls);
+        handleLoadingPicksFromImage(archiveControls);
     }
 
     void makeDownloadImage() async {
@@ -161,8 +177,9 @@ class RigidHeddleLoomView {
         renderCopyPickControls(pickControls);
         renderBulkPickRemovalControls(pickControls);
         renderSyncPickColorControls(pickControls);
-        renderPickColorReplaceControls(pickControls);
         renderClearPickControls(pickControls);
+        renderSyncPickFromThreadControls(pickControls);
+        renderPickColorReplaceControls(pickControls);
     }
 
     void renderThreadControls(Element container) {
@@ -262,6 +279,16 @@ class RigidHeddleLoomView {
                 thread.view.renderThread();
                 index ++;
             }
+            renderFabric();
+        });
+    }
+
+    void renderSyncPickFromThreadControls(DivElement container) {
+        ButtonElement clearButton = new ButtonElement()..text = "Sync Color From Warp";
+        container.append(clearButton);
+        clearButton.onClick.listen((Event e) {
+            window.alert("TODO");
+            renderPicks();
             renderFabric();
         });
     }
@@ -597,6 +624,10 @@ class RigidHeddleLoomView {
 
     void  loadColorFromSerialization(Map<String, dynamic > serialization) {
         loom.loadColorFromSerialization(serialization);
+    }
+
+    void  loadPicksFromSerialization(Map<String, dynamic > serialization) {
+        loom.loadPicksFromSerialization(serialization);
     }
 
 
