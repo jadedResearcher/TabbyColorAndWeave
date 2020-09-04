@@ -514,3 +514,9 @@ TODO
 I got pl's php in there btw, just gotta...grab it. and i wanna display the templates on the right hand side, absolute position
 
 (unless in mobile mode than i guess the bottom?)
+
+~~~
+
+edit edges of fabric to show three threads only on the left and right
+edit top and bottom of fabric to show black/white threading guides (rigid heddle mode only)
+when you load a palette from an image, copy the existing picks/threads enough times that it gets the full pattern (or at least close to it)
