@@ -256,17 +256,23 @@ class RigidHeddleLoom{
 
     static RigidHeddleLoom testSingleLoom() {
         RigidHeddleLoom ret = new RigidHeddleLoom();
-        int numberThreads = 80;
-        ret.heddles.add(new Heddle(0, numberThreads));
-        ret.heddles.add(new Heddle(1, numberThreads));
-        for(int i = 0; i< numberThreads*2; i++) {
-            ret.allThreads.add(new WarpThread( new Colour(200,0,0),i));
+        ret.heddles.add(new Heddle(0));
+        ret.heddles.add(new Heddle(1));
+        int numberthreads = 50;
+        for(int i = 0; i< numberthreads; i++) {
+            Colour color = new Colour(200,0,0);
+            if(i > numberthreads/3 && i <= 2*numberthreads/3) {
+                color = new Colour(0,200,0);
+            }else if(i >= 2* numberthreads/3){
+                color = new Colour(0,0,200);
+            }
+            ret.allThreads.add(new WarpThread( color,i));
         }
         ret.singleHeddleThreading();
 
 
         Pick one = new Pick(0,new Colour(0,0,0), [new HeddleState(ret.heddles[0],HeddleState.UP), new HeddleState(ret.heddles[1],HeddleState.NEUTRAL)]);
-        Pick two = new Pick(1,new Colour(0,0,0), [new HeddleState(ret.heddles[0],HeddleState.DOWN), new HeddleState(ret.heddles[1],HeddleState.NEUTRAL)]);
+        Pick two = new Pick(1,new Colour(200,200,200), [new HeddleState(ret.heddles[0],HeddleState.DOWN), new HeddleState(ret.heddles[1],HeddleState.NEUTRAL)]);
 
         ret.picks.add(one);
         ret.picks.add(two);
@@ -276,8 +282,8 @@ class RigidHeddleLoom{
     static RigidHeddleLoom testDoubleLoom() {
         RigidHeddleLoom ret = new RigidHeddleLoom();
         int numberThreads = 80;
-        ret.heddles.add(new Heddle(0, numberThreads));
-        ret.heddles.add(new Heddle(1, numberThreads));
+        ret.heddles.add(new Heddle(0));
+        ret.heddles.add(new Heddle(1));
         for(int i = 0; i< numberThreads*2; i++) {
             ret.allThreads.add(new WarpThread( new Colour(200,0,0),i));
         }

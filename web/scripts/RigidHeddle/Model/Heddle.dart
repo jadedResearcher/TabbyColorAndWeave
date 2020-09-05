@@ -1,12 +1,14 @@
 import '../View/HeddleView.dart';
+import 'RigidHeddleLoom.dart';
 
 class Heddle {
+    static int NUMBERSECTIONS = 200;
     HeddleView view;
     //which heddle am i?
     int index;
     List<Section> holesAndSlots = new List<Section>();
-    Heddle(int this.index, int numberEnds) {
-        initHeddle(numberEnds);
+    Heddle(int this.index) {
+        fillOutHeddle();
     }
 
     Heddle.empty();
@@ -31,10 +33,13 @@ class Heddle {
             s.loadFromSerializationWithHeddle(subserialization, this);
             holesAndSlots.add(s);
         }
+        fillOutHeddle();
     }
 
-    void initHeddle(int numberEnds) {
-        for(int i =0; i<numberEnds; i++) {
+
+    //have at least these many things
+    void fillOutHeddle() {
+        for(int i = holesAndSlots.length; i< NUMBERSECTIONS; i++) {
             if(i%2 == 0) {
                 holesAndSlots.add(new Hole(i, this));
             }else {
