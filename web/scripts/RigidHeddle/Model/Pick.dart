@@ -82,21 +82,11 @@ class HeddleState {
 
     static List<List<HeddleState>> allForDoubleHeddles(List<Heddle> heddles) {
         List<List<HeddleState>> ret = new List<List<HeddleState>>();
-
-        for(String state1 in possibleStates) {
-            for(String state2 in possibleStates) {
-                //first if is just going for weft facing, not warp. up up is less important to us than down down
-                if(state1 != state2 || state1 == DOWN) {
-                    //second if avoids logical impossibilities like one being up and the other being down
-                    if(!(state1 == UP && state2 == DOWN) && !(state1 == DOWN && state2 == UP)) {
-                        ret.add([
-                            new HeddleState(heddles[0], state1),
-                            new HeddleState(heddles[1], state2)
-                        ]);
-                    }
-                }
-            }
-        }
+        //this isn't getting me what i want;
+        //these have priority because they are found in basic point twill
+        ret.add([new HeddleState(heddles[0], UP),new HeddleState(heddles[0], NEUTRAL)]);
+        ret.add([new HeddleState(heddles[0], NEUTRAL),new HeddleState(heddles[0], UP)]);
+        ret.add([new HeddleState(heddles[0], DOWN),new HeddleState(heddles[0], DOWN)]);
         return ret;
     }
 
