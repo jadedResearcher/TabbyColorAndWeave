@@ -5,6 +5,7 @@ import 'package:CommonLib/Colours.dart';
 import 'package:CommonLib/Random.dart';
 import 'package:CommonLib/Utility.dart';
 
+import '../../WarpObject.dart';
 import '../Model/Heddle.dart';
 import '../Model/Pick.dart';
 import '../Model/WarpThread.dart';
@@ -24,6 +25,22 @@ class ThreadView {
      Lambda<WarpThread> callThread;
      ThreadView(this.thread, this.parent, int this.x, this.y, this.callThread) {
         thread.view = this;
+     }
+
+     void renderThreadGuide(CanvasElement canvas, int x) {
+         if(thread.heddleSections.isEmpty) return;
+         Colour inverse = new Colour(255-thread.color.red, 255-thread.color.green, 255-thread.color.blue);
+         canvas.context2D.fillStyle = inverse.toStyleString();
+         canvas.context2D.strokeRect(x,0,WarpObject.WIDTH,WarpObject.WIDTH);
+         canvas.context2D.strokeRect(x,WarpObject.WIDTH,WarpObject.WIDTH,WarpObject.WIDTH);
+         canvas.context2D.strokeRect(x+1,WarpObject.WIDTH*2,WarpObject.WIDTH,WarpObject.WIDTH);
+         if(thread.heddleSections.length > 0 && thread.heddleSections[0] is Hole) {//first shed
+             canvas.context2D.fillRect(x+1,0,WarpObject.WIDTH,WarpObject.WIDTH);
+         }else if(thread.heddleSections.length > 1 && thread.heddleSections[1] is Hole) {//2nd shed
+             canvas.context2D.fillRect(x+1,WarpObject.WIDTH,WarpObject.WIDTH,WarpObject.WIDTH);
+         }else { //third shed
+             canvas.context2D.fillRect(x+1,WarpObject.WIDTH*2,WarpObject.WIDTH,WarpObject.WIDTH);
+         }
      }
 
      void renderThreadSource() {

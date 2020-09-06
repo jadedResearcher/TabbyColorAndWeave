@@ -37,6 +37,8 @@ import 'WarpThread.dart';
 import 'package:CommonLib/Colours.dart';
 
 class RigidHeddleLoom{
+    static int HEIGHT = 1200;
+    static int WIDTH = 1000;
     //single heddle is 2 sheds (plain weave only) , double heddle is 3 sheds, triple is 4, anything more than that is theoretical.
     List<Heddle> heddles = new List<Heddle>();
     //i prefer doing it by color
@@ -122,13 +124,13 @@ class RigidHeddleLoom{
     }
 
 
-        Fabric exportLoomToFabric(Fabric fabric) {
+    Fabric exportLoomToFabric(Fabric fabric) {
         List<Colour> colors = collateAllColorsUsed();
         String warpPatternStart = exportThreadsToWarpString(colors);
         String weftPatternStart = exportPicksToWeftString(colors);
         String pickupPatternStart = exportPicksToPickupString();
         if(fabric == null) {
-             fabric = new Fabric(1200, 1000);
+            fabric = new Fabric(HEIGHT, WIDTH);
         }
         fabric.colors = colors;
         fabric.warpPatternStart = warpPatternStart;

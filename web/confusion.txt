@@ -520,3 +520,33 @@ I got pl's php in there btw, just gotta...grab it. and i wanna display the templ
 edit edges of fabric to show three threads only on the left and right
 edit top and bottom of fabric to show black/white threading guides (rigid heddle mode only)
 when you load a palette from an image, copy the existing picks/threads enough times that it gets the full pattern (or at least close to it)
+
+
+
+the only thing I NEED right now is the top and bottom of the fabric having black/white threading guide.
+
+it's easy enough to determine if a thread is up or down (i.e. black or white. )
+but...
+
+i guess it assumes sets of three?
+
+so....
+
+plain weave in double weave is:
+
+3,1,2,3,3,1,2,3,3
+
+right?
+
+so...
+
+how would i represent this?
+
+over each thread i would have three "boxes".
+
+lets do this first.
+
+ah its not "what thread is up" but instead "what shed are you in?"
+* first heddle hole
+* second heddle hole
+* no hole

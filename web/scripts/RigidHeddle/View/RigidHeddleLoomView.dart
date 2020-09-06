@@ -8,6 +8,7 @@ import 'package:LoaderLib/Loader.dart';
 
 import '../../Fabric.dart';
 import '../../FabricRenderer.dart';
+import '../../WarpObject.dart';
 import '../Model/Heddle.dart';
 import '../Model/Pick.dart';
 import '../Model/RigidHeddleLoom.dart';
@@ -18,6 +19,7 @@ import 'WarpThreadView.dart';
 class RigidHeddleLoomView {
     Element me;
     Element parent;
+    CanvasElement guide;
     DivElement archiveUploaderHolder;
     RigidHeddleLoom loom;
     Element archiveSaveButton;
@@ -630,15 +632,27 @@ class RigidHeddleLoomView {
         loom.loadPicksFromSerialization(serialization);
     }
 
+    void renderGuide() {
+        guide = new CanvasElement(height: WarpObject.WIDTH*3, width: RigidHeddleLoom.WIDTH);
+        guide.context2D.fillRect(guide.width,guide.height,0,0);
+        int x = renderer.warpBuffer;
+        for(WarpThread thread in loom.allThreads) {
+            thread.view.renderThreadGuide(guide, x);
+            x+= WarpObject.WIDTH;
+        }
+    }
+
 
     void renderFabric() {
         if(renderer == null) {
             Fabric fabric = loom.exportLoomToFabric(null);
             renderer = new FabricRenderer(fabric);
-            renderer.renderToParent(fabricContainer);
+            renderGuide();
+            renderer.renderToParent(fabricContainer,guide);
         }else {
             loom.exportLoomToFabric(renderer.fabric);
-            renderer.update();
+            renderGuide();
+            renderer.update(guide);
         }
         CanvasElement tmp = renderer.canvas;
         tmp.context2D.font = "bold 24px nunito";

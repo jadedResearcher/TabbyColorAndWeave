@@ -26,34 +26,54 @@ class FabricRenderer {
         bufferCanvas = new CanvasElement(width: width, height: height);
     }
 
-    void renderToParent(Element parent) {
+
+    void renderToParent(Element parent, CanvasElement guide) {
         output = parent;
         parent.append(canvas);
         fabric.initColors();
-        for(int i = warpBuffer; i< width-WarpObject.WIDTH*4; i+= WarpObject.WIDTH) {
+        for(int i = warpBuffer; i< width-WarpObject.WIDTH*3; i+= WarpObject.WIDTH) {
             warp.add(new WarpObject(colors[0], i, i%2==0));
         }
 
-        for(int i = weftBuffer; i< height-WeftObject.WIDTH*4; i+= WeftObject.WIDTH) {
+        for(int i = weftBuffer; i< height-WeftObject.WIDTH*3; i+= WeftObject.WIDTH) {
             weft.add(new WeftObject(colors[0], i, i%2==0 ? WeftObject.TWOSHAFTdown: WeftObject.TWOSHAFTUP));
         }
         syncPatternToWarp(fabric.warpPatternStart, true);
         syncPatternToWeft(fabric.weftPatternStart, true);
         syncPickupToWeft(fabric.pickupPatternStart, true);
-        renderFabric();
+        if(guide != null) {
+            renderFabricWithThreadingGuide(guide);
+        }else {
+            renderFabric();
+        }
     }
 
-    void update() {
+    void update(CanvasElement guide) {
         syncPatternToWarp(fabric.warpPatternStart, true);
         syncPatternToWeft(fabric.weftPatternStart, true);
         syncPickupToWeft(fabric.pickupPatternStart, true);
-        renderFabric();
+        if(guide != null) {
+            renderFabricWithThreadingGuide(guide);
+        }else {
+            renderFabric();
+        }
+    }
+
+    void renderFabricWithThreadingGuide(CanvasElement guide) {
+        bufferCanvas.context2D.clearRect(0,0,canvas.width, canvas.height);
+        bufferCanvas.width = numEndsToRender*WarpObject.WIDTH+warpBuffer;
+        warp.forEach((WarpObject w) => w.renderSelf(bufferCanvas, guide == null));
+        weft.forEach((WeftObject w) => w.renderSelf(bufferCanvas));
+        //render only the number of ends we want.
+        canvas.context2D.clearRect(0,0,canvas.width, canvas.height);
+        canvas.context2D.drawImage(bufferCanvas, 0,0);
+        canvas.context2D.drawImage(guide, 0, 0);
     }
 
     void renderFabric() {
         bufferCanvas.context2D.clearRect(0,0,canvas.width, canvas.height);
         bufferCanvas.width = numEndsToRender*WarpObject.WIDTH+warpBuffer;
-        warp.forEach((WarpObject w) => w.renderSelf(bufferCanvas));
+        warp.forEach((WarpObject w) => w.renderSelf(bufferCanvas, false));
         weft.forEach((WeftObject w) => w.renderSelf(bufferCanvas));
         //render only the number of ends we want.
         canvas.context2D.clearRect(0,0,canvas.width, canvas.height);

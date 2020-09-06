@@ -78,7 +78,7 @@ class FabricView {
     output = parent;
     control = controls;
     this.stats = stats;
-    fabricRenderer.renderToParent(parent);
+    fabricRenderer.renderToParent(parent,null);
     renderWarpConfig();
     renderWarpTextArea(controls);
     renderWeftTextArea(controls);
@@ -155,7 +155,7 @@ class FabricView {
     CanvasElement buffer = new CanvasElement(width: width, height: 200);
     length = Math.min(length * 10, warp.length);
     for (int i = 0; i < length; i++) {
-      warp[i].renderSelf(buffer);
+      warp[i].renderSelf(buffer, true);
     }
 
     warpingGuideCanvas.context2D

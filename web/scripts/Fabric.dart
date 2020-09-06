@@ -8,8 +8,8 @@ class Fabric {
     FabricView view;
     int height;
     int width;
-    int warpBuffer = WarpObject.WIDTH*4 ;
-    int weftBuffer = WeftObject.WIDTH*6;
+    int warpBuffer = WarpObject.WIDTH*3 ;
+    int weftBuffer = WeftObject.WIDTH*3;
 
 
     //String warpPatternStart = "1,0,1,0,1,0,0,1,0,1,0";

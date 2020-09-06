@@ -14,10 +14,10 @@ class WarpObject {
 
     //assume the canvas you're given is the one on screen, thus any changes you make reflect there
     //if i need to buffer i'll give it the fabric instance instead
-    void renderSelf(CanvasElement canvas) {
+    void renderSelf(CanvasElement canvas, bool careHole) {
         canvas.context2D.fillStyle = color.toStyleString();
         canvas.context2D.fillRect(x,0,WIDTH,canvas.height);
-        if(hole) {
+        if(hole && careHole) {
             Colour inverse = new Colour(255-color.red, 255-color.green, 255-color.blue);
             canvas.context2D.fillStyle = inverse.toStyleString();
             canvas.context2D.fillRect(x+1,10,WIDTH-2,WIDTH-1);
