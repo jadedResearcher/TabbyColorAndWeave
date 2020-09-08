@@ -75,11 +75,11 @@ class RigidHeddleLoomView {
             new ThreadView(warpThread, warpContainer, x, height - 50,pickThread).renderThread();
             x+=threadSeparationDistance;
         }
+        renderControls();
 
         renderPicksAndFabricContainers(me);
         renderFabric();
         renderPicks();
-        renderControls();
     }
 
     void handleLoadingFromImage(Element doop) {
