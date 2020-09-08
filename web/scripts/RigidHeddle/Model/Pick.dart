@@ -68,6 +68,22 @@ class Pick {
         }
         return new Pick(index, Colour.fromStyleString(color.toStyleString()), deepCopy);
     }
+
+    //basically for making twill stripes
+    Pick copyReverse(index) {
+        List<HeddleState> deepCopy = new List<HeddleState>();
+        for(HeddleState hs in heddleStates) {
+            print("heddle state state is ${hs.state}, is it up? ${hs.state == HeddleState.UP}, is it down? ${hs.state == HeddleState.DOWN}");
+            if(hs.state == HeddleState.UP) {
+                deepCopy.add(new HeddleState(hs.heddle, HeddleState.DOWN));
+            }else if(hs.state == HeddleState.DOWN) {
+                deepCopy.add(new HeddleState(hs.heddle, HeddleState.UP));
+            }else {
+                deepCopy.add(new HeddleState(hs.heddle, hs.state));
+            }
+        }
+        return new Pick(index, Colour.fromStyleString(color.toStyleString()), deepCopy);
+    }
 }
 
 

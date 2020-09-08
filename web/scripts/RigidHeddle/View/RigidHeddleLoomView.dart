@@ -76,10 +76,10 @@ class RigidHeddleLoomView {
             x+=threadSeparationDistance;
         }
 
-        renderControls();
         renderPicksAndFabricContainers(me);
         renderFabric();
         renderPicks();
+        renderControls();
     }
 
     void handleLoadingFromImage(Element doop) {
@@ -94,10 +94,10 @@ class RigidHeddleLoomView {
     }
 
     void handleLoadingColorFromImage(Element doop) {
-            Element uploadElement = FileFormat.loadButton(
-                ArchivePng.format, syncColorToImage,
-                caption: "Load Color Palette From Image");
-            doop.append(uploadElement);
+        Element uploadElement = FileFormat.loadButton(
+            ArchivePng.format, syncColorToImage,
+            caption: "Load Color Palette From Image");
+        doop.append(uploadElement);
     }
 
     void handleLoadingPicksFromImage(Element doop) {
@@ -131,7 +131,7 @@ class RigidHeddleLoomView {
         renderLoom(null);
     }
 
-        void renderControls() {
+    void renderControls() {
         DivElement container = new DivElement()..classes.add("controlsHolder");
         me.append(container);
         renderThreadControls(container);
@@ -177,6 +177,7 @@ class RigidHeddleLoomView {
         renderPickColorControls(pickControls);
         renderCopyPickColorPatternControls(pickControls);
         renderCopyPickControls(pickControls);
+        renderReverseCopyPickControls(pickControls);
         renderBulkPickRemovalControls(pickControls);
         renderSyncPickColorControls(pickControls);
         renderClearPickControls(pickControls);
@@ -286,7 +287,7 @@ class RigidHeddleLoomView {
     }
 
     void renderSyncPickFromThreadControls(DivElement container) {
-        ButtonElement clearButton = new ButtonElement()..text = "Sync Pick Sheds From Warp Threading";
+        ButtonElement clearButton = new ButtonElement()..text = "Sync Pick From Warp";
         container.append(clearButton);
         clearButton.onClick.listen((Event e) {
             loom.replicateThreadsInPicksDouble();
@@ -368,6 +369,39 @@ class RigidHeddleLoomView {
             int endIndex = int.parse(number2.value);
             int numberRepetitions = int.parse(number3.value);
             List<Pick> newPicks = loom.copyPicks(startIndex, endIndex, numberRepetitions);
+            for(Pick pick in newPicks) {
+                new PickView(pick, justPicksContainer)..render(removePick, renderFabric);
+            }
+            renderFabric();
+        });
+    }
+
+    void renderReverseCopyPickControls(Element container) {
+        DivElement div = new DivElement()..classes.add('controls');
+        container.append(div);
+        LabelElement label = new LabelElement()..text = "Reverse And Copy picks ";
+        NumberInputElement number = new NumberInputElement()..value="0";
+        LabelElement label2 = new LabelElement()..text = "through";
+        NumberInputElement number2 = new NumberInputElement()..value = "2";
+        LabelElement label3 = new LabelElement()..text = ",";
+        NumberInputElement number3 = new NumberInputElement()..value = "3";
+        LabelElement label4 = new LabelElement()..text = "times.";
+
+        ButtonElement button = new ButtonElement()..text = "Set";
+        div.append(label);
+        div.append(number);
+        div.append(label2);
+        div.append(number2);
+        div.append(label3);
+        div.append(number3);
+        div.append(label4);
+        div.append(button);
+
+        button.onClick.listen((Event e) {
+            int startIndex = int.parse(number.value);
+            int endIndex = int.parse(number2.value);
+            int numberRepetitions = int.parse(number3.value);
+            List<Pick> newPicks = loom.copyPicksReverse(startIndex, endIndex, numberRepetitions);
             for(Pick pick in newPicks) {
                 new PickView(pick, justPicksContainer)..render(removePick, renderFabric);
             }
