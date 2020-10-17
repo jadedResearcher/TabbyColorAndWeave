@@ -112,25 +112,39 @@ class ThreadView {
 
 
          path.onMouseOver.listen((Event e) {
-             path.attributes["stroke"] = thread.guideColor.toStyleString();
-             guidePath.attributes["stroke-width"] = "6";
-
+            focus();
          });
 
+
          path.onMouseLeave.listen((Event e) {
-             path.attributes["stroke"] = thread.color.toStyleString();
-             guidePath.attributes["stroke-width"] = "3";
+             unfocus();
          });
 
          guidePath.onMouseOver.listen((Event e) {
-             path.attributes["stroke"] = thread.guideColor.toStyleString();
-             guidePath.attributes["stroke-width"] = "6";
+             focus();
          });
 
          guidePath.onMouseLeave.listen((Event e) {
-             path.attributes["stroke"] = thread.color.toStyleString();
-             guidePath.attributes["stroke-width"] = "3";
+             unfocus();
          });
+
+     }
+
+     void focus() {
+         path.attributes["stroke"] = thread.guideColor.toStyleString();
+         guidePath.attributes["stroke-width"] = "6";
+         guidePath.attributes["opacity"] = "1.0";
+         path.attributes["opacity"] = "1.0";
+
+     }
+
+     void unfocus() {
+         path.attributes["stroke"] = thread.color.toStyleString();
+         guidePath.attributes["stroke-width"] = "3";
+         if(thread.obfuscate) {
+             guidePath.attributes["opacity"] = "0.1";
+             path.attributes["opacity"] = "0.1";
+         }
 
      }
 

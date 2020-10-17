@@ -18,6 +18,8 @@ import 'PickView.dart';
 import 'WarpThreadView.dart';
 class RigidHeddleLoomView {
     Element me;
+    List<WarpThread> highlightedThreads = new List<WarpThread>();
+    WarpThread focus;
     Element parent;
     CanvasElement guide;
     DivElement archiveUploaderHolder;
@@ -208,7 +210,11 @@ class RigidHeddleLoomView {
         contents.append(button);
 
         button.onClick.listen((Event e) {
-            //todo
+            int thread = int.parse(number.value);
+            highlightedThreads = loom.highlightThreads(thread);
+            for(WarpThread thread in loom.allThreads) {
+                thread.view.renderThreadPath();
+            }
         });
 
         ButtonElement button2 = new ButtonElement()..text = "Highlight No Threads";
@@ -216,7 +222,7 @@ class RigidHeddleLoomView {
         contents.append(button2);
 
         button2.onClick.listen((Event e) {
-            //todo
+
         });
 
         renderThreadNavigator(warpGuide);
@@ -353,6 +359,8 @@ class RigidHeddleLoomView {
     void showDesignMode() {
         showElement(threadControls);
         showElement(pickControls);
+        hideElement(pickGuide);
+        hideElement(warpGuide);
     }
 
     void warpMode() {

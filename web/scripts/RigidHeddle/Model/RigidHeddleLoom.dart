@@ -167,6 +167,26 @@ class RigidHeddleLoom{
         return ret.join(",");
     }
 
+    List<WarpThread> highlightThreads(int threadIndex) {
+        List<WarpThread> ret = new List<WarpThread>();
+        if(threadIndex < allThreads.length && threadIndex >= 0) {
+
+            Colour color = allThreads[threadIndex].color;
+            for(WarpThread thread in allThreads) {
+                if(thread.color.toStyleString() == color.toStyleString()) {
+                    print("highlighting");
+                    thread.obfuscate = false;
+                    ret.add(thread);
+                }else {
+                    print("hiding");
+                    thread.obfuscate = true;
+                }
+            }
+
+        }
+        return ret;
+    }
+
     List<Pick> copyPicks(int startIndex, int endIndex, int numberRepetitions) {
         if(endIndex+1 > picks.length) endIndex = picks.length -1;
         List<Pick> patternPicks = picks.sublist(startIndex, endIndex+1);

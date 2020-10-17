@@ -8,7 +8,9 @@ class WarpThread {
     ThreadView view;
     Colour color = new Colour();
     //helps warping guide by color
-    bool obfuscate = true;
+    bool obfuscate = false;
+    //helps warping guide by which thread
+    bool focus = false;
     //makes it easier to thread
     Colour guideColor = new Colour(0,0,0);
     int index;
