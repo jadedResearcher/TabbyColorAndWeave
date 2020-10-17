@@ -96,6 +96,7 @@ class ThreadView {
          String pathString = "M${x+4},$y";
          path.attributes["stroke"] = thread.color.toStyleString();
          path.attributes["stroke-width"] = "1";
+         if(thread.obfuscate) path.attributes["opacity"] = "0.1";
          int wiggle = -1*((x % 40) /10).ceil()+3 ;
          for(Section section in thread.heddleSections) {
              pathString = "${pathString} L${section.view.threadX - wiggle},${section.view.threadY+3} M${section.view.threadX - wiggle},${section.view.threadY+3}";
@@ -106,6 +107,9 @@ class ThreadView {
          guidePath.attributes["stroke"] = thread.guideColor.toStyleString();
          guidePath.attributes["stroke-width"] = "3";
          guidePath.attributes["d"] = pathString;
+
+         if(thread.obfuscate) guidePath.attributes["opacity"] = "0.1";
+
 
          path.onMouseOver.listen((Event e) {
              path.attributes["stroke"] = thread.guideColor.toStyleString();

@@ -26,6 +26,8 @@ class RigidHeddleLoomView {
     RigidHeddleLoomView(this.loom);
     Element archiveControls;
     int heddlesX;
+    DivElement pickGuide;
+    DivElement warpGuide;
     DivElement pickControls;
     DivElement threadControls;
     int heddlesY;
@@ -137,6 +139,8 @@ class RigidHeddleLoomView {
         DivElement container = new DivElement()..classes.add("controlsHolder");
         me.append(container);
         renderThreadControls(container);
+        renderWarpGuideControls(container);
+        renderPickGuideControls(container);
         renderPickControls(container);
         renderColorReplaceControls(container);
         renderArchiveControls(container);
@@ -187,9 +191,46 @@ class RigidHeddleLoomView {
         renderPickColorReplaceControls(pickControls);
     }
 
-    void renderWarpingGuide(Element container) {
-        DivElement warpGuide = new DivElement()..classes.add("threadControls")..innerHtml = "<b>Warp Guide</b>";
+    void renderWarpGuideControls(Element container) {
+        warpGuide = new DivElement()..classes.add("threadControls")..innerHtml = "<b>Warp Guide</b>";
+        warpGuide.style.display = "none";
         container.append(warpGuide);
+        DivElement contents = new DivElement();
+        warpGuide.append(contents);
+        LabelElement label = new LabelElement()..text = "Highlight threads the same color as thread ";
+        NumberInputElement number = new NumberInputElement()..value="0";
+
+        contents.append(label);
+        contents.append(number);
+
+        ButtonElement button = new ButtonElement()..text = "Highlight";
+
+        contents.append(button);
+
+        button.onClick.listen((Event e) {
+            //todo
+        });
+
+        ButtonElement button2 = new ButtonElement()..text = "Highlight No Threads";
+
+        contents.append(button2);
+
+        button2.onClick.listen((Event e) {
+            //todo
+        });
+
+        renderThreadNavigator(warpGuide);
+    }
+
+    void renderThreadNavigator(Element container) {
+        DivElement div = new DivElement()..text = "TODO next button";
+        container.append(div);
+    }
+
+    void renderPickGuideControls(Element container) {
+        pickGuide = new DivElement()..classes.add("threadControls")..innerHtml = "<b>Weaving Guide</b>";
+        container.append(pickGuide);
+        pickGuide.style.display = "none";
     }
 
     void renderThreadControls(Element container) {
@@ -296,26 +337,40 @@ class RigidHeddleLoomView {
         weaveButton.onClick.listen((Event e) => weaveMode());
     }
 
+    static void showElement(Element ele) {
+        ele.style.display = "inline-block";
+    }
+
+    static void hideElement(Element ele) {
+        ele.style.display = "none";
+    }
+
     void hideDesignMode() {
-        threadControls.style.display = "none";
-        pickControls.style.display = "none";
+        hideElement(threadControls);
+        hideElement(pickControls);
     }
 
     void showDesignMode() {
-        threadControls.style.display = "inline-block";
-        pickControls.style.display = "inline-block";
+        showElement(threadControls);
+        showElement(pickControls);
     }
 
     void warpMode() {
         hideDesignMode();
+        hideElement(pickGuide);
+        showElement(warpGuide);
     }
 
     void weaveMode() {
         hideDesignMode();
+        showElement(pickGuide);
+        hideElement(warpGuide);
     }
 
     void designMode() {
         showDesignMode();
+        hideElement(pickGuide);
+        hideElement(warpGuide);
     }
 
     void renderSyncThreadColorControls(DivElement container) {
