@@ -26,6 +26,8 @@ class RigidHeddleLoomView {
     RigidHeddleLoomView(this.loom);
     Element archiveControls;
     int heddlesX;
+    DivElement pickControls;
+    DivElement threadControls;
     int heddlesY;
     FabricRenderer renderer;
     SvgElement heddleContainer;
@@ -172,7 +174,7 @@ class RigidHeddleLoomView {
     }
 
     void renderPickControls(Element container) {
-        DivElement pickControls = new DivElement()..classes.add("pickControls")..innerHtml = "<b>Pick Controls</b>";
+        pickControls = new DivElement()..classes.add("pickControls")..innerHtml = "<b>Pick Controls</b>";
         container.append(pickControls);
         renderPickColorControls(pickControls);
         renderCopyPickColorPatternControls(pickControls);
@@ -185,8 +187,13 @@ class RigidHeddleLoomView {
         renderPickColorReplaceControls(pickControls);
     }
 
+    void renderWarpingGuide(Element container) {
+        DivElement warpGuide = new DivElement()..classes.add("threadControls")..innerHtml = "<b>Warp Guide</b>";
+        container.append(warpGuide);
+    }
+
     void renderThreadControls(Element container) {
-        DivElement threadControls = new DivElement()..classes.add("threadControls")..innerHtml = "<b>Warp Controls</b>";
+        threadControls = new DivElement()..classes.add("threadControls")..innerHtml = "<b>Warp Controls</b>";
         container.append(threadControls);
         renderWarpColorControls(threadControls);
         renderCopyWarpColorPatternControls(threadControls);
@@ -243,7 +250,7 @@ class RigidHeddleLoomView {
     }
 
     void renderColorReplaceControls(DivElement container) {
-        DivElement div = new DivElement()..classes.add('controls');
+        DivElement div = new DivElement()..classes.add('mini-controls');
         container.append(div);
         LabelElement label1 = new LabelElement()..text = "Change everything of color:";
         InputElement colorPicker1 = new InputElement()..type="color";
@@ -253,7 +260,6 @@ class RigidHeddleLoomView {
         div.append(colorPicker1);
         div.append(label2);
         div.append(colorPicker2);
-
 
         ButtonElement clearButton = new ButtonElement()..text = "Set";
         div.append(clearButton);
@@ -270,6 +276,46 @@ class RigidHeddleLoomView {
             }
             renderFabric();
         });
+        renderModes(div);
+    }
+
+    void renderModes(Element container) {
+        DivElement modes = new DivElement()..classes.add("buttongroup");
+        container.append(modes);
+        ButtonElement designButton = new ButtonElement()..text = "Design Mode";
+        modes.append(designButton);
+        designButton.onClick.listen((Event e) => showDesignMode());
+
+        ButtonElement warpButton = new ButtonElement()..text = "Warp Mode";
+        modes.append(warpButton);
+        warpButton.onClick.listen((Event e) => warpMode());
+
+
+        ButtonElement weaveButton = new ButtonElement()..text = "Weave Mode";
+        modes.append(weaveButton);
+        weaveButton.onClick.listen((Event e) => weaveMode());
+    }
+
+    void hideDesignMode() {
+        threadControls.style.display = "none";
+        pickControls.style.display = "none";
+    }
+
+    void showDesignMode() {
+        threadControls.style.display = "inline-block";
+        pickControls.style.display = "inline-block";
+    }
+
+    void warpMode() {
+        hideDesignMode();
+    }
+
+    void weaveMode() {
+        hideDesignMode();
+    }
+
+    void designMode() {
+        showDesignMode();
     }
 
     void renderSyncThreadColorControls(DivElement container) {
