@@ -18,7 +18,7 @@ import 'PickView.dart';
 import 'WarpThreadView.dart';
 class RigidHeddleLoomView {
     Element me;
-    List<WarpThread> highlightedThreads = new List<WarpThread>();
+    List<WarpThread> highlightedThreads = null;
     WarpThread focus;
     Element parent;
     CanvasElement guide;
@@ -222,6 +222,7 @@ class RigidHeddleLoomView {
         contents.append(button2);
 
         button2.onClick.listen((Event e) {
+            highlightedThreads = null;
             for(WarpThread thread in loom.allThreads) {
                 thread.obfuscate = false;
                 thread.view.resyncObfuscation();
@@ -232,8 +233,56 @@ class RigidHeddleLoomView {
     }
 
     void renderThreadNavigator(Element container) {
-        DivElement div = new DivElement()..text = "TODO next button";
+        DivElement div = new DivElement();
         container.append(div);
+        ButtonElement unfocus = new ButtonElement()..text = "Unfocus";
+        unfocus.onClick.listen((Event e) {
+            for(WarpThread thread in loom.allThreads) {
+                thread.view.unfocus();
+            }
+        });
+        div.append(unfocus);
+
+        window.onKeyDown.listen((KeyboardEvent event ) {
+            if(warpGuide.style.display != "none") {
+                print("key is ${event.keyCode}");
+                if(event.keyCode == 37) {
+                    selectLeft();
+                }else if(event.keyCode == 39) {
+                    selectRight();
+                }
+            }
+        });
+    }
+
+    //if there are highlighted threads, deal only with them, otherwise all
+    void selectLeft() {
+        List<WarpThread> threads = highlightedThreads;
+        if(threads == null) threads = loom.allThreads;
+        if(selectedThread == null || selectedThread == threads.first) {
+            selectedThread = threads.last;
+        }else {
+            selectedThread = threads[threads.indexOf(selectedThread)-1];
+        }
+        for(WarpThread thread in loom.allThreads) {
+            thread.view.unfocus();
+        }
+        selectedThread.view.focus();
+    }
+
+    void selectRight() {
+        List<WarpThread> threads = highlightedThreads;
+        if(threads == null) threads = loom.allThreads;
+        if(selectedThread == null || selectedThread == threads.last) {
+            selectedThread = threads.first;
+        }else {
+            selectedThread = threads[threads.indexOf(selectedThread)+1];
+        }
+        for(WarpThread thread in loom.allThreads) {
+            thread.view.unfocus();
+        }
+        selectedThread.view.focus();
+
     }
 
     void renderPickGuideControls(Element container) {
