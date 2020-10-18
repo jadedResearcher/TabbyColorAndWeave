@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
 import 'dart:svg';
@@ -18,6 +19,7 @@ import 'PickView.dart';
 import 'WarpThreadView.dart';
 class RigidHeddleLoomView {
     Element me;
+    StreamSubscription<KeyboardEvent> listener;
     List<WarpThread> highlightedThreads = null;
     WarpThread focus;
     Element parent;
@@ -195,6 +197,8 @@ class RigidHeddleLoomView {
 
     void renderWarpGuideControls(Element container) {
         warpGuide = new DivElement()..classes.add("threadControls")..innerHtml = "<b>Warp Guide</b>";
+        DivElement instructions = new DivElement()..text = "Highlight color groups, and focus on the current thread you are threading. While this mode is active can use left and right arrows to focus as well."..style.paddingBottom="30px";
+        warpGuide.append(instructions);
         warpGuide.style.display = "none";
         container.append(warpGuide);
         DivElement contents = new DivElement();
@@ -243,22 +247,36 @@ class RigidHeddleLoomView {
         });
         div.append(unfocus);
 
-        window.onKeyDown.listen((KeyboardEvent event ) {
-            if(warpGuide.style.display != "none") {
-                print("key is ${event.keyCode}");
-                if(event.keyCode == 37) {
-                    selectLeft();
-                }else if(event.keyCode == 39) {
-                    selectRight();
-                }
-            }
+        ButtonElement left = new ButtonElement()..text = "FocusLeft";
+        left.onClick.listen((Event e) {
+            selectLeft();
         });
+
+        ButtonElement right = new ButtonElement()..text = "FocusRight";
+        right.onClick.listen((Event e) {
+            selectLeft();
+        });
+        div.append(left);
+        div.append(right);
+        div.append(unfocus);
+            listener ??= window.onKeyDown.listen((KeyboardEvent event ) {
+                if(warpGuide.style.display != "none") {
+                    if(event.keyCode == 37) {
+                        selectLeft();
+                    }else if(event.keyCode == 39) {
+                        selectRight();
+                    }
+                }
+            });
     }
 
     //if there are highlighted threads, deal only with them, otherwise all
     void selectLeft() {
         List<WarpThread> threads = highlightedThreads;
         if(threads == null) threads = loom.allThreads;
+        threads.removeWhere((WarpThread thread) {
+            return thread.heddleSections.isEmpty;
+        });
         if(selectedThread == null || selectedThread == threads.first) {
             selectedThread = threads.last;
         }else {
@@ -273,6 +291,9 @@ class RigidHeddleLoomView {
     void selectRight() {
         List<WarpThread> threads = highlightedThreads;
         if(threads == null) threads = loom.allThreads;
+        threads.removeWhere((WarpThread thread) {
+            return thread.heddleSections.isEmpty; //don't bother with non rendered threads
+        });
         if(selectedThread == null || selectedThread == threads.last) {
             selectedThread = threads.first;
         }else {
@@ -286,7 +307,7 @@ class RigidHeddleLoomView {
     }
 
     void renderPickGuideControls(Element container) {
-        pickGuide = new DivElement()..classes.add("threadControls")..innerHtml = "<b>Weaving Guide</b>";
+        pickGuide = new DivElement()..classes.add("threadControls")..innerHtml = "<b>Weaving Guide: TODO</b>";
         container.append(pickGuide);
         pickGuide.style.display = "none";
     }
