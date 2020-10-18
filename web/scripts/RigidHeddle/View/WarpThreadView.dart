@@ -83,6 +83,15 @@ class ThreadView {
      }
 
 
+     void resyncObfuscation() {
+         if(thread.obfuscate) {
+             guidePath.attributes["opacity"] = "0.2";
+             path.attributes["opacity"] = "0.2";
+         }else {
+             guidePath.attributes["opacity"] = "1.0";
+             path.attributes["opacity"] = "1.0";
+         }
+     }
 
      //todo how to make sure the lines stay synced to what they are touching?
      void renderThreadPath() {
@@ -141,11 +150,7 @@ class ThreadView {
      void unfocus() {
          path.attributes["stroke"] = thread.color.toStyleString();
          guidePath.attributes["stroke-width"] = "3";
-         if(thread.obfuscate) {
-             guidePath.attributes["opacity"] = "0.2";
-             path.attributes["opacity"] = "0.2";
-         }
-
+         resyncObfuscation();
      }
 
      void renderThread() {

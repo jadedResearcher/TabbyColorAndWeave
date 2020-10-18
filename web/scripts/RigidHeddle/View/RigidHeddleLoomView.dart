@@ -213,7 +213,7 @@ class RigidHeddleLoomView {
             int thread = int.parse(number.value);
             highlightedThreads = loom.highlightThreads(thread);
             for(WarpThread thread in loom.allThreads) {
-                thread.view.renderThreadPath();
+                thread.view.resyncObfuscation();
             }
         });
 
@@ -222,7 +222,10 @@ class RigidHeddleLoomView {
         contents.append(button2);
 
         button2.onClick.listen((Event e) {
-
+            for(WarpThread thread in loom.allThreads) {
+                thread.obfuscate = false;
+                thread.view.resyncObfuscation();
+            }
         });
 
         renderThreadNavigator(warpGuide);
