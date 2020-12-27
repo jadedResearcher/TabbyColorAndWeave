@@ -19,6 +19,7 @@ import 'PickView.dart';
 import 'WarpThreadView.dart';
 class RigidHeddleLoomView {
     Element me;
+    SvgElement loomElement;
     StreamSubscription<KeyboardEvent> listener;
     List<WarpThread> highlightedThreads = null;
     WarpThread focus;
@@ -60,8 +61,8 @@ class RigidHeddleLoomView {
 
         DivElement container = new DivElement()..classes.add("loom");
         me.append(container);
-        final SvgElement loomElement = SvgElement.tag("svg");
-        loomElement.attributes["width"] = "5000";
+        loomElement = new SvgElement.tag("svg");
+        loomElement.attributes["width"] = "${widthFromThreadCount(loom.allThreads.length)}";
         loomElement.attributes["height"] = "$height";
         container.append(loomElement);
         heddleContainer = SvgElement.tag("g")..classes.add("heddles");
@@ -234,6 +235,23 @@ class RigidHeddleLoomView {
         });
 
         renderThreadNavigator(warpGuide);
+        renderFlipper(warpGuide);
+
+    }
+
+    void renderFlipper(Element container) {
+        ButtonElement flip = new ButtonElement()..text = "Flip to Warp From Back"..style.padding="10px";
+        flip.onClick.listen((Event e) {
+            print("click: ${loomElement.style.transform} ");
+            if(loomElement.style.transform != "rotate(180deg)") {
+                loomElement.style.transform = "rotate(180deg)";
+                flip.text = "UnFlip to Warp from Front";
+            }else {
+                loomElement.style.transform = null;
+                flip.text = "Flip to Warp from Back";
+            }
+        });
+        container.append(flip);
     }
 
     void renderThreadNavigator(Element container) {
@@ -756,6 +774,8 @@ class RigidHeddleLoomView {
         });
     }
 
+    int  widthFromThreadCount(int threadCount) => (threadCount +4) * 20;
+
     void renderThreadCountControls(Element container) {
         DivElement div = new DivElement()..classes.add('controls');
         container.append(div);
@@ -769,6 +789,7 @@ class RigidHeddleLoomView {
             int threadCount = int.parse(number.value);
             int oldCount = loom.allThreads.length;
             int newThreadCount = threadCount -oldCount;
+            loomElement.attributes["width"] = "${widthFromThreadCount(threadCount)}";
             if(newThreadCount > 0) { //add
                 Colour color;
                 int lastX = 0;
